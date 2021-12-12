@@ -1,0 +1,103 @@
+body {
+ font-family: "Helvetica";
+ font-size:    14pt;
+ margin-left:  20pt; 
+}
+ 
+h1 {
+ font-family: "Helvetica";
+ font-size:    20pt;
+ margin:       10pt;
+ padding:      20pt;
+ border-width:  2px;
+ border-radius: 8px;
+ background-color: #e4a4ee; }
+
+h2 {
+ font-family: "Helvetica";
+ font-size:    16pt;
+ margin:       10pt 20pt 10pt 20pt;
+ padding:      10pt;
+ border-width:  2px;
+ border-radius: 8px;
+ background-color: #00e6b8; }
+ 
+h3 {
+ font-family: "Helvetica";
+ font-size:    14pt;
+ font-style:   italic;
+ margin:       5pt 30pt 5pt 30pt;
+ padding:      5pt;
+ border-width:  2px;
+ border-radius: 8px;
+ background-color: #ffaa7b; }
+ 
+h4 {
+ font-family: "Helvetica";
+ font-size:    14pt;
+ margin-left:  35pt;
+ }
+
+p {
+ margin-left:  10pt;
+ margin-right: 10pt; }
+pre {
+ margin-left:  60pt; }
+
+ol, ul {
+ margin-left:  5pt; }
+
+code {
+ font-weight:  bold; }
+table {
+ margin-left:  50pt; }
+th {
+ color:        navy;
+ padding-top:  1em;
+ padding-bottom:  1em;
+}
+td {
+ padding-right: 1em;
+}
+
+a { color: navy; }
+a.bgtip { color: navy; }
+a.bgsol { color: navy; }
+a.bghig { color: navy; }
+
+.box {
+ border-style: solid;
+ border-width:  2px;
+ border-radius: 4px;
+ padding:       1em;
+ margin:        1em;
+ border-color: gray;
+}
+
+.bgtip  {
+	/* CoNa Light Blue */
+	color: black;
+	background-color: #17d3ff;}
+.bghig  {
+	/* CoNa Yellow */
+	color: black;
+	background-color: #fee975;}
+.bgsol {
+	/* CoNa Deep Blue */
+	color: white;
+	background-color: #0080ff; }
+.gray  { color: gray; }
+.small { font-size: 8pt;}
+
+.txt {
+ border-style: solid;
+ border-width:  2px;
+ border-radius: 4px;
+ margin:       5pt 30pt 5pt 30pt;
+ padding:      5pt;
+ border-color: gray;
+}
+/* Temporary #00e6b8 CoNa Green -- #ffaa7b CoNa orange -- #e4a4ee purple
+.hidden { color: gray; } */
+.hidden { display: none; }
+
