@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
  <meta charset="UTF-8">
- <title>15sqr/2</title>
+ <title>15sqr//3</title>
 <!-- _______________________________________________________________ -->
 <style>
 h1 {
@@ -29,6 +29,11 @@ td {
  border-collapse: collapse;
  border:       1px solid black;
 }
+
+.free {
+ background-color: lightgray;
+ color: lightgray;
+}
 </style>
 
 <!-- _______________________________________________________________ -->
@@ -41,30 +46,31 @@ td {
 
 <table>
 <tr>
-  <td>1</td>
-  <td>2</td>
-  <td>3</td>
-  <td>4</td>
+  <td id= "1" onclick='Move( 1)' class="full">1</td>
+  <td id= "2" onclick='Move( 2)' class="full">2</td>
+  <td id= "3" onclick='Move( 3)' class="full">3</td>
+  <td id= "4" onclick='Move( 4)' class="full">4</td>
 </tr>
 <tr>
-  <td>5</td>
-  <td>6</td>
-  <td>7</td>
-  <td>8</td>
+  <td id= "5" onclick='Move( 5)' class="full">5</td>
+  <td id= "6" onclick='Move( 6)' class="full">6</td>
+  <td id= "7" onclick='Move( 7)' class="full">7</td>
+  <td id= "8" onclick='Move( 8)' class="full">8</td>
 </tr>
 <tr>
-  <td>9</td>
-  <td>10</td>
-  <td>11</td>
-  <td>12</td>
+  <td id= "9" onclick='Move( 9)' class="full">9</td>
+  <td id="10" onclick='Move(10)' class="full">10</td>
+  <td id="11" onclick='Move(11)' class="full">11</td>
+  <td id="12" onclick='Move(12)' class="full">12</td>
 </tr>
 <tr>
-  <td>13</td>
-  <td>14</td>
-  <td>15</td>
-  <td>0</td>
+  <td id="13" onclick='Move(13)' class="full">13</td>
+  <td id="14" onclick='Move(14)' class="full">14</td>
+  <td id="15" onclick='Move(15)' class="full">15</td>
+  <td id="16" onclick='Move(16)' class="free">0</td>
 </tr>
 </table>
+
 </body>
 <!-- _______________________________________________________________ -->
 </html>

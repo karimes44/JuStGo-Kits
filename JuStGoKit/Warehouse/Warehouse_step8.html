@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+  <title>Warehouse/8</title>
+<!-- _______________________________________________________________ -->
+  <style>
+table {
+ padding:      0px 0px 0px 0px;
+ margin:       0px 0px 0px 20pt;
+ font-family:  "Courier New";
+ font-weight:  bold;
+ font-size:    18pt;
+ border-collapse: collapse;
+ border:       1px solid black;
+}
+td {
+ padding:      4px 4px 4px 4px;
+ margin:       0px 0px 0px 0px;
+ border-collapse: collapse;
+ border:       1px solid black;
+ height:       2em;
+ width:        2em;
+ text-align:   center;
+}
+.wall   { background-color: black; }
+.spot   { background-color: green; }
+.empty  { background-color: white; }
+  </style>
+
+<!-- _______________________________________________________________ -->
+  <script>
+// Declare global variables
+var nc  = 0; var nr = 0;
+var y   = [0,0]; //Coordinates of "You"
+var nstep = -1;  //Number of steps taken
+var lvl = 0;     //Level
+var warehouse = [
+ {'nc':8, 'nr':6, 'wh':
+ ['Y       ',
+  '  # # # ',
+  ' #w w w ',
+  '    wXwX',
+  '    wXw$',
+  '       X'
+ ]},
+ {'nc':7, 'nr':7, 'wh':
+ ['Y  w   ',
+  ' ##w ww',
+  ' # w wX',
+  'ww wwwX',
+  'ww    X',
+  'w   w  ',
+  'w   www',
+ ]},
+ {'nc':4, 'nr':6, 'wh':
+ ['w  w',
+  'Y# w',
+  'w# w',
+  'w # ',
+  'X#  ',
+  'XX$X'
+ ]},
+ {'nc':8, 'nr':5, 'wh':
+ ['w     ww',
+  'w#www   ',
+  ' Y #  # ',
+  ' XXw # w',
+  'wXXw   w'
+ ]}
+];
+
+function BuildWarehouse() {
+ nstep = -1; //Reset counter for next level
+ let lvlstr = document.getElementById("getLvl").value;
+ lvl = parseInt(lvlstr);
+ nc = warehouse[lvl].nc;
+ nr = warehouse[lvl].nr;
+
+ let tbl = '<table>\n';
+ for (let ir=0; ir<nr; ir++ ) {
+  tbl += '<tr>\n';
+  let row = warehouse[lvl].wh[ir]
+  for (let ic=0; ic<nc; ic++ ) {
+   let cell = row[ic];
+   let idstr = ic + '-' + ir;
+   let cls  = 'empty';
+
+   if (cell === 'w') {
+    cls = 'wall';
+   } else if (cell === 'X') {
+    cls = 'spot';
+    cell = ' ';
+   } else if (cell === '$') {
+    cls = 'spot';
+    cell = '#';
+   } else if (cell === 'Y') {
+    y = [ic,ir];
+   }
+   tbl += '<td id="' + idstr + '" class="' + cls + '" onclick="Move(' + ic + ',' + ir +')">' + cell + '</td>';
+  }
+  tbl += '</tr>\n';
+ } 
+ tbl += '</table>';
+ // alert('!>' + tbl + '<');
+ document.getElementById('warehouse').innerHTML = tbl;
+ Counter();
+}
+
+function Move(ic,ir) {
+ let idstr = ic + '-' + ir;
+ let youstr = y[0] + '-' + y[1];
+ cell = document.getElementById(idstr).innerHTML;
+ oneStep = Math.abs((ic-y[0]) + (ir-y[1]));
+ if ( oneStep === 1 ) {
+  if (cell == ' ' || cell == 'X') {
+   document.getElementById(youstr).innerHTML = ' ';
+   document.getElementById(idstr ).innerHTML = 'Y';
+   y = [ic, ir];
+  } else if (cell == 'w') {
+   alert("Watch out - don't run into the wall!");
+  } else if (cell == '#') {
+   let nextic = ic + (ic-y[0]);
+   let nextir = ir + (ir-y[1]);
+   if ( (nextic == -1) || (nextic == nc) || (nextir == -1) || (nextir == nr)) {
+    alert("Watch out - don't push the pallet off the warehouse!");
+   } else {
+    let pushtocell = document.getElementById(nextic + '-' + nextir).innerHTML;
+    let ptc_class  = document.getElementById(nextic + '-' + nextir).className;
+    // alert('!>' + ptc_class + '<');
+    let canIpush = false;
+    if (pushtocell === 'w')  {
+     alert("Watch out - don't push the pallet into the wall!");
+    } else if (pushtocell === '#')  {
+     alert('You are strong, but you can still only push one pallet at a time!');
+    } else {
+     document.getElementById(youstr ).innerHTML = ' ';
+     document.getElementById(idstr  ).innerHTML = 'Y';
+     y = [ic, ir];
+     let nextstr = nextic + '-' + nextir;
+     document.getElementById(nextstr).innerHTML = '#';
+    }
+   }
+  }
+ } else {
+  alert('... not so fast, I can go only one step at a time!');
+ }
+ Counter();
+}
+
+function Counter() {
+ nstep++;
+ let np  = 0;     //Number of pallets
+ let nx  = 0;     //Number of places for the pallets
+ let px  = 0;     //Number of correctly places pallets
+ for (let ir=0; ir<nr; ir++ ) {
+  for (let ic=0; ic<nc; ic++ ) {
+   let idstr = ic + '-' + ir;
+   let cell = document.getElementById(idstr).innerHTML;
+   let cls  = document.getElementById(idstr).className;
+   if ( cell === '#' ) {
+    np++;
+    if ( cls === 'spot' ) { px++; }
+   }
+   if (cls === 'spot') { nx++; }
+  }
+ }
+ if ( np > nx ) { 
+  alert('ERROR: More pallets than places for them!') 
+ } else if ( np < nx ) { 
+  alert('ERROR: Less pallets than places for them!') 
+ }
+ counter = 'Number of Steps: ' + nstep + '<br>Pallets placed: ' + px + ' of ' + np + '.';
+ document.getElementById('counter').innerHTML = counter;
+ if ( px == np ) { alert('Congratulations! You placed all pallets!'); }
+}
+ 
+function showLvlSelector() {
+ let nLvl = warehouse.length;
+ let selector = '<select id="getLvl" onchange="BuildWarehouse()">\n';
+  for (let iLvl=0; iLvl<nLvl; iLvl++ ) {
+   selector += '<option value= "' + iLvl + '">'  + iLvl + '</option>\n'; 
+  }
+  selector += '</select>\n';
+  document.getElementById('lvl').innerHTML = selector; 
+}
+
+function firstView() {
+ showLvlSelector()
+ BuildWarehouse()
+}
+  </script>
+ </head>
+<!-- _______________________________________________________________ -->
+<body onload="firstView()">
+<h1>Shove it! The Warehouse Game</h1>
+
+<div>Select level: <span id='lvl'>Level Selector goes here ... </span></div>
+<div id='warehouse'> Warehouse goes here... </div>
+<div id='counter'> Counter goes here ... </div>
+
+</body>
+<!-- _______________________________________________________________ -->
+</html>
+

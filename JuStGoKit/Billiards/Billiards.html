@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <meta charset="utf-8"/>
+ <title>Billiards</title>
+
+<!-- _______________________________________________________________ -->
+<style>
+body {
+ font-family: "Helvetica";
+ font-size:    14pt;
+ margin-left:  20pt; }
+h1 {
+ font-family: "Helvetica";
+ font-size:    18pt;
+ margin-left:  10pt;
+ color:        navy; }
+p {
+ font-family: "Helvetica";
+ margin-left:  14pt; }
+textarea {
+ font-family:  "Courier New";
+ font-size:    14pt;
+ font-weight:  bold;
+}
+table {
+ font-family: "Helvetica";
+ font-size:    14pt;
+ border-collapse: collapse;
+}
+td {
+ text-align:   center; }
+.A0 { color: red; }
+.A1 { color: black; }
+.B1 { color: red; }
+.B0 { color: black; }
+
+</style>
+</head>
+
+<!-- _______________________________________________________________ -->
+<body onload="ONLOAD()">
+<h1>Billiards</h1>
+<canvas id="Canvas" width="1000" height="500" style="border:3px solid #d3d3d3;">
+Your browser does not support the HTML5 canvas tag.</canvas>
+
+<table border='1'>
+<tr>
+ <th>&nbsp;</th>
+ <th>Player 1</th>
+ <th>Player 2</th>
+ <th>Speed: <span id="Speed">50</span></th>
+</tr>
+<tr>
+ <th>Cues</th>
+ <td id="P0"><span class="A0">0</span></td>
+ <td id="P1"><span class="B0">0</span></td>
+ <td><input id='Slider' type="range" min="0" max="100" value="50" onchange='UpdateSliders()'></td>
+</tr>
+<tr>
+ <th>Sink</th>
+ <td id="S0"></td>
+ <td id="S1"></td>
+ <td id="Restore"> </td>
+</tr>
+</table>
+
+<p id="Fhit"></p>
+<p id="Foul"></p>
+
+<!-- iframes will not work in IE
+<iframe id="ECHO" srcdoc="echo" height="300" width="1000">
+  <p>Your browser does not support iframes.</p>
+</iframe>
+
+<!-- _______________________________________________________________ -->
+<script>
+// var echostr = "";
+function ONLOAD() {
+//echo("ONLOAD");
+// Pool Table area or drawing canvas
+canvasElement = document.getElementById("Canvas");
+ctx = canvasElement.getContext("2d"); // Handel for canvas
+ 
+// Text style for ball lables
+ctx.font = "20px Arial";
+ctx.fillStyle = "white";
+ctx.textAlign = "center";
+
+// Outer pool table dimensions
+W = canvasElement.width ; H = canvasElement.height;
+//alert("W= " + W + " H= " + H);
+
+// Colors of the cue and the nine object balls
+Colors = ["gray", "#d0d000", "blue", "pink", "purple", "orange", "green", "red", "black", "#00d0d0"]
+
+
+radius  = 20; // Ball radius
+
+// Values used to determin in a ball hit a rail
+Top     = 20 + radius;
+Bottom  = H - 20 - radius;
+Left    = 20 + radius;
+Right   = W - 20 - radius;
+
+// Values used in the initial diamond arrangements of the balls
+dr = 50;
+dx = dr*Math.sqrt(3)/2;
+dc = Right-200;
+
+// Dimentions of the 6 pockets of the pool table
+Whole    = 3*radius;
+Xhole_l  = Whole;
+Xhole_cl = (W-Whole)/2;
+Xhole_cr = (W+Whole)/2;
+Xhole_r  = W-Whole;
+Yhole_t  = Whole;
+Yhole_b  = H-Whole;
+
+Pi2 = 2 * Math.PI;
+r24 = 4*radius*radius;
+Tail = 5;        // Length of Speed indicator tail
+Friction = 0.98; // Factore applied to speed of all balls after each step.
+eps = 0.1;      // Updates stop when all speeds are less that eps.
+
+InitialSetup();
+NextFrame();
+canvasElement.addEventListener("click", GetXY, false);
+}
+
+// ----------------------------------------------------------------- //
+function InitialSetup()  {
+// echo("InitialSetup");
+ // Balls: List of arrays with id, rx, ry, vx, vy
+ Balls = [
+  [ 0, W/2-300, H/2    , 0.0, 0.0, 0],
+  [ 1, dc+2*dx, H/2    , 0.0, 0.0, 0],
+  [ 2, dc  +dx,(H-dr)/2, 0.0, 0.0, 0],
+  [ 3, dc  +dx,(H+dr)/2, 0.0, 0.0, 0],
+  [ 4, dc     , H/2 -dr, 0.0, 0.0, 0],
+  [ 5, dc     , H/2 +dr, 0.0, 0.0, 0],
+  [ 6, dc  -dx,(H-dr)/2, 0.0, 0.0, 0],
+  [ 7, dc  -dx,(H+dr)/2, 0.0, 0.0, 0],
+  [ 8, dc-2*dx, H/2    , 0.0, 0.0, 0],
+  [ 9, dc     , H/2    , 0.0, 0.0, 0]
+ ];
+
+ Speed = 50;      // Initial speed of cue ball
+ Frame = 0;       // Frame counter (not used)
+
+ Collisions = [];
+ Ncollisions = 0;
+
+ Trail0 = [];
+ Trail1 = [];
+
+ vx_cue = 0; var vy_cue = 0;
+ Phits = [0,0];
+ Psink = [[],[]];
+ Player = 0;
+
+// Saving state to restore after a botched shot
+ State = {'balls': Balls, 'player': Player, 'phits': Phits, 'psink': Psink}
+ State_JSON = JSON.stringify(State);
+
+ FirstHit = true;
+ AnyHit = false;
+ AnyBounce = false;
+ AnySink = false;
+ Foul = "";
+ Sunk9 = false;
+ GetNewCue = false;
+ TimerRunning = false;
+}
+
+// ----------------------------------------------------------------- //
+function NextFrame() {
+//echo("NextFrame");
+ Frame++;
+ // Drawing of the the pool table
+ ctx.fillStyle = "gray";
+ ctx.fillRect(0,    0,  W, 20);
+ ctx.fillRect(0,    0, 20,  H);
+ ctx.fillRect(0, H-20,  W, 20);
+ ctx.fillRect(W-20, 0, 20,  H);
+
+ ctx.fillStyle = "black";
+ ctx.fillRect(0,             0, Whole, Whole);
+ ctx.fillRect(0,       Yhole_b, Whole,  H);
+ ctx.fillRect(Xhole_r,       0,  W, Whole);
+ ctx.fillRect(Xhole_r, Yhole_b,  W,  H);
+
+ ctx.fillRect(Xhole_cl,       0, Whole, Whole);
+ ctx.fillRect(Xhole_cl, Yhole_b, Whole, Whole);
+
+ ctx.clearRect(20, 20, W-40, H-40)
+
+ for ( i=0; i<Balls.length; i++ ) {
+
+  // Drawing balls at new position
+  ctx.beginPath()
+  ctx.arc(Balls[i][1], Balls[i][2], radius, 0, Pi2);
+  ctx.fillStyle = Colors[Balls[i][0]];
+  ctx.strokeStyle = Colors[Balls[i][0]];
+  ctx.fill();
+  // Ball text lable
+  ctx.fillStyle = "white";
+  ctx.fillText(Balls[i][0], Balls[i][1], Balls[i][2]+8);
+  ctx.moveTo(Balls[i][1], Balls[i][2]);
+  // Speed indicator tail
+  ctx.lineTo(Balls[i][1]-Tail*Balls[i][3], Balls[i][2]-Tail*Balls[i][4]);
+  ctx.stroke();
+ }
+ 
+ // Showing the trail of the cue ball
+ Trail0.push([Balls[0][1],Balls[0][2]]);
+ ctx.beginPath()
+ ctx.strokeStyle ="gray";
+ ctx.moveTo(Trail0[0][0], Trail0[0][1]);
+ for ( i=1; i<Trail0.length; i++ ) {
+  ctx.lineTo(Trail0[i][0], Trail0[i][1]);
+ }
+ ctx.stroke();
+ 
+ // Showing the trail of the ball with the lowest number
+ if ( Balls[1] ) {
+ Trail1.push([Balls[1][1],Balls[1][2]]);
+ ctx.beginPath()
+ ctx.strokeStyle = Colors[Balls[1][0]];
+ ctx.moveTo(Trail1[0][0], Trail1[0][1]);
+ for ( i=1; i<Trail1.length; i++ ) {
+  ctx.lineTo(Trail1[i][0], Trail1[i][1]);
+ }
+ ctx.stroke();
+ }
+ 
+}
+
+// ----------------------------------------------------------------- //
+function Move() {
+//echo("Move at Frame: " + Frame);
+
+//echo("LinearMove");
+// ----------------------------------------------------------------- //
+//function LinearMove() {
+ // Computes new postions assuming no scattering and bouncing
+ for ( i=0; i<Balls.length; i++ ) {
+  Balls[i][1] += Balls[i][3]; Balls[i][2] += Balls[i][4];
+ }
+//}
+
+ // Check for collisions and rail bounces
+ Collisions = [];
+ Ncollisions = 1;
+ while ( Ncollisions != 0 ) {
+  Ncollisions = 0;
+  for ( j=0; j<Balls.length; j++ ) {
+   for ( k=0; k<j; k++ ) {
+    if ( Collisions.indexOf("("+j+"-"+k+")") == -1 ) {
+     if ( Balls[j][5] != 1 && Balls[k][5] != 1 ) { CheckForHits(j,k); }
+     //echo("CheckForHits(" + j + "," + k + "):" + Collisions);
+    }
+   }
+  }
+
+  for ( j=0; j<Balls.length; j++ ) {
+   if ( Balls[j][5] != 1 ) { CheckForBounce(j); }
+   //echo("CheckForBounce(" + j + "):" + Ncollisions);
+  }
+ }
+ 
+ // Show updated frame
+ NextFrame();
+ 
+ // Slow down balls (due to friction)
+ //ApplyFriction();
+ // ----------------------------------------------------------------- //
+//function ApplyFriction() {
+ var StopedBalls = 0;
+ for ( j=0; j<Balls.length; j++ ) {
+  vx = Balls[j][3] ; vy = Balls[j][4];
+  if ( vx*vx + vy*vy < eps ) {
+    Balls[j][3] = 0; Balls[j][4] = 0;
+    StopedBalls++;
+  } else {
+    Balls[j][3] = Friction*vx; Balls[j][4] = Friction*vy;
+  }
+ }
+ if ( StopedBalls == Balls.length ) {
+  if ( Foul.indexOf("FOUL: You sank the cue ball.") != -1 ) {
+   GetNewCue = true;
+  }
+  Stop();
+ }
+//}
+}
+
+// ----------------------------------------------------------------- //
+function CheckForHits(j,k) {
+//echo("CheckForHits(" + j + "," + k + ")");
+ // Next *projected* postion (index "n")
+ x1n = Balls[j][1] ; y1n = Balls[j][2];
+ vx1 = Balls[j][3] ; vy1 = Balls[j][4];
+
+ x2n = Balls[k][1] ; y2n = Balls[k][2];
+ vx2 = Balls[k][3] ; vy2 = Balls[k][4];
+
+ // Previous (back-projected) position
+ x1p = x1n - vx1; y1p = y1n - vy1;
+ x2p = x2n - vx2; y2p = y2n - vy2;
+
+ // Distance vectors at beginning of time step
+ dxp = x1p - x2p; dyp = y1p - y2p;
+ // Distance vectors at end of time step
+ dxn = x1n - x2n; dyn = y1n - y2n;
+ 	 
+ dp2 = dxp*dxp + dyp*dyp;
+ dn2 = dxn*dxn + dyn*dyn;
+ dpn = dxp*dxn + dyp*dyn;
+  
+ b = dpn - dp2;
+ c = dn2 - 2*dpn + dp2
+ // Time of closed approach
+ tc = -b/c;
+ 
+ if ( tc < 0 ) {
+  // The spheres	are flying away from each others
+  dist = 1e5;
+ } else if ( 0 <= tc && tc < 1 ) {
+  // Closest approach within the time-step!
+  // Location of closest approach (index "c"):
+  x1c = x1p + tc*(x1n-x1p); y1c = y1p + tc*(y1n-y1p);
+  x2c = x2p + tc*(x2n-x2p); y2c = y2p + tc*(y2n-y2p);
+  dist = (x1c-x2c)*(x1c-x2c) + (y1c-y2c)*(y1c-y2c);
+ } else {
+  // Closest approach outside timetep, but may still be in stricking distance...
+  dist = (x1n-x2n)*(x1n-x2n) + (y1n-y2n)*(y1n-y2n);
+ }
+
+ //alert(Frame + ") tc= " + tc + " Dist: " + dist );
+ if ( dist <= r24 ) {
+  Ncollisions++;
+  AnyHit = true;
+  Collisions.push("("+j+"-"+k+")");
+   // The spheres will intersect ...
+   
+  // Did the cue ball hit the ball with the lowesr number first?
+  if ( k == 0 && FirstHit == true ) {
+   FirstHit = false;
+   if ( j != 1 ) {
+    Foul += "FOUL: You did not hit the lowest numbered ball.<br/>";
+   }
+   document.getElementById("Fhit").innerHTML =  "First Hit was Ball " + Balls[j][0];
+  }
+  
+  // ... calculating the time "t0" when they did actually hit each other
+  sq = Math.sqrt((r24-dp2)*c+b*b)
+  t0 = Math.abs( (Math.abs(b) - sq)/Math.abs(c))
+  
+  // Location where they hit (index "h"):
+  x1h = x1p + t0*(x1n-x1p); y1h = y1p + t0*(y1n-y1p);
+  x2h = x2p + t0*(x2n-x2p); y2h = y2p + t0*(y2n-y2p);
+  
+  // Computing the velocities after the reflection,
+  // respecting momentum conservation:
+  // The distance vector "D" is also the normal vector to the plane of collision
+  Dx = x2h - x1h; Dy = y2h - y1h;
+  D2 = Dx*Dx + Dy*Dy;
+  // "R" is the in-plane vector, which is a 90deg. rotation of the normal vector
+  Rx = Dy; Ry = -Dx;
+ 
+  // Normal (or orthoganal "o") Projection of the veolicities
+  Dv1 = (Dx*vx1 + Dy*vy1)/D2;
+  Dv2 = (Dx*vx2 + Dy*vy2)/D2;
+  vo1x = Dv1*Dx ; vo1y = Dv1*Dy;
+  vo2x = Dv2*Dx ; vo2y = Dv2*Dy;
+  
+  // In-plane projection of the veolicities
+  Rv1 = (Rx*vx1 + Ry*vy1)/D2;
+  Rv2 = (Rx*vx2 + Ry*vy2)/D2;
+  
+  // Center of mass (index "c") and relative (index "r") velocities
+  vcx = (vo1x+vo2x)/2.0;  vrx = (vo1x-vo2x)/2.0
+  vcy = (vo1y+vo2y)/2.0;  vry = (vo1y-vo2y)/2.0
+  
+  // Velocities after hit:
+  // - inplane and center of mass components are unchanged
+  // - relative components flip sign
+  vx1 = Rv1*Rx + vcx - vrx;
+  vy1 = Rv1*Ry + vcy - vry;
+  vx2 = Rv2*Rx + vcx + vrx;
+  vy2 = Rv2*Ry + vcy + vry;
+
+  // Updating position after hit:
+  tm = 1.0 - t0;
+  Balls[j][1] = x1h + tm*vx1; Balls[j][2] = y1h + tm*vy1;
+  Balls[k][1] = x2h + tm*vx2; Balls[k][2] = y2h + tm*vy2;
+  Balls[j][3] = vx1 ; Balls[j][4] = vy1;
+  Balls[k][3] = vx2 ; Balls[k][4] = vy2;
+
+  // Visual check: point of impact
+  /*
+  ctx.beginPath()
+  ctx.arc(x1h, y1h, radius, 0, Pi2);
+  ctx.fillStyle = "orange";
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.beginPath()
+  ctx.arc(x2h, y2h, radius, 0, Pi2);
+  ctx.fillStyle = "violet";
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.beginPath()
+  ctx.moveTo(x1h, y1h);
+  ctx.lineTo(x1h-Tail*Balls[j][3], y1h-Tail*Balls[j][4]);
+  ctx.stroke();
+
+  ctx.beginPath()
+  ctx.moveTo(x2h, y2h);
+  ctx.lineTo(x2h-Tail*Balls[k][3], y2h-Tail*Balls[k][4]);
+  ctx.stroke();
+  
+  ctx.beginPath()
+  ctx.arc(Balls[j][1], Balls[j][2], radius, 0, Pi2);
+  ctx.stroke();
+
+  ctx.beginPath()
+  ctx.arc(Balls[k][1], Balls[k][2], radius, 0, Pi2);
+  ctx.stroke();
+*/
+  //alert("Bang! t0: " + t0);
+ }
+}
+
+// ----------------------------------------------------------------- //
+function CheckForBounce(j) {
+//echo("CheckForBounce(" + j + ")");
+ var BallInHole = false;
+ xn = Balls[j][1] ; yn = Balls[j][2];
+ vx = Balls[j][3] ; vy = Balls[j][4];
+
+ // Previous (back-projected) position
+ xp = xn - vx; yp = yn - vy;
+
+ if (    xn < Left ) {
+  tc = (Left-xp)/(xn-xp);
+  xc = xp + tc*(xn-xp);
+  yc = yp + tc*(yn-yp);
+  if ( yc <= Yhole_t || Yhole_b <= yc ) {
+   BallInHole = true; AnySink = true;
+   Balls[j][5] = 1; Balls[j][3] = -3; Balls[j][4] = 0;
+   // alert("Ball in the hole!");
+  } else {
+   xn = 2*Left  - xn; vx = -vx; Ncollisions++;
+   Balls[j][1] = xn;  Balls[j][3] = vx;
+   AnyBounce = true;
+   if ( j == 0 ) { Trail0.push([xc,yc]); };
+  }
+ } else if ( xn > Right ) {
+  tc = (Right-xp)/(xn-xp);
+  xc = xp + tc*(xn-xp);
+  yc = yp + tc*(yn-yp);
+  if ( yc <= Yhole_t || Yhole_b <= yc ) {
+   BallInHole = true; AnySink = true;
+   Balls[j][5] = 1; Balls[j][3] = 3; Balls[j][4] = 0;
+  // alert("Ball in the hole!");
+  } else {
+   xn = 2*Right - xn; vx = -vx; Ncollisions++;
+   Balls[j][1] = xn; Balls[j][3]= vx;
+   AnyBounce = true;
+   if ( j == 0 ) { Trail0.push([xc,yc]); }
+  }
+ }
+
+ if (    yn < Top ) {
+  tc = (Top-yp)/(yn-yp);
+  xc = xp + tc*(xn-xp);
+  yc = yp + tc*(yn-yp);
+  if ( xc <= Xhole_l || (Xhole_cl <= xc && xc <= Xhole_cr) || Xhole_r <= xc ) {
+   BallInHole = true; AnySink = true;
+   Balls[j][5] = 1; Balls[j][3] = 0; Balls[j][4] = -3;
+   // alert("Ball in the hole!");
+  } else {
+   yn = 2*Top    - yn; vy = -vy; Ncollisions++;
+   Balls[j][2]= yn;   Balls[j][4] = vy;
+   AnyBounce = true;
+   if ( j == 0 ) { Trail0.push([xc,yc]); }
+  }
+ } else if ( yn > Bottom ) {
+  tc = (Bottom-yp)/(yn-yp);
+  xc = xp + tc*(xn-xp);
+  yc = yp + tc*(yn-yp);
+  if ( xc <= Xhole_l || (Xhole_cl <= xc && xc <= Xhole_cr) || Xhole_r <= xc ) {
+   BallInHole = true; AnySink = true;
+   Balls[j][5] = 1; Balls[j][3] = 0; Balls[j][4] = 3;
+   AnySink = true;
+   // alert("Ball in the hole!");
+  } else {
+   yn = 2*Bottom - yn; vy = -vy; Ncollisions++;
+   Balls[j][2] = yn;  Balls[j][4] = vy;
+   AnyBounce = true;
+   if ( j == 0 ) { Trail0.push([xc,yc]); }
+  }
+ }
+ 
+ if ( BallInHole ) {
+  if ( j == 0 ) {
+   if ( Foul.indexOf("FOUL: You sank the cue ball.") == -1 ) {
+    var PP = (Player+1)%2 + 1;
+    Foul += "FOUL: You sank the cue ball. Player " + PP + " gets to position the cue ball...<br/>";
+   }
+  } else if ( Balls[j][0] == 9 ) {
+   Sunk9 = true;
+   //echo("Sunk9 = " + Sunk9);
+  }
+  // Slow balls may be counted twice.
+  if ( Psink[Player].indexOf(Balls[j][0]) == -1 ) {
+   Psink[Player].push(Balls[j][0]);
+  }
+ }
+}
+
+// ----------------------------------------------------------------- //
+function Start() {
+ //echo("Start at Frame: " + Frame);
+ // Saving state to restore after a botched shot
+ State = {'balls': Balls, 'player': Player, 'phits': Phits, 'psink': Psink}
+ State_JSON = JSON.stringify(State);
+ //echo(Frame);
+ //echo(State_JSON);
+ 
+ Balls[0][3] = vx_cue;
+ Balls[0][4] = vy_cue;
+ document.getElementById("Restore").innerHTML = "";
+ document.getElementById("Foul").innerHTML = "";
+
+ Trail0 = []; Trail1 = [];
+ Trail0.push([Balls[0][1],Balls[0][2]]);
+ Trail1.push([Balls[1][1],Balls[1][2]]);
+ FirstHit = true;
+ AnyHit = false;
+ AnyBounce = false;
+ AnySink = false;
+ Sunk9 = false;
+ Foul = "";
+ Phits[Player] = Phits[Player]+1;
+ //echo("--Starting Timer at Frame: " + Frame);
+ TimerRunning = true;
+ Timer = setInterval(Move,20);
+}
+
+// ----------------------------------------------------------------- //
+function Stop() {
+ //echo("--Stopping Timer at Frame: " + Frame);
+ clearInterval(Timer);
+ TimerRunning = false;
+ 
+ if ( AnyHit == false ) {
+  Foul += "FOUL: You did not hit anything!<br/>";
+ } else if ( AnySink == false && AnyBounce == false ) {
+  Foul += "FOUL: No Sink and no Bounce!<br/>";
+ }
+ 
+ if ( Foul != "" ) { Player = (Player+1)%2 }
+ 
+ //echo("Restore button");
+ if (GetNewCue == false ) {
+  NewButton = "<button type='button' onclick='Restore()'>Restore</button>"
+  document.getElementById("Restore").innerHTML = NewButton;
+ }
+ 
+ if ( Sunk9 == true ) {
+  var PP = Player + 1;
+  Won = "Player " + PP + " has won the game!!!";
+  alert(Won);
+  InitialSetup();
+  NextFrame();
+  document.getElementById("Fhit").innerHTML = "";
+ }
+ 
+ //echo("Score Table");
+ ShowScoreTable();
+
+ //echo("Marking holed balls..."); 
+ var RemoveBalls = [];
+ for ( i=1; i<Balls.length; i++ ) {
+  // Idenifying balls that went into a pocket
+  if ( Balls[i][5] == 1 ) {
+   RemoveBalls.push(i);
+  }
+ }
+ 
+ //echo("Removing balls that went into a pocket: " + RemoveBalls)
+ if ( RemoveBalls.length != 0 ) {
+  RemoveBalls.reverse();
+  for ( i=0; i<RemoveBalls.length; i++ ) {
+   Balls.splice(RemoveBalls[i], 1);
+   if ( RemoveBalls[i] == 1 ) { Trail1 = []; }
+  }
+ }
+ //echo('Stop call completed');
+}
+
+// ----------------------------------------------------------------- //
+function ShowScoreTable() {
+ //echo("ShowScoreTable");
+ document.getElementById("P0").innerHTML = "<span class='A"+ Player + "'>" + Phits[0] + "</span>";
+ document.getElementById("P1").innerHTML = "<span class='B"+ Player + "'>" + Phits[1] + "</span>";
+ document.getElementById("S0").innerHTML = Psink[0];
+ document.getElementById("S1").innerHTML = Psink[1];
+ if ( AnyHit == true && Foul == "" ) {
+  document.getElementById("Foul").innerHTML = "Legal move. Continue...";
+ } else {
+  document.getElementById("Foul").innerHTML = Foul;
+ }
+}
+
+// ----------------------------------------------------------------- //
+function Restore() {
+ //echo("Restore");
+ State = JSON.parse(State_JSON);
+ Balls = State.balls;
+ Player =  State.player; Phits = State.phits; Psink = State.psink;
+ NextFrame();
+ document.getElementById("Fhit").innerHTML = "";
+ Foul = "";
+ Won = "";
+ AnyHit = false;
+ ShowScoreTable()
+}
+
+// ----------------------------------------------------------------- //
+/*
+function echo( str ) {
+ var newstr = str + "<br>";
+ echostr = newstr.concat(echostr)
+ document.getElementById("ECHO").setAttribute("srcdoc","<pre>"+echostr+"</pre>");
+}
+*/
+// ----------------------------------------------------------------- //
+function GetXY(e) {
+ if ( TimerRunning == false ) {
+ var element = canvasElement;
+ var offsetX = 0, offsetY = 0
+
+ if (element.offsetParent) {
+  do {
+   offsetX += element.offsetLeft;
+   offsetY += element.offsetTop;
+  } while ((element = element.offsetParent));
+ }
+ x = e.pageX - offsetX;
+ y = e.pageY - offsetY;
+ if ( GetNewCue == true ) {
+  Balls[0] = [ 0, x, y , 0.0, 0.0, 0];
+  Trail0 = [];
+  Trail1 = [];
+  GetNewCue = false
+  NextFrame();
+  NewButton = "<button type='button' onclick='Restore()'>Restore</button>"
+  document.getElementById("Restore").innerHTML = NewButton;
+ } else {
+  vx = x-Balls[0][1] ; vy = y-Balls[0][2];
+  v  = Math.sqrt(vx*vx + vy*vy);
+  vx_cue = Speed*vx/v; vy_cue = Speed*vy/v;
+  Start();
+  // alert("x=" + x + " y=" + y);
+ }}
+}
+
+// ----------------------------------------------------------------- //
+function UpdateSliders() {
+ Speed = document.getElementById("Slider").value;
+ document.getElementById('Speed').innerHTML = Speed;
+}
+
+window.onload = ONLOAD;
+</script>
+
+</body>
+</html>

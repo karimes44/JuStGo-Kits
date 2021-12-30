@@ -1,0 +1,404 @@
+<!-- ![10]! -->
+<!-- ![0+]! -->
+<!DOCTYPE html>
+<html>
+<head>
+ <meta charset="utf-8"/>
+ <title>Pong$STREAM$</title>
+<!-- _______________________________________________________________ -->
+<style>
+/* ![1+]! */
+h1 {
+ font-family: "Helvetica";
+ font-size:    18pt;
+ margin-left:  10pt;
+ color:        navy; }
+
+canvas {
+ margin-left: 50px;
+ border:3px solid #d3d3d3;
+}
+/* ![7+]! */
+#scoretable table {
+ margin-left:  492px;
+ padding:      0px;
+ border-collapse: collapse;
+ border:       1px solid black;
+}
+
+#scoretable th {
+ font-family:  "Helvetica";
+ font-size:    14px;
+ padding:      4px;
+ margin:       0px;
+ border-collapse: collapse;
+ border:       1px solid black;
+}
+
+#scoretable td {
+ text-align:   center;
+ width:        50px;
+ font-family:  "Courier New";
+ font-size:    16px;
+ padding:      4px;
+ margin:       0px;
+ border-collapse: collapse;
+ border:       1px solid black;
+}
+
+details table {
+ margin-left:  20px;
+ padding:      0px;
+ border-collapse: collapse;
+ border:       1px solid black;
+}
+
+details th {
+ font-family:  "Helvetica";
+ font-size:    12px;
+ padding:      4px;
+ margin:       0px;
+ border-collapse: collapse;
+ border:       1px solid black;
+}
+
+details td {
+ text-align:   left;
+ font-family:  "Helvetica";
+ font-size:    12px;
+ padding:      4px;
+ margin:       0px;
+ border-collapse: collapse;
+ border:       1px solid black;
+}
+
+.key {
+ text-align:   center;
+}
+/* ![0+]! */
+</style>
+</head>
+
+<!-- _______________________________________________________________ -->
+<!-- ![0-1]!
+<body>
+<!-- ![2+]!  -->
+<body onload="Move()">
+<!-- ![0-7]!
+<h1>Pong/Squash</h1>
+<!-- ![8]!
+<h1>Squash</h1>
+<!-- ![9+]! -->
+<h1>Pong</h1>
+<!-- ![2]!
+<p>Press 'm' to move the ball by one step.</p>
+<!-- ![3-7]!
+<p>Press the spacebar to get the ball rolling... and again to stop it.</p>
+<!-- ![5-7]!
+<p>Use the arrow keys to control the paddle.</p>
+<!-- ![8+]!  -->
+<div id='scoretable'>
+<table>
+<tr> <th colspan="2">Score Table</th> </tr>
+<tr> <th>Left</th> <th>Right</th> </tr>
+<tr> <td id='score_left'>0</td> <td id='score_right'>0</td> </tr>
+</table>
+</div>
+<!-- ![1+]!  -->
+<canvas id="Canvas" width="1000" height="600">
+Your browser does not support the HTML5 canvas tag.</canvas>
+
+<!-- ![8]!
+<details><summary>Squash Instructions</summary>
+<!-- ![9+]! -->
+<details><summary>Pong Instructions</summary>
+<!-- ![8+]! -->
+<table>
+<tr> <th class='key'>Key</th> <th>Action</th> </tr>
+<tr> <td class='key'>Space</td> <td>Start/Pause Game</td> </tr>
+<tr> <td class='key'>+</td> <td>Increase ball speed</td> </tr>
+<tr> <td class='key'>-</td> <td>Decrease ball speed</td> </tr>
+<tr> <td class='key'>&uarr;</td> <td>Increase upward velocity of right paddle</td> </tr>
+<tr> <td class='key'>&darr;</td> <td>Increase downward velocity of right paddle</td> </tr>
+<tr> <td class='key'>&larr;</td> <td>Reset velocity of right paddle</td> </tr>
+<tr> <td class='key'>&rarr;</td> <td>Reset velocity paddle</td> </tr>
+<!-- ![9+]! -->
+<tr> <td class='key'>W</td> <td>Increase upward velocity of left paddle</td> </tr>
+<tr> <td class='key'>S</td> <td>Increase downward velocity of left paddle</td> </tr>
+<tr> <td class='key'>D</td> <td>Reset velocity of left paddle</td> </tr>
+<tr> <td class='key'>A</td> <td>Reset left paddle</td> </tr>
+<!-- ![8+]! -->
+</table>
+</details>
+<!-- ![0+]! -->
+<!-- _______________________________________________________________ -->
+<script>
+/* ![1+]!  */
+var c = document.getElementById("Canvas");
+var ctx = c.getContext("2d");
+var W = c.width ; var H = c.height;
+var x  = W/2; var y  = H/2;
+var ball_radius = 10;
+
+/* ![2-6]!
+var vx = 1; var vy =   1;
+/* ![7+]! */
+var vx = 2; var vy =   0;
+/* ![2+]! */
+var dt = 1;
+/* ![3+]! */
+let running = false;
+/* ![4+]! */
+var lastEvent = '';
+/* ![5+]! */
+var pad2 = 100;
+var dvpad = 1;
+var Speed = 1;
+var right  = H/2; var vright = 0;
+/* ![7+]! */
+var R  = 200;
+/* ![8]!
+var score_right = 10;
+document.getElementById('score_right').innerHTML = score_right;
+
+/* ![9+]!  */
+var left  = H/2; var vleft = 0;
+var score_left  = 0;
+var score_right = 0;
+
+var W22 = W/2-2;
+var H15 = H/15;
+/* ![7]!  */
+var cos = 1.0*pad2/R;
+var offset = R * Math.sqrt(1.0-cos*cos);
+/* ![2+]!  */
+
+function Move() {
+ ctx.clearRect(0, 0, W, H)
+ x += dt*vx; y += dt*vy
+
+ /* ![9+]!  */
+ ctx.fillStyle = "lightgray";
+ ctx.fillRect(W22,   H15, 4, H15);
+ ctx.fillRect(W22, 3*H15, 4, H15);
+ ctx.fillRect(W22, 5*H15, 4, H15);
+ ctx.fillRect(W22, 7*H15, 4, H15);
+ ctx.fillRect(W22, 9*H15, 4, H15);
+ ctx.fillRect(W22,11*H15, 4, H15);
+ ctx.fillRect(W22,13*H15, 4, H15);
+
+ /* ![1+]!  */
+ ctx.beginPath()
+ ctx.arc(x, y, ball_radius, 0, 2*Math.PI);
+ ctx.fillStyle = "red";
+ ctx.fill();
+ ctx.stroke();
+
+ /* ![5+]! */
+ right+= vright;
+ if ( right < 0 || right > H ) { vright = 0 }
+ /* ![7]! 
+ ctx.beginPath()
+ ctx.arc(W+offset, right, R, 0, 2*Math.PI);
+ ctx.fillStyle = "lightgray";
+ ctx.fill();
+ ctx.stroke();
+ /* ![5+]! */
+ ctx.fillStyle = "black";
+ ctx.fillRect(W-20, right-pad2, 10, 2*pad2);
+
+ /* ![9+]!  */
+ left+= vleft;
+ if ( left < 0 || left > H ) { vleft = 0 }
+ ctx.fillStyle = "black";
+ ctx.fillRect(10, left-pad2, 10, 2*pad2);
+
+ // ![4+]!
+ if ( y < ball_radius ) {
+  if ( lastEvent != 'top wall' ) {
+   // Simple bounce of top wall.
+   vy = -1*vy
+   lastEvent = 'top wall';
+  }
+ } else if ( y > H - ball_radius ) {
+  if ( lastEvent != 'bottom wall' ) {
+  // Simple bounce of top and bottom walls.
+   vy = -1*vy
+   lastEvent = 'bottom wall';
+  }
+ /* ![4-8]!
+ } else if ( x < ball_radius ) {
+  if ( lastEvent != 'left wall' ) {
+   vx = -1*vx
+   lastEvent = 'left wall';
+  }
+ /* ![4-7]!
+ } else if ( x > W - ball_radius ) {
+  if ( lastEvent != 'right wall' ) {
+   // Simple bounce of right wall.
+   vx = -1*vx
+   lastEvent = 'right wall';
+  }
+ /* ![8]! */
+ } else if ( x > W ) {
+  // Open right wall with Squash counter.
+  StartStop();
+  score_right--;
+  document.getElementById('score_right').innerHTML = score_right;
+  x  =    W/2; y  = H/2;
+  vx =  Speed; vy =   0;
+  right  = H/2;
+  vright = 0;
+  lastEvent = '';
+  if (score_right == 0) {
+   alert('Game Over!')
+   vx =  2*Speed; vy =   0;
+   right  = H/2; vright = 0;
+   Move()
+   score_right = 10;
+   document.getElementById('score_right').innerHTML = score_right;
+  }
+ // ![6+]!
+ } else if ( x > W-20-ball_radius && y >= right-pad2-ball_radius && y <= right+pad2+ball_radius ) {
+  if ( lastEvent != 'right paddle' ) {
+  /* ![6]!
+   // Simple bounce of right paddle.
+   vx = -1*vx
+   /* ![7+]!  */
+   // Bounce of rounded right paddle.
+   let dh = y-right;
+   let s = dh/R;
+   let c = Math.sqrt(1.0-s*s);
+   let c2s2 = c*c-s*s
+   let cs2  = 2*c*s
+   vx_new = -vx*c2s2 - vy*cs2;
+   vy_new = -vy*c2s2 + vx*cs2;
+   vx = vx_new; vy = vy_new
+   // ![6+]!
+   lastEvent = 'right paddle';
+  }
+ // ![9+]!
+ } else if ( x < 20+ball_radius && y >= left-pad2-ball_radius && y <= left+pad2+ball_radius ) {
+  // Bounce of rounded left paddle.
+ if ( lastEvent != 'left paddle' ) {
+   let dh = y-left;
+   let s = dh/R;
+   let c = Math.sqrt(1.0-s*s);
+   let c2s2 = c*c-s*s
+   let cs2  = 2*c*s
+   vx_new = -vx*c2s2 - vy*cs2;
+   vy_new =  vy*c2s2 - vx*cs2;
+   vx = vx_new; vy = vy_new
+   lastEvent = 'left paddle';
+  }
+ } else if ( x < 0 ) {
+  // Pong Scoring for right player
+  StartStop();
+  score_right++;
+  if ( score_right == 10 ) {
+   alert('Right Player won!');
+   score_right = 0;
+   score_left  = 0;
+  }
+  document.getElementById('score_right').innerHTML = score_right;
+  x  =     W/2; y  = H/2;
+  vx =   Speed; vy =   0;
+  left = H/2; right  = H/2;
+  vleft =  0; vright = 0;
+  lastEvent = '';
+ } else if ( x > W ) {
+  // Pong Scoring for left player
+  StartStop();
+  score_left++;
+ if ( score_left == 10 ) {
+   alert('Left Player won!');
+   score_right = 0;
+   score_left  = 0;
+  }
+  document.getElementById('score_left').innerHTML = score_left;
+  x  =       W/2; y  = H/2;
+  vx =  -1*Speed; vy =   0;
+  left = H/2; right  = H/2;
+  vleft =  0; vright = 0;
+  lastEvent = '';
+ /* ![4+]! */
+ }
+ /* ![2+]! */
+}
+
+/* ![3+]! */
+function StartStop() {
+ if ( running ) {
+  running = false;
+  clearInterval(Timer);
+ } else {
+  running = true;
+  Timer = setInterval(Move,10);
+ }
+}
+
+ /* ![2+]! */
+// Defining Key Short-Cuts
+window.addEventListener('keydown', function (e) {
+ let k = e.key;
+ //alert('>'+k+'<');
+ /* ![3+]! */
+ if (k == ' ') {
+  // alert('Space');
+  StartStop();
+ }
+ /* ![2+]! */
+ if (k == 'm') {
+  //alert('M-ove');
+  Move()
+ /* ![5+]! */
+ }
+ if (k == 'ArrowUp') {
+  //alert('Up');
+  vright -= dvpad;
+ }
+ if (k == 'ArrowDown') {
+  // alert('Down');
+  vright += dvpad;
+ }
+ if (k == 'ArrowLeft') {
+  // alert('Left-Stop');
+  vright = 0;
+ }
+ if (k == 'ArrowRight') {
+  // alert('Right-Reset');
+  vright = 0;
+   right = H/2;
+ }
+ if (k == '+') {
+  // alert('+');
+  vx *= 1.4 ; vy *= 1.4; Speed *= 1.4;
+ }
+ if (k == '-') {
+  // alert('-');
+  vx /= 1.4 ; vy /= 1.4; Speed /= 1.4;
+ /* ![9+]! */
+ }
+ if (k == 'w') {
+  // alert('w-Up');
+  vleft -= dvpad;
+ }
+ if (k == 's') {
+  // alert('s-Down');
+  vleft += dvpad;
+ }
+ if (k == 'd') {
+  // alert('d-Stop');
+  vleft = 0;
+ }
+ if (k == 'a') {
+  // alert('a-Reset');
+  vleft = 0;
+   left = H/2;
+ /* ![2+]! */
+ }
+})
+/* ![0+]!  */
+</script>
+</body>
+</html>

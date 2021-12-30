@@ -14,61 +14,58 @@
 <!-- _______________________________________________________________ -->
 <h3>Working with the JuStGo Kit</h3>
 
-<div class="txt">
-<p>In this JuStGo Kit you will build a 15 Squares Puzzle Game. The JuStGo Kit will lead you step-by-step through each task that needs to be completed to build the entire game.</p>
+<div class="txt"><!-- {{{ -->
+<p>In this JuStGo kit you will build a 15 Squares Puzzle Game. The kit will lead you step-by-step through each task that needs to be completed to build the entire game.</p>
 
-<p>For each task, you will find explanations, tips, and resources that help you complete the task. At the end a solution is given. You can decide for yourself if you want to continue with your own solution, or switch to the provided one, or to mix-and-match.</p>
-<p><b>Note:</b> To see the html code, open the solution proposal in your text editor, such as Chrome Caret, or right-click anywhere on the solution proposal page and select <em>View Page Source</em></p>
+<p>You will find explanations, tips, and resources that help you complete each task. At the end a solution is given. You can decide for yourself if you want to continue with your own solution, switch to the provided one, or to mix-and-match.</p>
+<p><b>Note:</b> To see the HTML code, open the solution proposal in your text editor, such as <a href= "https://chrome.google.com/webstore/detail/caret/fljalecfjciodhpcledpamjachpmelml?hl=en"> Chrome Caret</a>, or right-click anywhere on the solution proposal page and select <em>View Page Source</em>.</p>
 
-<p>The provided solution solves the task with very little code so that you can clearly see what is done and how. As a consequence, it may look a bit boring. Let this inspire you to spice it up! Go wild with CSS and add HTML elements as you like. Make it yours! </p>
-</div>
+<p>The provided solution solves the task with very little code so that you can clearly see what is done and how. As a consequence, it may look a bit plain. Let this inspire you to spice it up!<br/>
+Go wild with CSS and add HTML elements as you like - make it yours! </p>
+</div><!-- }}} -->
 
 <h3>What is the 15 Squares Puzzle Game about?</h3>
 
-<div class="txt">
+<div class="txt"><!-- {{{ -->
 <p>Have you played the 15 Squares Puzzle before?</p>
-<p>To solve the puzzle, you have to slide a tile into the empty position and do it such that in the end the numbers are in ascending order, from top left to bottom right.</p>
+<p>To solve the puzzle, you have to slide a numbered tile into an empty position. Do this to all tiles as needed to organize them in ascending order from top left to bottom right.</p>
 
 <p>You can find more information and interesting historical notes about it at: <a href= "https://en.wikipedia.org/wiki/15_puzzle">Wikipedia: 15 puzzle</a>.</p>
-</div>
+</div><!-- }}} -->
 
 <h2>Task 0: Create the HTML placeholder</h2>
 <!-- _______________________________________________________________ -->
-<div class="txt">
-<ul>
-	<li>Create an HTML placeholder page that...</li>
+<div class="txt"><!-- {{{ -->
+<p>Create an HTML placeholder page that...</p>
 	<ul>
-	 <li>defines the page document type to be HTML5</li>
-	 <li>has a header section with a <code>title</code> tag</li>
-	 <li>has a style section for the CSS definition</li>
-	 <li>has a script section for the JavaScript code</li>
-	 <li>has a body section</li>
+	 <li>defines the page document type to be HTML5,</li>
+	 <li>has a header section with a <code>title</code> tag,</li>
+	 <li>has a style section for the CSS definition,</li>
+	 <li>has a script section for the JavaScript code,</li>
+	 <li>has a body section, and</li>
 	 <li>has a body section a heading.</li>
 	</ul>
-</ul>
 
 <details class="box bgtip"><summary>Tips and Resources</summary>
 <p>You can find a good intoduction to HTML at <a href= "https://www.w3schools.com/html/html_intro.asp" target="_blank" class="bgtip">W3Schools: HTML Introduction</a>.</p></details>
 
-<p class="box bgsol"><a href= "15sqr_task0.html" target="_blank" class="bgsol">Solution Proposal for HTML placeholder</a></p>
-</div>
+<p class="box bgsol"><a href= "15sqr_step0.html" target="_blank" class="bgsol">Solution Proposal for HTML placeholder</a></p>
+</div><!-- }}} -->
 
 <h2>Task 1: Create the game board</h2>
 <!-- _______________________________________________________________ -->
-<div class="txt">
-<ul>
-	<li>Define a game board with 4 rows and 4 columns, write in the tiles of the game board the number 1-15, and 0 in the last tile.</li>
-</ul>
+<div class="txt"><!-- {{{ -->
+<p>Define a game board with 4 rows and 4 columns, write in the tiles of the game board the number 1-15, and 0 in the last tile.</p>
 
 <details class="box bgtip"><summary>Tips and Resources</summary>
 <p>One way to define the game board is to use an HTML table. You can find a good explanation of how tables are defined in HTML at
 <a href= "https://www.w3schools.com/html/html_tables.asp" target="_blank"  class="bgtip">W3Schools: HTML Tables</a>.</p></details>
 
-<p class="box bgsol"><a href= "15sqr_task1.html" target="_blank" class="bgsol">Solution Proposal for the game board</a></p>
+<p class="box bgsol"><a href= "15sqr_step1.html" target="_blank" class="bgsol">Solution Proposal for the game board</a></p>
 
 <details class="box bghig"><summary>Highlights of added code</summary>
 <pre>
-&lt;table&gt;
+<span class='new'>&lt;table&gt;
 &lt;tr&gt;
   &lt;td&gt;1&lt;/td&gt;
   &lt;td&gt;2&lt;/td&gt;
@@ -91,45 +88,44 @@
   &lt;td&gt;15&lt;/td&gt;
   &lt;td&gt;0&lt;/td&gt;
 &lt;/tr&gt;
-&lt;/table&gt;
+&lt;/table&gt;</span>
 </pre>
 </details>
-</div>
+</div><!-- }}} -->
 
-<h2>Task 2: Improve the look of the game board.</h2>
+<h2>Task 2: Improve the look of the game board</h2>
 <!-- _______________________________________________________________ -->
-<div class="txt">
-<ul>
-	<li>Well, the plain table as a game board is not quite looking right... Can you fix that?</li>
-</ul>
+<div class="txt"><!-- {{{ -->
+<p>Well, the plain table as a game board is not quite looking right...<br/>
+	Can you fix that?</p>
 
 <details class="box bgtip"><summary>Tips and Resources</summary>
-<p>Use CSS to display the your game board in the following way:</p>
+<p>You can use CSS to display the your game board in the following way:</p>
 <ul>
-  <li>Style-up the H1 tag so that the title looks the way you like it.</li>
-  <li>For the TABLE tag:</li>
+  <li>Style-up the <code>&lt;h1&gt;</code> tag so that the title looks the way you like it.</li>
+  <li>For the <code>&lt;table&gt;</code> tag:</li>
   <ul>
    <li>Provide a left margin to the table.</li>
    <li>Select a big bold font for the test, use a fixed font to make sure the tile size does not change if a different number is shown.</li>
    <li>Have the tile borders shown as a single line.</li>
   </ul>
-  <li>For the TD tag:</li>
+  <li>For the <code>&lt;td&gt;</code> tag:</li>
   <ul>
     <li>To have nice square tiles explicitly set the tile height and width to the same value. Experiment with the value to have the tiles just the size you like.</li>
     <li>Make sure to center the text in the tile.</li>
     <li>Set the margin to zero pixel. Experiment with the padding to give the number just the right room in the tile.</li>
-    <li>Define the same type of boders for the tiles that you defined for the table.</li>
+    <li>Define the same type of borders for the tiles that you defined for the table.</li>
   </ul>
 </ul>
 
 <p>You can find a good introduction to CSS at <a href= "https://www.w3schools.com/css/default.asp" target="_blank"  class="bgtip">W3 School: CSS Tutorial</a>.</p></details>
 
-<p class="box bgsol"><a href= "15sqr_task2.html" target="_blank" class="bgsol">Solution Proposal for a better looking game board</a></p>
+<p class="box bgsol"><a href= "15sqr_step2.html" target="_blank" class="bgsol">Solution Proposal for a better looking game board</a></p>
 
 <details class="box bghig"><summary>Highlights of added code</summary>
 <pre>
 &lt;style&gt;
-h1 {
+<span class='new'>h1 {
  font-family: "Helvetica";
  font-size:    18pt;
  margin-left:  10pt;
@@ -152,115 +148,114 @@ td {
  margin:       0px;
  border-collapse: collapse;
  border:       1px solid black;
-}
+}</span>
 &lt;/style&gt;
 </pre>
 
 <p><b>Notes:</b> to define the size of a tile you can use the units of pixels <code>px</code> or points <code>pt</code>, but you can also use a unit that is related to the font size you are using: <code>em</code> that is about the size of an "M" of the currently used font (see <a href= "https://www.w3schools.com/css/css_units.asp" target="_blank" class="bghig">W3Schools: CSS Units</a>).</p></details>
-</div>
+</div><!-- }}} -->
 
-<h2>Task 3: Define "handles" in the game board for JavaScript.</h2>
+<h2>Task 3: Define <q>handles</q> in the game board for JavaScript</h2>
 <!-- _______________________________________________________________ -->
-<div class="txt">
+<div class="txt"><!-- {{{ -->
 <ul>
- <li>The JavaScript code you will write later will need to interact with the tiles of your game board. Define handles for JavaScript to address a given tile</li>
+ <li>The JavaScript code you will write later will need to interact with the tiles of your game board. Define handles for JavaScript to address a given tile.</li>
  <li>Define an event handler to react when the player wants to move the tile. (The JavaScript code for the event handler function you'll write later...)</li>
- <li>Think about how you want to display the free tile and the one with the zero it it should look like.</li>
+ <li>Think about how you want the free tile (the one with the zero) to look like.</li>
 </ul>
 
 <details class="box bgtip"><summary>Tips and Resources</summary>
 <ul>
- <li>As the handle needs to be unique, the ID attribute comes in handy... so you could add <code>id="1"</code> to tile 1, and <code>id="2"</code> to tile 2, and so on (see <a href= "https://www.w3schools.com/html/html_id.asp" target="_blank"  class="bgtip">W3Schools: HTML id Attribute</a>).</li>
+ <li>As the handle needs to be unique, the <code>id</code> attribute comes in handy... so you could add <code>id="1"</code> to tile 1, and <code>id="2"</code> to tile 2, and so on (see <a href= "https://www.w3schools.com/html/html_id.asp" target="_blank"  class="bgtip">W3Schools: HTML id Attribute</a>).</li>
  <li>You could define a class <code>.free</code> for the empty tile. To make the zero in that tile invisible you could set the <code>color</code> and <code>background-color</code> attributes to the same color. The other class could be called <code>.full</code> and can rely on the defaults you defined for the <code>td</code> tag. So you don't even need to define any CSS for the <code>.full</code> class.</li>
- <li>Add and evenhandler to the TD tag (see <a href= "https://www.w3schools.com/js/js_events.asp" target="_blank"  class="bgtip">W3Schools: Events</a>).</li>
- <li>You could call the JavaScript function <code>move()</code>, and have it take a tile id as the argument.</li>
+ <li>Add and evenhandler to the <code>&lt;td&gt;</code> tag (see <a href= "https://www.w3schools.com/js/js_events.asp" target="_blank"  class="bgtip">W3Schools: Events</a>).</li>
+ <li>You could call the JavaScript function <code>Move()</code>, and have it take a tile id as the argument.</li>
 </ul>
 </details>
 
-<p class="box bgsol"><a href= "15sqr_task3.html" target="_blank" class="bgsol">Solution Proposal for adding JavaScript handles</a>.</p>
+<p class="box bgsol"><a href= "15sqr_step3.html" target="_blank" class="bgsol">Solution Proposal for adding JavaScript handles</a></p>
 
 <details class="box bghig"><summary>Highlights of added code</summary>
 <pre>
 
 &lt;style&gt;
-...
+/* ...
+<span class='new'>
 .free {
  background-color: lightgray;
  color: lightgray;
-}
+}</span>
 &lt;/style&gt;
 &lt;body&gt;
-...
+&lt;!-- ... --&gt;
 &lt;table&gt;
-&lt;tr&gt;
-	&lt;td id= "1" onclick='move( 1)' class="full"&gt;1&lt;/td&gt;
-	&lt;td id= "2" onclick='move( 2)' class="full"&gt;2&lt;/td&gt;
-	&lt;td id= "3" onclick='move( 3)' class="full"&gt;3&lt;/td&gt;
-	&lt;td id= "4" onclick='move( 4)' class="full"&gt;4&lt;/td&gt;
+<span class='new'>&lt;tr&gt;
+	&lt;td id= "1" onclick='Move( 1)' class="full"&gt;1&lt;/td&gt;
+	&lt;td id= "2" onclick='Move( 2)' class="full"&gt;2&lt;/td&gt;
+	&lt;td id= "3" onclick='Move( 3)' class="full"&gt;3&lt;/td&gt;
+	&lt;td id= "4" onclick='Move( 4)' class="full"&gt;4&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-	&lt;td id= "5" onclick='move( 5)' class="full"&gt;5&lt;/td&gt;
-	&lt;td id= "6" onclick='move( 6)' class="full"&gt;6&lt;/td&gt;
-	&lt;td id= "7" onclick='move( 7)' class="full"&gt;7&lt;/td&gt;
-	&lt;td id= "8" onclick='move( 8)' class="full"&gt;8&lt;/td&gt;
+	&lt;td id= "5" onclick='Move( 5)' class="full"&gt;5&lt;/td&gt;
+	&lt;td id= "6" onclick='Move( 6)' class="full"&gt;6&lt;/td&gt;
+	&lt;td id= "7" onclick='Move( 7)' class="full"&gt;7&lt;/td&gt;
+	&lt;td id= "8" onclick='Move( 8)' class="full"&gt;8&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-	&lt;td id= "9" onclick='move( 9)' class="full"&gt;9&lt;/td&gt;
-	&lt;td id="10" onclick='move(10)' class="full"&gt;10&lt;/td&gt;
-	&lt;td id="11" onclick='move(11)' class="full"&gt;11&lt;/td&gt;
-	&lt;td id="12" onclick='move(12)' class="full"&gt;12&lt;/td&gt;
+	&lt;td id= "9" onclick='Move( 9)' class="full"&gt;9&lt;/td&gt;
+	&lt;td id="10" onclick='Move(10)' class="full"&gt;10&lt;/td&gt;
+	&lt;td id="11" onclick='Move(11)' class="full"&gt;11&lt;/td&gt;
+	&lt;td id="12" onclick='Move(12)' class="full"&gt;12&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-	&lt;td id="13" onclick='move(13)' class="full"&gt;13&lt;/td&gt;
-	&lt;td id="14" onclick='move(14)' class="full"&gt;14&lt;/td&gt;
-	&lt;td id="15" onclick='move(15)' class="full"&gt;15&lt;/td&gt;
-	&lt;td id="16" onclick='move(16)' class="free"&gt;0&lt;/td&gt;
+	&lt;td id="13" onclick='Move(13)' class="full"&gt;13&lt;/td&gt;
+	&lt;td id="14" onclick='Move(14)' class="full"&gt;14&lt;/td&gt;
+	&lt;td id="15" onclick='Move(15)' class="full"&gt;15&lt;/td&gt;
+	&lt;td id="16" onclick='Move(16)' class="free"&gt;0&lt;/td&gt;</span>
 &lt;/tr&gt;
 &lt;/table&gt;
 &lt;/body&gt;
 </pre></details>
-</div>
+</div><!-- }}} -->
 
-<h2>Task 4: JavaScript function for moving a tile.</h2>
+<h2>Task 4: JavaScript function for moving a tile</h2>
 <!-- _______________________________________________________________ -->
-<div class="txt">
- <ul>
-  <li>Write the code for the JavaScript function <code>move()</code> so that if you click a tile that is next to the free tile, the tile switches place with the free tile.</li>
- </ul>
+<div class="txt"><!-- {{{ -->
+ <p>Write the code for the JavaScript function <code>Move()</code> so that if you click a tile that is next to the free tile, the tile switches place with the free tile.</p>
 <details class="box bgtip"><summary>Tips and Resources</summary>
-<h3>Algorithm</h3>
+<h4>Algorithm</h4>
 
-<p>Think about how you want to work the puzzle... In a real or "physical" game you stick your finger on the puzzle tile you want to move and push it the only way it can go, right?</p>
+<p>Think about how you want to work the puzzle... In a real or <q>physical</q> game you stick your finger on the puzzle tile you want to move and push it the only way it can go, right?</p>
 
-<p>In your "virtual" version you need to tell the computer how you want to represent <i>"stick your finger on the puzzle piece"</i>, and <i>"push it the only way it can go"</i>.</p>
+<p>In your <em>virtual</em> version you need to tell the computer how you want to represent <q><em>stick your finger on the puzzle piece</em></q>, and <q><em>push it the only way it can go</em></q>.</p>
 
-<h3>"Stick your finger on the puzzle piece"</h3>
-<p>You can make <i>clicking the puzzle piece</i> to be our "virtual" representation of <i>stick your finger on the puzzle piece</i>. For that you have already add to the <code>&lt;td&gt;</code> elements an event handler in the previous task.</p>
+<h4><q>Stick your finger on the puzzle piece</q></h4>
+<p>You can make <i>clicking the puzzle piece</i> to be our <em>virtual</em> representation of <i>stick your finger on the puzzle piece</i>. For that you have already add to the <code>&lt;td&gt;</code> elements an event handler in the previous task.</p>
 
-<h3>"Push it the only way it can go"</h3>
+<h4><q>Push it the only way it can go</q></h4>
 <p>This is a bit trickier. You - as a human - can just see where the empty tile is. But the computer will need a bit of our help.</p>
 <p>You could tell the computer all possible ways a tile <i>could</i> move (not worrying about the empty tile at this point...)</p>
 
 <p>You could do that by defining an array, which holds for each of the 16 tiles in the game board the list of positions the tile <i>could</i> move, if the final tile would be empty (... you can  check for that later).</p>
-<p>Tile "1" is in a corner can only go two ways: Right to position "2" or down to position "5", a tile on a side, say "2" can go three ways: Left to position "1", right to position "3", or down to position "6", and any piece inside, say "10", can go four ways: Up to "6", left to "9", right to 11, or down to "14".</p>
+<p>Tile 1 is in a corner and can only go two ways: right to position 2 or down to position 5. A tile on a side, say 2, can go three ways: left to position 1, right to position 3, or down to position 6. Any piece inside, say 10, can go four ways: Up to 6, left to 9, right to 11, or down to 14.</p>
 
-<p>For more about arrays check out <a href= "https://www.w3schools.com/js/js_arrays.asp" target="_blank"  class="bgtip">W3Schools: JavaScript Arrays</a>.</p>
+<p>For more information about arrays check out <a href= "https://www.w3schools.com/js/js_arrays.asp" target="_blank"  class="bgtip">W3Schools: JavaScript Arrays</a>.</p>
 
-<h3>move(id)</h3>
-<p>When you click the tile in position "5" the function <code>move(5)</code> is called. So far so good, now you need to check which number is currently on that tile... as you play the game that changes, right?</p>
+<h4>Move(id)</h4>
+<p>When you click the tile in position 5 the function <code>Move(5)</code> is called. So far so good, now you need to check which number is currently on that tile - as you play the game, that changes...</p>
 
-<p>Then loops through all the neighboring tiles that this tile could move, and checks if the "0" is stored in any of these neighboring tiles.</p>
+<p>Then loop through all the neighboring tiles that this tile could move, and checks if the 0 is stored in any of these neighboring tiles.</p>
 
-<p>If you find the "0", that means the tile is empty! Then you can write the number of the tile you clicked into that tile and mark the tile you clicked as empty.</p>
+<p>If you find the 0, that means the tile is empty! Then you can write the number of the tile you clicked into that tile and mark the tile you clicked as empty.</p>
 
 </details>
 
-<p class="box bgsol"><a href= "15sqr_task4.html" target="_blank" class="bgsol">Solution Proposal for the <code>move()</code> function</a>.</p>
+<p class="box bgsol"><a href= "15sqr_step4.html" target="_blank" class="bgsol">Solution Proposal for the <code>Move()</code> function</a></p>
 
 <details class="box bghig"><summary>Highlights of added code</summary>
-<h3>Defining the array which contains the information on how a tile in a given position could move.</h3>
+<h4>Defining the array which contains the information on how a tile in a given position could move</h4>
 <pre>
-let st= [];
+<span class='new'>let st= [];
  st[1] = [2,5];         st[2] = [1,3,6];
  st[3] = [2,4,7];       st[4] = [3,8];
  st[5] = [1,6,9];       st[6] = [2,5,7,10];
@@ -268,42 +263,42 @@ let st= [];
  st[9] = [5,10,13];    st[10] = [6,9,11,14];
 st[11] = [7,10,12,15]; st[12] = [16,11,8];
 st[13] = [9,14];       st[14] = [10,13,15];
-st[15] = [11,14,16];   st[16] = [12,15,12];
+st[15] = [11,14,16];   st[16] = [12,15,12];</span>
 </pre>
 <p><b>Note:</b> Each element of the array <code>st</code> contains itself another array.</p>
 
-<h3>move(id)</h3>
+<h4>Move(id)</h4>
 <p>Read the current value of the tile with:</p>
-<pre>var cval = document.getElementById(id).innerHTML;</pre>
+<pre><span class='new'>var cval = document.getElementById(id).innerHTML;</span></pre>
 
 <p>Loop through the neighboring tiles with:</p>
 <pre>
- for ( let jj=0; jj&lt;st[id].length; jj++ ) {
-  ...
- }
+ <span class='new'>for ( let jj=0; jj&lt;st[id].length; jj++ ) {
+  // ...
+ }<span class='new'>
 </pre>
 
 <p>Check the value stored in the neighboring tiles and check it is "0" with:</p>
 <pre>
-  let cc = st[id][jj];
+  <span class='new'>let cc = st[id][jj];
   let cv = document.getElementById(cc.toString()).innerHTML;
   if ( cv == "0" ) {
-   ...
+   //...
   }
- }
+ }</span>
 </pre>
 
 <p>... and if so swap the class and the values of the two tiles involved in the move with:</p>
 <pre>
-   document.getElementById(cc).innerHTML = cval;
+   <span class='new'>document.getElementById(cc).innerHTML = cval;
    document.getElementById(cc).setAttribute("class","full");
    document.getElementById(id).innerHTML = "0";
-   document.getElementById(id).setAttribute("class","free");
+   document.getElementById(id).setAttribute("class","free");</span>
 </pre>
 
-<details><summary>The entire definition of the <code>move()</code> function</summary>
+<details><summary>The entire definition of the <code>Move()</code> function</summary>
 <pre>
-function move(id) {
+function Move(id) {
  let cval = document.getElementById(id.toString()).innerHTML;
  for ( let jj=0; jj&lt;st[id].length; jj++ ) {
   let cc = st[id][jj];
@@ -319,18 +314,18 @@ function move(id) {
 </pre>
 </details>
 </details>
-</div>
+</div><!-- }}} -->
 
 <h2>Task 5: Randomizing the game.</h2>
 <!-- _______________________________________________________________ -->
-<div class="txt">
+<div class="txt"><!-- {{{ -->
 <p>Wow, you are almost there. Now you have already a game that you can play with!<br/>
 ... but it starts as a solved game - that's no fun.</p>
 
-<p>If you would see a "physical" game at a friend's house that your friend just solved and you wanted to try for yourself, what would you do?</p>
+<p>If you would see a <q>physical</q> game at a friend's house that your friend just solved and you wanted to try for yourself, what would you do?</p>
 
-<p>Well, you would "just mess it up" without even looking, right? <br/>
-Ok, why don't you do the same with your virtual game.
+<p>Well, you would <q>just mess it up</q> without even looking, right? <br/>
+Ok, why don't you do the same with your <em>virtual</em> game.
 </p>
 <ul>
   <li>Write a JavaScript function that gets executed after the pages has loaded, and that randomly moves the tiles around.</li>
@@ -354,7 +349,7 @@ Ok, why don't you do the same with your virtual game.
 </ul>
 </details>
 
-<p class="box bgsol"><a href= "15sqr_task5.html" target="_blank" class="bgsol">Solution Proposal for randomizing the game.</a></p>
+<p class="box bgsol"><a href= "15sqr_step5.html" target="_blank" class="bgsol">Solution Proposal for randomizing the game</a></p>
 
 <details class="box bghig"><summary>Highlights of added code</summary>
 
@@ -362,29 +357,29 @@ Ok, why don't you do the same with your virtual game.
  <li>The variable <code>z</code> holds the current position.</li>
  <li>The <code>st[z].length</code> function lets you how many elements are in the array that describes the neighbourhood for the position <code>z</code> (see <a href= "https://www.w3schools.com/js/js_arrays.asp" target="_blank" class="bghig">W3Schools: JavaScript Arrays</a>).</li>
  <li><code>Math.random()</code> gives you a random number between 0 and 1 (see <a href= "https://www.w3schools.com/js/js_random.asp" target="_blank" class="bghig">W3Schools: JavaScript Random</a>). Multiply that with the number of neighbours and you have the next position. Well, not quite...</li>
- <li>The array index starts at 0, and the largest array index is one less than the array length. For example, if the aray length is 3, then the array contains the indices 0,1,2, but not 3.</li>
+ <li>The array index starts at 0, and the largest array index is one less than the array length. For example, if the array length is 3, then the array contains the indices 0,1,2, but not 3.</li>
  <li><code>Math.random()*3</code> may give you 2.71, or 0.717. You can't use that as an index, however, 2 and 0 would work fine! <code>Math.floor()</code> can help you out: it just returns the integer part (see <a href= "https://www.w3schools.com/js/js_math.asp" target="_blank" class="bghig">W3Schools: JavaScript Math Object</a>).</li>
  <li>The <code>for</code> loop runs through 800 randomization steps - that should do it... (see <a href= "https://www.w3schools.com/js/js_loop_for.asp" target="_blank" class="bghig">W3Schools: JavaScript For Loop</a>).</li>
  <li>The command <code>window.onload = randomizeGame;</code> makes sure that your <code>randomizeGame</code> function is called once the page has loaded (see <a href= "https://www.w3schools.com/jsref/event_onload.asp" target="_blank" class="bghig">W3Schools: onload Event</a>).</li>
 </ul>
 <pre>
-function firstView() {
+<span class='new'>function firstView() {
  let z = 16;
  for ( let j=0; j&lt;800; j++ ) {
   let i = Math.floor(Math.random() * st[z].length);
   let nxtPosition = st[z][i]
-  move(nxtPosition);
+  Move(nxtPosition);
   z = nxtPosition;
- }
+ }</span>
 ...
-&lt;body onload="randomizeGame()"&gt;
+&lt;body <span class='new'>onload="randomizeGame()"</span>&gt;
 </pre>
 </details>
-</div>
+</div><!-- }}} -->
 
 <h2>Task 6: Add a counter</h2>
 <!-- _______________________________________________________________ -->
-<div class="txt">
+<div class="txt"><!-- {{{ -->
 <p>Are we done yet? Well, what's a game when you can't tell if you did better than last time... </p>
 
 <ul>
@@ -398,60 +393,60 @@ function firstView() {
 </ul>
 </details>
 
-<p class="box bgsol"><a href= "15sqr.html" target="_blank" class="bgsol">Solution Proposal for the game with a counter.</a></p>
+<p class="box bgsol"><a href= "15sqr.html" target="_blank" class="bgsol">Solution Proposal for the game with a counter</a></p>
 </body></html>
 
 <details class="box bghig"><summary>Highlights of added code</summary>
-<ul>
- <li>Define a global variable, initialize it to zero, and add one to it whenever you move a tile:</li>
- <pre>
- let iter=0;
+<p>Define a global variable, initialize it to zero, and add one to it whenever you move a tile:</p>
+<pre>
+ <span class='new'>let iter=0;</span>
  ...
- function move(id) {
+ function Move(id) {
  let cval = document.getElementById(id).innerHTML;
  for ( let jj=0; jj&le;st[id].length; jj++ ) {
   ...
   if ( cv == "0" ) {
-   iter++;
-   ...
+    <span class='new'>iter++;</span>
+   //...
   }
- }
- </pre>
- <li>In the HTML section add a placeholder, and write the current number of tile moves into it.</li>
+ }</span>
+</pre>
+<p>In the HTML section add a placeholder, and write the current number of tile moves into it.</p>
 <pre>
 &lt;script&gt;
-function move(id) {
-  ...
-  document.getElementById("ITER").innerHTML = "Number of Moves: " + iter;
+function Move(id) {
+  // ...
+  <span class='new'>document.getElementById("ITER").innerHTML = "Number of Moves: " + iter;</span>
 }
 
 function randomizeGame() {
   ...
-  iter = 0;
-  document.getElementById("ITER").innerHTML = "Number of Moves: 0";
+  <span class='new'>iter = 0;
+  document.getElementById("ITER").innerHTML = "Number of Moves: 0";</span>
 }
 &lt;/script&gt;
 &lt;body&gt;
-...
-&lt;p id="ITER"&gt;&lt;/p&gt;
+&lt;!-- ... --&gt;
+<span class='new'>&lt;p id="ITER"&gt;&lt;/p&gt;</span>
 &lt;/body&gt;
 </pre>
 </ul>
 </details>
+</div><!-- }}} -->
 
 <p>Congratulations! You completed the JuStGo kit!</p>
 <p>Need some tips on how to solve the puzzle? <a href= "https://www.instructables.com/id/How-To-Solve-The-15-Puzzle/"> How-To-Solve-The-15-Puzzle</a></p>
-</div>
+
 
 <h1>Challenges</h1>
 <!-- _______________________________________________________________ -->
-<div class="txt">
+<div class="txt"><!-- {{{ -->
 <ul>
  <li>Build a 15 Squares puzzle with a picture.<br/>
  <b>Tips:</b> Find any picture you like, find a picture editing tool, cut it to be square, then cut it into 16 equal squares. Then replace the numbers in the tiles with image tags.</li>
  <li>Make the computer detect when the puzzle is solved and add the missing part of the image in the 16<sup>th</sup> spot.</li>
- <li>Represent the game board in JavaScript as a two dimensional array (i.e. an array in which each array element is itself an array). Then write a function that displays the current status of the array in the same way as the game board is displayed now. In this version you do not need to query the tiles through the HTML "space to find out what number is stored in it, instead you can query the JavaScript array. That way the entire game exists in the JavaScript "space", and only the display and user interface is provided via HTML/CSS. That is a clear design choice.</li>
+ <li>Represent the game board in JavaScript as a two dimensional array (an array in which each array element is itself an array). Then write a function that displays the current status of the array in the same way as the game board is displayed now. In this version you do not need to query the tiles via HTML-DOM to find out what number is stored in it, instead you can query the JavaScript array. That way the entire game exists in the JavaScript <q>space</q>, and only the display and user interface is provided via HTML/CSS. That is a cleaner design choice.</li>
  <li>What would it take to add a high score table?</li>
 </ul>
-</div>
+</div><!-- }}} -->
 </body></html>

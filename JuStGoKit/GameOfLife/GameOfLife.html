@@ -1,0 +1,295 @@
+<!-- ![6]! -->
+<!-- ![0+]! -->
+<!DOCTYPE html>
+<html>
+<head>
+ <meta charset="utf-8"/>
+ <title>Game of Life</title>
+
+<!-- _______________________________________________________________ -->
+<style>
+/* ![1+]! */
+body {
+	font-family: "Helvetica";
+	font-size:    14pt;
+	margin-left:  20pt;
+}
+h1 {
+	font-family: "Helvetica";
+	font-size:    18pt;
+	margin-left:  10pt;
+	color:        navy;
+}
+p {
+	font-family: "Helvetica";
+	margin-left:  14pt;
+}
+select {
+	font-family:  "Helvetica";
+	font-size:    14pt;
+	font-weight:  bold;
+}
+/* ![0+]! */
+</style>
+</head>
+
+<!-- _______________________________________________________________ -->
+<body>
+<h1>Game of Life</h1>
+<!-- ![6+]! -->
+<p>Generation: <span id="Nstp">0</span>&nbsp; &mdash; &nbsp;
+<span id="button">
+<select id='Pattern' onchange='SelectPattern()'>
+	<option value='x'>(Select a Pattern)</option>
+	<option value='0'>Random</option>
+	<option value='1'>Glider Gun</option>
+	<option value='2'>Acorn</option>
+	<option value='3'>Gliders</option>
+	<option value='4'>Pentadecathlon</option>
+	<option value='5'>Heart</option>
+	<option value='6'>Ring</option>
+</select>
+</span>
+</p>
+
+<!-- ![1+]! -->
+<canvas id="Canvas" width="1000" height="1000" style="border:3px solid #d3d3d3;">
+Your browser does not support the HTML5 canvas tag.</canvas>
+
+<!-- _______________________________________________________________ -->
+<script>
+var c = document.getElementById("Canvas");
+ctx = c.getContext("2d");
+
+const Mmax = 50;
+const Nmax = Mmax-1;
+const dx = 20;
+var Timer;
+var Pattern = 0;
+
+var S = [];
+S[0] = [];
+S[1] = [];
+var Nstp = 0;
+
+function RandomInit() {
+	//fillfac  = document.getElementById("fillfac").value;
+	//alert(fillfac);
+	fillfac = 0.2;
+	for (let m=0; m<Mmax; m++) {
+		let R = [];
+		let Z = [];
+		for (let n=0; n<Mmax; n++) {
+			let r = Math.random();
+			if ( r < fillfac ) {
+				R[n] = true;
+			} else {
+				R[n] = false;
+			}
+			Z[n] = false;
+		}
+		S[0][m] = R;
+		S[1][m] = Z;
+	}
+}
+
+function Draw() {
+	nxt = Nstp%2;
+	//alert('Drawing: ' + nxt);
+	ctx.clearRect(0, 0, Mmax*dx, Mmax*dx);
+	for ( let m=0; m<Mmax; m++ ) {
+		for ( let n=0; n<Mmax; n++ ) {
+			if ( S[nxt][m][n] == true ) {
+				ctx.fillStyle = 'black';
+				ctx.fillRect(m*dx, n*dx, dx, dx);
+			}
+		}
+	}
+	//document.getElementById("button").innerHTML = '<button type="button" onclick="Step()">Step</button>';
+	Step();
+}
+
+function Step() {
+	cur = Nstp%2;
+	Nstp += 1;
+	nxt = Nstp%2;
+	//alert('cur: ' + cur + ' nxt: ' + nxt);
+	document.getElementById("Nstp").innerHTML = Nstp;
+	for ( let m=0; m<Mmax; m++ ) {
+		for ( let n=0; n<Mmax; n++ ) {
+
+			let mm = m-1;
+			if ( mm < 0 ) { mm = Nmax }
+			let mp = (m+1)%Mmax;
+
+			let nm = n-1;
+			if ( nm < 0 ) { nm = Nmax }
+			let np = (n+1)%Mmax;
+
+			let sum = 0;
+			if ( S[cur][mm][nm] === true ) { sum += 1 };
+			if ( S[cur][mm][n]  === true ) { sum += 1 };
+			if ( S[cur][mm][np] === true ) { sum += 1 };
+			if ( S[cur][m][nm]  === true ) { sum += 1 };
+			if ( S[cur][m][np]  === true ) { sum += 1 };
+			if ( S[cur][mp][nm] === true ) { sum += 1 };
+			if ( S[cur][mp][n]  === true ) { sum += 1 };
+			if ( S[cur][mp][np] === true ) { sum += 1 };
+			if ( sum < 2 || sum > 3 ) {
+				S[nxt][m][n] = false;
+			} else if ( S[cur][m][n] === true || sum == 3 ) {
+				S[nxt][m][n] = true;
+			} else {
+				S[nxt][m][n] = false;
+			}
+			if ( S[nxt][m][n] === true ) {
+				ctx.fillStyle = 'red';
+				ctx.fillRect(m*dx+5, n*dx+5, dx-10, dx-10);
+			}
+			//alert('('+m+','+n+') S='+sum+'['+S[cur][m][n]+'>'+S[nxt][m][n]+']');
+		}
+	}
+	//document.getElementById("button").innerHTML = '<button type="button" onclick="Draw()">Draw</button>'
+	//Draw();
+}
+
+function Animate() {
+	NewButton = "<button type='button' onclick='Stop()'>Stop</button>"
+	document.getElementById("button").innerHTML = NewButton;
+	Timer = setInterval(Draw,300);
+}
+
+function Stop() {
+	NewButton = "<button type='button' onclick='Animate()'>Animate</button> <button type='button' onclick='Draw()'>Step</button>";
+	document.getElementById("button").innerHTML = NewButton;
+	clearInterval(Timer);
+}
+
+function InsertGliderGun( xo, yo ) {
+	let bx = [
+		[ 1, 5],[ 1, 6],
+		[ 2, 5],[ 2, 6],
+		[11, 5],[11, 6],[11, 7],
+		[12, 4],[12, 8],
+		[13, 3],[13, 9],
+		[14, 3],[14, 9],
+		[15, 6],
+		[16, 4],[16, 8],
+		[17, 5],[17, 6],[17, 7],
+		[18, 6],
+		[21, 3],[21, 4],[21, 5],
+		[22, 3],[22, 4],[22, 5],
+		[23, 2],[23, 6],
+		[25, 1],[25, 2],[25, 6],[25, 7],
+		[35, 3],[35, 4],
+		[36, 3],[36, 4]
+	];
+	Insert( xo, yo, bx );
+}
+
+function InsertAcorn( xo, yo ) {
+	let bx = [
+		[ 1, 3],
+		[ 2, 1],[ 2, 3],
+		[ 4, 2],
+		[ 5, 3],
+		[ 6, 3],
+		[ 7, 3]
+	];
+	Insert( xo, yo, bx );
+}
+
+function InsertPentadecathlon( xo, yo ) {
+	let bx = [
+		[ 0, 0],[ 0, 1,],[ 0, 2],[ 0, 3],[ 0, 4],[ 0, 5],[ 0, 6],[ 0, 7],
+		[ 1, 0],         [ 1, 2],[ 1, 3],[ 1, 4],[ 1, 5],        [ 1, 7],
+		[ 2, 0],[ 2, 1,],[ 2, 2],[ 2, 3],[ 2, 4],[ 2, 5],[ 2, 6],[ 2, 7]
+	];
+	Insert( xo, yo, bx );}
+
+function InsertLGlider( xo, yo ) {
+	let bx = [
+		[ 0, 0],
+		[ 1, 1],[ 1, 2],
+		[ 2, 0],[ 2, 1]
+	];
+	Insert( xo, yo, bx );
+}
+
+function InsertRGlider( xo, yo ) {
+	let bx = [
+		[ 2, 0],
+		[ 1, 1],[ 1, 2],
+		[ 0, 0],[ 0, 1]
+	];
+	Insert( xo, yo, bx );
+}
+
+function InsertHeart( xo, yo ) {
+	let bx = [
+		[ 0, 1],[ 0, 2],
+		[ 1, 1],[ 1, 2],
+		[ 2, 3],
+		[ 3, 1],[ 3, 2],
+		[ 4, 1],[ 4, 2]
+	];
+	Insert( xo, yo, bx );
+}
+
+function InsertRing( xo, yo ) {
+	let bx = [
+		[ 0, 2],[ 0, 3],[ 0, 4],
+		[ 1, 1],[ 1, 5],
+		[ 2, 0],[ 2, 6],
+		[ 3, 1],[ 3, 5],
+		[ 4, 2],[ 4, 3],[ 4, 4]
+	];
+	Insert( xo, yo, bx );
+}
+
+function Insert( xo, yo, bx ) {
+	for ( let j=0; j<bx.length; j++ ) {
+		let x = (bx[j][0]+xo)%Mmax;
+		let y = (bx[j][1]+yo)%Mmax;
+		S[0][x][y] = true;
+	}
+}
+function SelectPattern() {
+	for (let m=0; m<Mmax; m++) {
+		let R = [];
+		let Z = [];
+		for (let n=0; n<Mmax; n++) {
+			R[n] = false;
+			Z[n] = false;
+		}
+		S[0][m] = R;
+		S[1][m] = Z;
+	}
+	Pattern = document.getElementById("Pattern").value
+	if ( Pattern == 0 ) {
+		RandomInit();
+	} else if (Pattern == 1 ) {
+		InsertGliderGun( 5, 18);
+	} else if (Pattern == 2 ) {
+		InsertAcorn( 20, 20);
+	} else if (Pattern == 3 ) {
+		InsertLGlider( 10, 20);
+		InsertRGlider( 40, 20);
+	} else if (Pattern == 4) {
+		InsertPentadecathlon(  7,  9);
+		InsertPentadecathlon( 39,  9);
+		InsertPentadecathlon( 22, 32);
+	} else if (Pattern == 5) {
+		InsertHeart(  22, 23);
+	} else if (Pattern == 6) {
+		InsertRing(  22, 21);
+	}
+
+	Draw();
+	NewButton = "<button type='button' onclick='Animate()'>Animate</button> <button type='button' onclick='Draw()'>Step</button>";
+	document.getElementById("button").innerHTML = NewButton;
+}
+</script>
+
+</body>
+</html>

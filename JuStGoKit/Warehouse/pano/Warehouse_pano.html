@@ -1,0 +1,296 @@
+<!-- ![10]! -->
+<!-- ![0+]! -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+  <title>Warehouse$STREAM$</title>
+<!-- _______________________________________________________________ -->
+  <style>
+/* ![2+]! */
+table {
+ padding:      0px 0px 0px 0px;
+ margin:       0px 0px 0px 20pt;
+ font-family:  "Courier New";
+ font-weight:  bold;
+ font-size:    18pt;
+ border-collapse: collapse;
+ border:       1px solid black;
+}
+td {
+ padding:      4px 4px 4px 4px;
+ margin:       0px 0px 0px 0px;
+ border-collapse: collapse;
+ border:       1px solid black;
+ height:       2em;
+ width:        2em;
+ text-align:   center;
+}
+.wall   { background-color: black; }
+.spot   { background-color: green; }
+.empty  { background-color: white; }
+/* ![0+]! */
+  </style>
+
+<!-- _______________________________________________________________ -->
+  <script>
+// ![1+]!
+// Declare global variables
+var nc  = 0; var nr = 0;
+// ![4+]!
+var y   = [0,0]; //Coordinates of "You"
+// ![7+]!
+var nstep = -1;  //Number of steps taken
+// ![8+]!
+var lvl = 0;     //Level
+var warehouse = [
+ {'nc':8, 'nr':6, 'wh':
+ ['Y       ',
+  '  # # # ',
+  ' #w w w ',
+  '    wXwX',
+  '    wXw$',
+  '       X'
+ ]},
+ {'nc':7, 'nr':7, 'wh':
+ ['Y  w   ',
+  ' ##w ww',
+  ' # w wX',
+  'ww wwwX',
+  'ww    X',
+  'w   w  ',
+  'w   www',
+ ]},
+ {'nc':4, 'nr':6, 'wh':
+ ['w  w',
+  'Y# w',
+  'w# w',
+  'w # ',
+  'X#  ',
+  'XX$X'
+ ]},
+ {'nc':8, 'nr':5, 'wh':
+ ['w     ww',
+  'w#www   ',
+  ' Y #  # ',
+  ' XXw # w',
+  'wXXw   w'
+ ]}
+];
+// ![1+]!
+
+function BuildWarehouse() {
+/* ![1-7]!
+ nc = 8;
+ nr = 6;
+ wh = ['Y       ',
+       '  # # # ',
+       ' #w w w ',
+       '    wXwX',
+       '    wXw$',
+       '       X']
+// ![8+]! */
+ nstep = -1; //Reset counter for next level
+ let lvlstr = document.getElementById("getLvl").value;
+ lvl = parseInt(lvlstr);
+ nc = warehouse[lvl].nc;
+ nr = warehouse[lvl].nr;
+// ![1+]!
+
+ let tbl = '<table>\n';
+ for (let ir=0; ir<nr; ir++ ) {
+  tbl += '<tr>\n';
+  /* ![1-7]!
+  let row = wh[ir]
+  // ![8+]! */
+  let row = warehouse[lvl].wh[ir]
+  // ![1+]!
+  for (let ic=0; ic<nc; ic++ ) {
+   let cell = row[ic];
+   // ![3+]!
+   let idstr = ic + '-' + ir;
+   // ![2+]!
+   let cls  = 'empty';
+
+   if (cell === 'w') {
+    cls = 'wall';
+   } else if (cell === 'X') {
+    cls = 'spot';
+    cell = ' ';
+   } else if (cell === '$') {
+    cls = 'spot';
+    cell = '#';
+    // ![4+]!
+   } else if (cell === 'Y') {
+    y = [ic,ir];
+   // ![2+]!
+   }
+   /* ![1]!
+   tbl += '<td>' + cell + '</td>';
+   // ![2]!
+   tbl += '<td class="' + cls + '">' + cell + '</td>';
+   // ![3+]! */
+   tbl += '<td id="' + idstr + '" class="' + cls + '" onclick="Move(' + ic + ',' + ir +')">' + cell + '</td>';
+   // ![1+]!
+  }
+  tbl += '</tr>\n';
+ } 
+ tbl += '</table>';
+ // alert('!>' + tbl + '<');
+ document.getElementById('warehouse').innerHTML = tbl;
+// ![7+]!
+ Counter();
+ // ![1+]!
+}
+
+/* ![3]!
+function Move(ic,ir) {
+	alert('Cell is: ' + ic + ' and row is: ' + ir)
+}
+// ![4+]! */
+function Move(ic,ir) {
+ let idstr = ic + '-' + ir;
+ let youstr = y[0] + '-' + y[1];
+ cell = document.getElementById(idstr).innerHTML;
+ oneStep = Math.abs((ic-y[0]) + (ir-y[1]));
+ if ( oneStep === 1 ) {
+  // ![5+]!
+  if (cell == ' ' || cell == 'X') {
+  // ![4+]!
+   document.getElementById(youstr).innerHTML = ' ';
+   document.getElementById(idstr ).innerHTML = 'Y';
+   y = [ic, ir];
+  // ![5+]! */
+  } else if (cell == 'w') {
+   alert("Watch out - don't run into the wall!");
+  } else if (cell == '#') {
+  /* ![5]!
+   alert("Watch out - don't run into the pallet!");
+   // ![6+]! */
+   let nextic = ic + (ic-y[0]);
+   let nextir = ir + (ir-y[1]);
+   /* ![6]!
+   alert('Next cell for the pallet is: (' + nextic + ',' + nextir + ')')
+   // ![6+]! */
+   if ( (nextic == -1) || (nextic == nc) || (nextir == -1) || (nextir == nr)) {
+    alert("Watch out - don't push the pallet off the warehouse!");
+   } else {
+    let pushtocell = document.getElementById(nextic + '-' + nextir).innerHTML;
+    let ptc_class  = document.getElementById(nextic + '-' + nextir).className;
+    // alert('!>' + ptc_class + '<');
+    let canIpush = false;
+    if (pushtocell === 'w')  {
+     alert("Watch out - don't push the pallet into the wall!");
+    } else if (pushtocell === '#')  {
+     alert('You are strong, but you can still only push one pallet at a time!');
+    } else {
+     document.getElementById(youstr ).innerHTML = ' ';
+     document.getElementById(idstr  ).innerHTML = 'Y';
+     y = [ic, ir];
+     let nextstr = nextic + '-' + nextir;
+     document.getElementById(nextstr).innerHTML = '#';
+    }
+   }
+  // ![5+]!
+  }
+  // ![4+]!
+ } else {
+  alert('... not so fast, I can go only one step at a time!');
+ }
+ // ![7+]!
+ Counter();
+ // ![4+]!
+}
+
+// ![7+]!
+function Counter() {
+ nstep++;
+ let np  = 0;     //Number of pallets
+ let nx  = 0;     //Number of places for the pallets
+ let px  = 0;     //Number of correctly places pallets
+ for (let ir=0; ir<nr; ir++ ) {
+  for (let ic=0; ic<nc; ic++ ) {
+   let idstr = ic + '-' + ir;
+   let cell = document.getElementById(idstr).innerHTML;
+   let cls  = document.getElementById(idstr).className;
+   if ( cell === '#' ) {
+    np++;
+    if ( cls === 'spot' ) { px++; }
+   }
+   if (cls === 'spot') { nx++; }
+  }
+ }
+ if ( np > nx ) { 
+  alert('ERROR: More pallets than places for them!') 
+ } else if ( np < nx ) { 
+  alert('ERROR: Less pallets than places for them!') 
+ }
+ counter = 'Number of Steps: ' + nstep + '<br>Pallets placed: ' + px + ' of ' + np + '.';
+ document.getElementById('counter').innerHTML = counter;
+ if ( px == np ) { alert('Congratulations! You placed all pallets!'); }
+}
+ // ![8+]!
+ 
+function showLvlSelector() {
+ let nLvl = warehouse.length;
+ let selector = '<select id="getLvl" onchange="BuildWarehouse()">\n';
+  for (let iLvl=0; iLvl<nLvl; iLvl++ ) {
+   selector += '<option value= "' + iLvl + '">'  + iLvl + '</option>\n'; 
+  }
+  selector += '</select>\n';
+  document.getElementById('lvl').innerHTML = selector; 
+}
+
+function firstView() {
+ showLvlSelector()
+ BuildWarehouse()
+}
+// ![0+]!
+  </script>
+ </head>
+<!-- _______________________________________________________________ -->
+<!-- ![0]!
+<body>
+<!-- ![1-7]!
+<body onload="BuildWarehouse()">
+<!-- ![8+]! -->
+<body onload="firstView()">
+<!-- ![0+]! -->
+<h1>Shove it! The Warehouse Game</h1>
+
+<!-- ![9]! -->
+<details><summary>The Back Story</summary>
+<p><em>Finally</em> - The pallets with the Christmas toys arrived! Three months late, but just in time for the Holiday retail season.</p>
+<p>The pallets got stuck in a container ship at the Suez canal after the Evergreen container ship blocked the passage for over a week, and then all ships rushed through the channel and arrived all at the same time for the Port of Oakland, just to face a super long wait to get unloaded ... but luckily they arrived now.</p>
+
+<p>Well, that's for the good news.</p>
+
+<p>... the not so good news is that when the truck arrived it was in the middle of the night, so no one was there when they unloaded, and - guess what - they put the pallets anywhere they found space - what can I say... in all the wrong places. I guess, they where in a rush, so can't blame'em too much. Anyway, now it is your job to move the pallets in the <em>right</em> spots (the one marked with "X").</p>
+
+<p>Now that does not sound so bad - but wait, it gets worst: Your colleagues called in sick today (- let's wish them a speedy recovery!), and the forklift is still broken - I bet the spare part is stuck in another container ship waiting to be unloaded at the Port of Oakland (sigh).</p>
+
+<p>And this means it is just <em>you</em>. Now, you are pretty strong alright, but even you can do only so much and these pallets are heavy I tell you!</p>
+
+<p>To be precise, you can push them only straight forward, and only one at a time. You can't pull them and you can't move them sideways.</p>
+
+<p>Can you get the job done? ... and how many moves does it take you?</p>
+</details>
+
+<details><summary>How to play</summary>
+
+<p>Guide the warehouse worker ("Y"), who needs to push (!) the pallets ("#") onto the green spots. It is a long work day, so try to use as few steps as you can.</p>
+
+<p>You can move the warehouse worker by clicking on any adjacent field. If a pallet is in this field (... and the field in front of the pallet is free), it moves with the worker. Walls are shown in black. If you try a move that does not work, nothing happens, but it still gets counted - so watch out.</p>
+</details>
+<!-- ![8+]! -->
+<div>Select level: <span id='lvl'>Level Selector goes here ... </span></div>
+<!-- ![1+]! -->
+<div id='warehouse'> Warehouse goes here... </div>
+<!-- ![7+]! -->
+<div id='counter'> Counter goes here ... </div>
+<!-- ![0+]! -->
+
+</body>
+<!-- _______________________________________________________________ -->
+</html>
+

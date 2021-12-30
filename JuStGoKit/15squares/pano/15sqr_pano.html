@@ -1,4 +1,5 @@
-![6]!
+<!-- ![7]! -->
+<!-- ![0+]! --> 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +7,7 @@
  <title>15sqr/$STREAM$</title>
 <!-- _______________________________________________________________ -->
 <style>
-/* ![style:2+]! */
+/* ![2+]! */
 h1 {
  font-family: "Helvetica";
  font-size:    18pt;
@@ -32,21 +33,21 @@ td {
  border:       1px solid black;
 }
 
-/* ![free:3+]! */
+/* ![3+]! */
 .free {
  background-color: lightgray;
  color: lightgray;
 }
-/* ![/free,/style]! */
+/* ![0+]! */
 </style>
 
 <!-- _______________________________________________________________ -->
 <script>
-// ![script:4+]!
+// ![4+]!
 // Global Variables
-// ![counter:6+]!
+// ![6+]!
 let iter=0;
-// ![/counter]!
+// ![4+]!
 
 let st= [];
  st[1] = [2,5];         st[2] = [1,3,6];
@@ -58,52 +59,52 @@ st[11] = [7,10,12,15]; st[12] = [16,11,8];
 st[13] = [9,14];       st[14] = [10,13,15]; 
 st[15] = [11,14,16];   st[16] = [12,15];
 
-function move(id) {
+function Move(id) {
  let cval = document.getElementById(id.toString()).innerHTML;
  for ( let jj=0; jj<st[id].length; jj++ ) {
   let cc = st[id][jj];
   let cv = document.getElementById(cc.toString()).innerHTML;
   if ( cv === "0" ) {
-// ![counter:6+]!
+// ![6+]!
    iter++;
-// ![/counter]!
+// ![4+]!
    document.getElementById(cc.toString()).innerHTML = cval;
    document.getElementById(cc.toString()).setAttribute("class","full");
    document.getElementById(id.toString()).innerHTML = "0";
    document.getElementById(id.toString()).setAttribute("class","free");
   }
  }
-// ![counter:6+]!
+// ![6+]!
  document.getElementById("ITER").innerHTML = "Number of Moves: " + iter;
-// ![/counter]!
+// ![4+]!
 }
 
-// ![random:5+]!
+// ![5+]!
 function randomizeGame() {
  let z = 16;
  for ( let j=0; j<800; j++ ) {
   let i = Math.floor(Math.random() * st[z].length);
   let nxtPosition = st[z][i]
-  move(nxtPosition);
+  Move(nxtPosition);
   z = nxtPosition;
  }
-// ![counter:6+]! 
+// ![6+]! 
  iter = 0;
  document.getElementById("ITER").innerHTML = "Number of Moves: 0";
-// ![/counter]!
+// ![5+]!
 }
-// ![/random,/script]!
+// ![0+]!
 </script>
 </head>
 <!-- _______________________________________________________________ -->
-<!-- ![bodyini:0-4]! -->
+<!-- ![0-4]! 
 <body>
-<!-- ![/bodyini,bodyfin:5+]! -->
+<!-- ![5+]! -->
 <body onload="randomizeGame()">
-<!-- ![/bodyfin]! -->
+<!-- ![0+]! -->
 <h1>15 Squares Puzzle Game</h1>
 
-<!-- ![tblini:1,2]! -->
+<!-- ![1,2]!
 <table>
 <tr>
   <td>1</td>
@@ -130,36 +131,36 @@ function randomizeGame() {
   <td>0</td>
 </tr>
 </table>
-<!-- ![/tblini,tblfin:3+]! -->
+<!-- ![3+]! -->
 <table>
 <tr>
-  <td id= "1" onclick='move( 1)' class="full">1</td>
-  <td id= "2" onclick='move( 2)' class="full">2</td>
-  <td id= "3" onclick='move( 3)' class="full">3</td>
-  <td id= "4" onclick='move( 4)' class="full">4</td>
+  <td id= "1" onclick='Move( 1)' class="full">1</td>
+  <td id= "2" onclick='Move( 2)' class="full">2</td>
+  <td id= "3" onclick='Move( 3)' class="full">3</td>
+  <td id= "4" onclick='Move( 4)' class="full">4</td>
 </tr>
 <tr>
-  <td id= "5" onclick='move( 5)' class="full">5</td>
-  <td id= "6" onclick='move( 6)' class="full">6</td>
-  <td id= "7" onclick='move( 7)' class="full">7</td>
-  <td id= "8" onclick='move( 8)' class="full">8</td>
+  <td id= "5" onclick='Move( 5)' class="full">5</td>
+  <td id= "6" onclick='Move( 6)' class="full">6</td>
+  <td id= "7" onclick='Move( 7)' class="full">7</td>
+  <td id= "8" onclick='Move( 8)' class="full">8</td>
 </tr>
 <tr>
-  <td id= "9" onclick='move( 9)' class="full">9</td>
-  <td id="10" onclick='move(10)' class="full">10</td>
-  <td id="11" onclick='move(11)' class="full">11</td>
-  <td id="12" onclick='move(12)' class="full">12</td>
+  <td id= "9" onclick='Move( 9)' class="full">9</td>
+  <td id="10" onclick='Move(10)' class="full">10</td>
+  <td id="11" onclick='Move(11)' class="full">11</td>
+  <td id="12" onclick='Move(12)' class="full">12</td>
 </tr>
 <tr>
-  <td id="13" onclick='move(13)' class="full">13</td>
-  <td id="14" onclick='move(14)' class="full">14</td>
-  <td id="15" onclick='move(15)' class="full">15</td>
-  <td id="16" onclick='move(16)' class="free">0</td>
+  <td id="13" onclick='Move(13)' class="full">13</td>
+  <td id="14" onclick='Move(14)' class="full">14</td>
+  <td id="15" onclick='Move(15)' class="full">15</td>
+  <td id="16" onclick='Move(16)' class="free">0</td>
 </tr>
 </table>
-<!-- ![/tblfin,counter:6+]! -->
+<!-- ![6+]! -->
 <p id="ITER"></p>
-<!-- ![/counter]! -->
+<!-- ![0+]! -->
 
 </body>
 <!-- _______________________________________________________________ -->

@@ -41,14 +41,22 @@ h4 {
 p {
  margin-left:  10pt;
  margin-right: 10pt; }
+ 
 pre {
- margin-left:  60pt; }
+ margin:        5pt 40pt 5pt 40pt;
+ padding:      10pt;
+ border-width:  4px;
+ border-radius: 10px;
+ border-color: black;
+ border-style: dotted;
+ background-color: #ccccee;}
 
 ol, ul {
  margin-left:  5pt; }
 
 code {
- font-weight:  bold; }
+ font-weight:  bold;}
+
 table {
  margin-left:  50pt; }
 th {
@@ -88,7 +96,9 @@ a.bghig { color: navy; }
 	background-color: #0080ff; }
 .gray  { color: gray; }
 .small { font-size: 8pt;}
-
+.new   { 
+ color: brown; 
+ font-weight:  bold;}
 .txt {
  border-style: solid;
  border-width:  2px;

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+  <title>Warehouse/4</title>
+<!-- _______________________________________________________________ -->
+  <style>
+table {
+ padding:      0px 0px 0px 0px;
+ margin:       0px 0px 0px 20pt;
+ font-family:  "Courier New";
+ font-weight:  bold;
+ font-size:    18pt;
+ border-collapse: collapse;
+ border:       1px solid black;
+}
+td {
+ padding:      4px 4px 4px 4px;
+ margin:       0px 0px 0px 0px;
+ border-collapse: collapse;
+ border:       1px solid black;
+ height:       2em;
+ width:        2em;
+ text-align:   center;
+}
+.wall   { background-color: black; }
+.spot   { background-color: green; }
+.empty  { background-color: white; }
+  </style>
+
+<!-- _______________________________________________________________ -->
+  <script>
+// Declare global variables
+var nc  = 0; var nr = 0;
+var y   = [0,0]; //Coordinates of "You"
+
+function BuildWarehouse() {
+ nc = 8;
+ nr = 6;
+ wh = ['Y       ',
+       '  # # # ',
+       ' #w w w ',
+       '    wXwX',
+       '    wXw$',
+       '       X']
+
+ let tbl = '<table>\n';
+ for (let ir=0; ir<nr; ir++ ) {
+  tbl += '<tr>\n';
+  let row = wh[ir]
+  for (let ic=0; ic<nc; ic++ ) {
+   let cell = row[ic];
+   let idstr = ic + '-' + ir;
+   let cls  = 'empty';
+
+   if (cell === 'w') {
+    cls = 'wall';
+   } else if (cell === 'X') {
+    cls = 'spot';
+    cell = ' ';
+   } else if (cell === '$') {
+    cls = 'spot';
+    cell = '#';
+   } else if (cell === 'Y') {
+    y = [ic,ir];
+   }
+   tbl += '<td id="' + idstr + '" class="' + cls + '" onclick="Move(' + ic + ',' + ir +')">' + cell + '</td>';
+  }
+  tbl += '</tr>\n';
+ } 
+ tbl += '</table>';
+ // alert('!>' + tbl + '<');
+ document.getElementById('warehouse').innerHTML = tbl;
+}
+
+function Move(ic,ir) {
+ let idstr = ic + '-' + ir;
+ let youstr = y[0] + '-' + y[1];
+ cell = document.getElementById(idstr).innerHTML;
+ oneStep = Math.abs((ic-y[0]) + (ir-y[1]));
+ if ( oneStep === 1 ) {
+   document.getElementById(youstr).innerHTML = ' ';
+   document.getElementById(idstr ).innerHTML = 'Y';
+   y = [ic, ir];
+ } else {
+  alert('... not so fast, I can go only one step at a time!');
+ }
+}
+
+  </script>
+ </head>
+<!-- _______________________________________________________________ -->
+<body onload="BuildWarehouse()">
+<h1>Shove it! The Warehouse Game</h1>
+
+<div id='warehouse'> Warehouse goes here... </div>
+
+</body>
+<!-- _______________________________________________________________ -->
+</html>
+

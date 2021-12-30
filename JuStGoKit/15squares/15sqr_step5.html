@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
  <meta charset="UTF-8">
- <title>15sqr/5</title>
+ <title>15sqr//5</title>
 <!-- _______________________________________________________________ -->
 <style>
 h1 {
@@ -50,7 +50,7 @@ st[11] = [7,10,12,15]; st[12] = [16,11,8];
 st[13] = [9,14];       st[14] = [10,13,15]; 
 st[15] = [11,14,16];   st[16] = [12,15];
 
-function move(id) {
+function Move(id) {
  let cval = document.getElementById(id.toString()).innerHTML;
  for ( let jj=0; jj<st[id].length; jj++ ) {
   let cc = st[id][jj];
@@ -69,7 +69,7 @@ function randomizeGame() {
  for ( let j=0; j<800; j++ ) {
   let i = Math.floor(Math.random() * st[z].length);
   let nxtPosition = st[z][i]
-  move(nxtPosition);
+  Move(nxtPosition);
   z = nxtPosition;
  }
 }
@@ -81,30 +81,31 @@ function randomizeGame() {
 
 <table>
 <tr>
-  <td id= "1" onclick='move( 1)' class="full">1</td>
-  <td id= "2" onclick='move( 2)' class="full">2</td>
-  <td id= "3" onclick='move( 3)' class="full">3</td>
-  <td id= "4" onclick='move( 4)' class="full">4</td>
+  <td id= "1" onclick='Move( 1)' class="full">1</td>
+  <td id= "2" onclick='Move( 2)' class="full">2</td>
+  <td id= "3" onclick='Move( 3)' class="full">3</td>
+  <td id= "4" onclick='Move( 4)' class="full">4</td>
 </tr>
 <tr>
-  <td id= "5" onclick='move( 5)' class="full">5</td>
-  <td id= "6" onclick='move( 6)' class="full">6</td>
-  <td id= "7" onclick='move( 7)' class="full">7</td>
-  <td id= "8" onclick='move( 8)' class="full">8</td>
+  <td id= "5" onclick='Move( 5)' class="full">5</td>
+  <td id= "6" onclick='Move( 6)' class="full">6</td>
+  <td id= "7" onclick='Move( 7)' class="full">7</td>
+  <td id= "8" onclick='Move( 8)' class="full">8</td>
 </tr>
 <tr>
-  <td id= "9" onclick='move( 9)' class="full">9</td>
-  <td id="10" onclick='move(10)' class="full">10</td>
-  <td id="11" onclick='move(11)' class="full">11</td>
-  <td id="12" onclick='move(12)' class="full">12</td>
+  <td id= "9" onclick='Move( 9)' class="full">9</td>
+  <td id="10" onclick='Move(10)' class="full">10</td>
+  <td id="11" onclick='Move(11)' class="full">11</td>
+  <td id="12" onclick='Move(12)' class="full">12</td>
 </tr>
 <tr>
-  <td id="13" onclick='move(13)' class="full">13</td>
-  <td id="14" onclick='move(14)' class="full">14</td>
-  <td id="15" onclick='move(15)' class="full">15</td>
-  <td id="16" onclick='move(16)' class="free">0</td>
+  <td id="13" onclick='Move(13)' class="full">13</td>
+  <td id="14" onclick='Move(14)' class="full">14</td>
+  <td id="15" onclick='Move(15)' class="full">15</td>
+  <td id="16" onclick='Move(16)' class="free">0</td>
 </tr>
 </table>
+
 </body>
 <!-- _______________________________________________________________ -->
 </html>

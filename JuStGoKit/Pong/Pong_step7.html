@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <meta charset="utf-8"/>
+ <title>Pong/7</title>
+<!-- _______________________________________________________________ -->
+<style>
+h1 {
+ font-family: "Helvetica";
+ font-size:    18pt;
+ margin-left:  10pt;
+ color:        navy; }
+
+canvas {
+ margin-left: 50px;
+ border:3px solid #d3d3d3;
+}
+#scoretable table {
+ margin-left:  492px;
+ padding:      0px;
+ border-collapse: collapse;
+ border:       1px solid black;
+}
+
+#scoretable th {
+ font-family:  "Helvetica";
+ font-size:    14px;
+ padding:      4px;
+ margin:       0px;
+ border-collapse: collapse;
+ border:       1px solid black;
+}
+
+#scoretable td {
+ text-align:   center;
+ width:        50px;
+ font-family:  "Courier New";
+ font-size:    16px;
+ padding:      4px;
+ margin:       0px;
+ border-collapse: collapse;
+ border:       1px solid black;
+}
+
+details table {
+ margin-left:  20px;
+ padding:      0px;
+ border-collapse: collapse;
+ border:       1px solid black;
+}
+
+details th {
+ font-family:  "Helvetica";
+ font-size:    12px;
+ padding:      4px;
+ margin:       0px;
+ border-collapse: collapse;
+ border:       1px solid black;
+}
+
+details td {
+ text-align:   left;
+ font-family:  "Helvetica";
+ font-size:    12px;
+ padding:      4px;
+ margin:       0px;
+ border-collapse: collapse;
+ border:       1px solid black;
+}
+
+.key {
+ text-align:   center;
+}
+</style>
+</head>
+
+<!-- _______________________________________________________________ -->
+<body onload="Move()">
+<h1>Pong/Squash</h1>
+<p>Press the spacebar to get the ball rolling... and again to stop it.</p>
+<p>Use the arrow keys to control the paddle.</p>
+<canvas id="Canvas" width="1000" height="600">
+Your browser does not support the HTML5 canvas tag.</canvas>
+
+<!-- _______________________________________________________________ -->
+<script>
+var c = document.getElementById("Canvas");
+var ctx = c.getContext("2d");
+var W = c.width ; var H = c.height;
+var x  = W/2; var y  = H/2;
+var ball_radius = 10;
+
+var vx = 2; var vy =   0;
+var dt = 1;
+let running = false;
+var lastEvent = '';
+var pad2 = 100;
+var dvpad = 1;
+var Speed = 1;
+var right  = H/2; var vright = 0;
+var R  = 200;
+var cos = 1.0*pad2/R;
+var offset = R * Math.sqrt(1.0-cos*cos);
+
+function Move() {
+ ctx.clearRect(0, 0, W, H)
+ x += dt*vx; y += dt*vy
+
+ ctx.beginPath()
+ ctx.arc(x, y, ball_radius, 0, 2*Math.PI);
+ ctx.fillStyle = "red";
+ ctx.fill();
+ ctx.stroke();
+
+ right+= vright;
+ if ( right < 0 || right > H ) { vright = 0 }
+ ctx.beginPath()
+ ctx.arc(W+offset, right, R, 0, 2*Math.PI);
+ ctx.fillStyle = "lightgray";
+ ctx.fill();
+ ctx.stroke();
+ ctx.fillStyle = "black";
+ ctx.fillRect(W-20, right-pad2, 10, 2*pad2);
+
+ if ( y < ball_radius ) {
+  if ( lastEvent != 'top wall' ) {
+   // Simple bounce of top wall.
+   vy = -1*vy
+   lastEvent = 'top wall';
+  }
+ } else if ( y > H - ball_radius ) {
+  if ( lastEvent != 'bottom wall' ) {
+  // Simple bounce of top and bottom walls.
+   vy = -1*vy
+   lastEvent = 'bottom wall';
+  }
+ } else if ( x < ball_radius ) {
+  if ( lastEvent != 'left wall' ) {
+   vx = -1*vx
+   lastEvent = 'left wall';
+  }
+ } else if ( x > W - ball_radius ) {
+  if ( lastEvent != 'right wall' ) {
+   // Simple bounce of right wall.
+   vx = -1*vx
+   lastEvent = 'right wall';
+  }
+ } else if ( x > W-20-ball_radius && y >= right-pad2-ball_radius && y <= right+pad2+ball_radius ) {
+  if ( lastEvent != 'right paddle' ) {
+   // Bounce of rounded right paddle.
+   let dh = y-right;
+   let s = dh/R;
+   let c = Math.sqrt(1.0-s*s);
+   let c2s2 = c*c-s*s
+   let cs2  = 2*c*s
+   vx_new = -vx*c2s2 - vy*cs2;
+   vy_new = -vy*c2s2 + vx*cs2;
+   vx = vx_new; vy = vy_new
+   lastEvent = 'right paddle';
+  }
+ }
+}
+
+function StartStop() {
+ if ( running ) {
+  running = false;
+  clearInterval(Timer);
+ } else {
+  running = true;
+  Timer = setInterval(Move,10);
+ }
+}
+
+// Defining Key Short-Cuts
+window.addEventListener('keydown', function (e) {
+ let k = e.key;
+ //alert('>'+k+'<');
+ if (k == ' ') {
+  // alert('Space');
+  StartStop();
+ }
+ if (k == 'm') {
+  //alert('M-ove');
+  Move()
+ }
+ if (k == 'ArrowUp') {
+  //alert('Up');
+  vright -= dvpad;
+ }
+ if (k == 'ArrowDown') {
+  // alert('Down');
+  vright += dvpad;
+ }
+ if (k == 'ArrowLeft') {
+  // alert('Left-Stop');
+  vright = 0;
+ }
+ if (k == 'ArrowRight') {
+  // alert('Right-Reset');
+  vright = 0;
+   right = H/2;
+ }
+ if (k == '+') {
+  // alert('+');
+  vx *= 1.4 ; vy *= 1.4; Speed *= 1.4;
+ }
+ if (k == '-') {
+  // alert('-');
+  vx /= 1.4 ; vy /= 1.4; Speed /= 1.4;
+ }
+})
+</script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+  <title>Warehouse/1</title>
+<!-- _______________________________________________________________ -->
+  <style>
+  </style>
+
+<!-- _______________________________________________________________ -->
+  <script>
+// Declare global variables
+var nc  = 0; var nr = 0;
+
+function BuildWarehouse() {
+ nc = 8;
+ nr = 6;
+ wh = ['Y       ',
+       '  # # # ',
+       ' #w w w ',
+       '    wXwX',
+       '    wXw$',
+       '       X']
+
+ let tbl = '<table>\n';
+ for (let ir=0; ir<nr; ir++ ) {
+  tbl += '<tr>\n';
+  let row = wh[ir]
+  for (let ic=0; ic<nc; ic++ ) {
+   let cell = row[ic];
+   tbl += '<td>' + cell + '</td>';
+  }
+  tbl += '</tr>\n';
+ } 
+ tbl += '</table>';
+ // alert('!>' + tbl + '<');
+ document.getElementById('warehouse').innerHTML = tbl;
+}
+
+  </script>
+ </head>
+<!-- _______________________________________________________________ -->
+<body onload="BuildWarehouse()">
+<h1>Shove it! The Warehouse Game</h1>
+
+<div id='warehouse'> Warehouse goes here... </div>
+
+</body>
+<!-- _______________________________________________________________ -->
+</html>
+

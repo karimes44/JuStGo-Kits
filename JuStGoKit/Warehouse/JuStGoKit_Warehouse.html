@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <meta charset="utf-8"/>
+ <title>JuStGo Kit: Warehouse</title>
+ <link rel="stylesheet" type="text/css" href="../styles/justgo.css">
+</head>
+
+<!-- _______________________________________________________________ -->
+<body>
+<h1>JuStGo Kit: Warehouse</h1>
+
+<h2>Introduction</h2>
+<!-- _______________________________________________________________ -->
+<h3>Working with the JuStGo Kit</h3>
+<!-- {{{ ---><div class="txt">
+<p>In this JuStGo kit you will build a version of the old SEGA <q>Shove It! Warehouse</q> game. The kit will lead you step-by-step through each task that needs to be completed to build the entire game.</p>
+
+<p>You will find explanations, tips, and resources that help you complete each task. At the end a solution is given. You can decide for yourself if you want to continue with your own solution, switch to the provided one, or to mix-and-match.</p>
+<p><b>Note:</b> To see the HTML code, open the solution proposal in your text editor, such as <a href= "https://chrome.google.com/webstore/detail/caret/fljalecfjciodhpcledpamjachpmelml?hl=en"> Chrome Caret</a>, or right-click anywhere on the solution proposal page and select <em>View Page Source</em>.</p>
+
+<p>The provided solution solves the task with very little code so that you can clearly see what is done and how. As a consequence, it may look a bit plain. Let this inspire you to spice it up!<br/>
+Go wild with CSS and add HTML elements as you like - make it yours! </p>
+</div><!-- }}} -->
+
+<h3>What is the SEGA <q>Shove It! Warehouse</q> Game about?</h3>
+<div class="txt"><!-- {{{ -->
+<p>In this game, you guide a warehouse worker, who needs to push heavy pallets onto the certain spots.</p>
+
+<p>You can find a demo of this game on
+<a href= "https://www.youtube.com/watch?v=sRkACTQj3IY">You Tube</a>.</p>
+</div><!-- }}} -->
+
+<h2>Task 0: Create the HTML placeholder</h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>Create an HTML placeholder page that...</p>
+	<ul>
+	 <li>defines the page document type to be HTML5,</li>
+	 <li>has a header section with a <code>title</code> tag,</li>
+	 <li>has a style section for the CSS definition,</li>
+	 <li>has a script section for the JavaScript code, and</li>
+	 <li>has a body section with a heading.</li>
+	</ul>
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<p>You can find a good intoduction to HTML at <a href= "https://www.w3schools.com/html/html_intro.asp" target="_blank" class="bgtip">W3Schools: HTML Introduction</a>.</p></details>
+
+<p class="box bgsol"><a href= "Warehouse_step0.html" target="_blank" class="bgsol">Solution Proposal for HTML placeholder</a></p>
+</div><!-- }}} -->
+
+<h2>Task 1: Create the game board</h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>Define a game board. Later you will want to have different levels for the game, which may have different sizes. To be ready for that, write a JavaScript code that reads the dimensions of the game board from variables and then creates the board accordingly.</p>
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<p>One way to define the game board is to use an HTML table. You can find a good explanation of how tables are defined in HTML at
+<a href= "https://www.w3schools.com/html/html_tables.asp" target="_blank"  class="bgtip">W3Schools: HTML Tables</a>.</p>
+
+<p>Now you need to write this HTML table from JavaScript. You can use two nested  <a href= "https://www.w3schools.com/js/js_loop_for.asp"><code>for</code> loops</a> for that and build up a string that contains the entire HTML table definition.</p>
+
+<p>Use variables to define the size, that is the number of rows and columns, of the game board.</p>
+
+<p>You'll also need a compact description code of where in the warehouse the worker is located, where the pallets are and where they should go, and where the walls are. For example:
+<ul>
+	<li>The location of the worker could be marked by a <code>Y</code> (... as in <q>you</q>),</li>
+	<li>the pallets by a <code>#</code> (... looks a bit like a crate),</li>
+	<li>and a <q>wall</q> section by a <code>w</code>.</li>
+	<li>The places where the pallets need to go could be an <code>X</code> (... <q>X</q> marks the spot ;-).</li>
+	<li>Now there could be a pallet that is already on a spot. You could use a <code>$</code> for that.</li>
+</ul>
+
+<p>Then you could use an  <a href= "https://www.w3schools.com/js/js_arrays.asp"> array of strings</a> as a compact notation of the <q>state</q> of warehouse, where the <code>ic</code><sup>th</sup> character of the string in the <code>ir</code><sup>th</sup> array element represents the <code>ic</code>-<code>ir</code> cell of the game board.</p>
+
+<p>Then you can define a place holder <code>&lt;div&gt;</code> element in the  <code>&lt;body&gt;</code> section and replace the content of the <code>&lt;div&gt;</code> element with the table string using <a href= "https://www.w3schools.com/js/js_htmldom_elements.asp">JavaScript HTML DOM Elements</a>.</p>
+</details>
+
+<p class="box bgsol"><a href= "Warehouse_step1.html" target="_blank" class="bgsol">Solution Proposal for the game board</a></p>
+
+<details class="box bghig"><summary>Highlights of added code</summary>
+<p>In the script section, you can define a function called <code>BuildWarehouse()</code> that creates the game board, here the warehouse.</p>
+<p>The variables <code>nc</code> and <code>nr</code> define the size of the game board, and the array of strings <code>wh</code> define the initial state of the warehouse:</p>
+<pre>
+&lt;script&gt;
+<span class='new'>
+// Declare global variables
+var nc  = 0; var nr = 0;
+
+function BuildWarehouse() {
+  nc = 8;
+  nr = 6;
+  wh = ['Y       ',
+       '  # # # ',
+       ' #w w w ',
+       '    wXwX',
+       '    wXw$',
+       '       X']</span>
+// ...
+</pre>
+<p>Now, you can build up a string called <code>tbl</code> that contains the HTML code for the table that forms the game board. Two nested <code>for</code> loops iterate through the rows and columns of the table and add the definition of the cell. The content of the cell is just the <code>ic</code><sup>th</sup> character of the string in the <code>ir</code><sup>th</sup> array element of <code>wh</code>:</p>
+<pre>
+<span class='new'>  let tbl = '&lt;table&gt;\n';
+  for (let ir=0; ir&lt;nr; ir++ ) {
+    tbl += '&lt;tr&gt;\n';
+    let row = wh[ir]
+    for (let ic=0; ic&lt;nc; ic++ ) {
+      let cell = row[ic];
+      tbl += '&lt;td&gt;' + cell + '&lt;/td&gt;';
+    }
+    tbl += '&lt;/tr&gt;\n';
+  }
+  tbl += '&lt;/table&gt;';</span>
+//...
+</pre>
+<p>All that is left to do is to write the <code>tbl</code> string into the placeholder...
+</p>
+<pre>
+<span class='new'> document.getElementById('warehouse').innerHTML = tbl;
+}</span>
+  &lt;/script&gt;
+</pre>
+<p>... which you will also need to define as a <code>&lt;div&gt;</code> element in the <code>&lt;body&gt;</code> to hold the table.<br/>
+To make sure that the <code>BuildWarehouse()</code> is only called when the browser is done loading and rendering the <code>&lt;body&gt;</code> you can use the <code>onload="BuildWarehouse()"</code> attribute:</p>
+<pre>
+&lt;body <span class='new'>onload="BuildWarehouse()"</span>&gt;
+<span class='new'>&lt;div id='warehouse'&gt; Warehouse goes here... &lt;/div&gt;</span>
+&lt;/body&gt;
+</pre>
+</details>
+</div><!-- }}} -->
+
+<h2>Task 2: Improve the look of the game board</h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>Well, the plain table as a game board is not quite looking right...<br/>
+	Can you fix that?</p>
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<p>You can use CSS to ensure that all cells are square and have the same size, and that any text (a single character) in them has a good proportions.</p>
+
+<p>You can use CSS to display your game board in the following way:</p>
+<ul>
+  <li>Style-up the <code>&lt;h1&gt;</code> tag so that the title looks the way you like it.</li>
+  <li>For the <code>&lt;table&gt;</code> tag:</li>
+  <ul>
+   <li>Provide a left margin to the table.</li>
+   <li>Select a big bold font for the text, use a fixed font to make sure the cell size does not change if a different number is shown.</li>
+   <li>You could have the cell borders shown as a single line.</li>
+  </ul>
+
+  <li>For the <code>&lt;td&gt;</code> tag:</li>
+  <ul>
+    <li>To have nice square cells, you can explicitly set the cell height and width to the same value. Experiment with the value to have the cells just the size you like.</li>
+    <li>You may want to center the text in the cell.</li>
+    <li>Set the margin to zero pixel. Experiment with the padding to give the number just the right room in the cell.</li>
+    <li>Define the same type of borders for the cells that you defined for the table.</li>
+  </ul>
+  <li>Define CSS classes for the different types of cells (e.g. wall, the spots for the pallets, etc) and make sure the cells in the game board get assigned the right class. You could use an <code>if/else if</code> block for that - see <a href= "https://www.w3schools.com/js/js_if_else.asp">W3 School: JavaScript if else and else if</a>.</li>
+</ul>
+
+<p>You can find a good introduction to CSS at <a href= "https://www.w3schools.com/css/default.asp" target="_blank"  class="bgtip">W3 School: CSS Tutorial</a>.</p></details>
+
+<p class="box bgsol"><a href= "Warehouse_step2.html" target="_blank" class="bgsol">Solution Proposal for a better looking game board</a></p>
+
+<details class="box bghig"><summary>Highlights of added code</summary>
+<p>Here is an example of a CSS style section ensure that all cells are square and have the same size, and that any text (a single character) in them has a good proportions:</p>
+<pre>
+&lt;style&gt;
+<span class='new'>table {
+ padding:      0px 0px 0px 0px;
+ margin:       0px 0px 0px 20pt;
+ font-family:  "Courier New";
+ font-weight:  bold;
+ font-size:    18pt;
+ border-collapse: collapse;
+ border:       1px solid black;
+}
+td {
+ padding:      4px 4px 4px 4px;
+ margin:       0px 0px 0px 0px;
+ border-collapse: collapse;
+ border:       1px solid black;
+ height:       2em;
+ width:        2em;
+ text-align:   center;
+}</span>
+/* ... */
+</pre>
+
+<p><b>Notes:</b> To define the size of a cell you can use the units of pixels <code>px</code> or points <code>pt</code>, but you can also use a unit that is related to the font size you are using: <code>em</code> that is about the size of an "M" of the currently used font (see <a href= "https://www.w3schools.com/css/css_units.asp" target="_blank" class="bghig">W3Schools: CSS Units</a>).</p>
+
+<p>You can use background colors to make it more clear where walls and the right spot for the pallets are:</p>
+<pre>
+<span class='new'>.wall   { background-color: black; }
+.spot   { background-color: green; }
+.empty  { background-color: white; }</span>
+&lt;/style&gt;
+</pre>
+
+<p>... but then you'll also have to assign one of these classes to the table  cells depending on what is the value in the cell:</p>
+<p>In the loop that iterates the rows, you can read the row string for each row with <code>let row = wh[ir]</code>.</p>
+<p>Then in the loop that iterates the cells, you can read what the value of the cell is with <code>let cell = row[ic];</code>.</p>
+<p>Then you can define a variable <code>cls</code> that will hold the name of the class you want for the given cell. You could just set the <em>default</em> class to <code>'empty'</code> right when you declare the <code>cls</code> variable - that saves you an additional <code>else</code> condition at the end of the </a><code>if/else if</code> block (oh, yes, you'll have to create that <code>if/else if</code> block also...). And finally you can add the class attribute to the <code>td</code>-tag with <code>&lt;td class="' + cls + '"&gt;</code>.</p>
+
+<p>For a <q>spot</q> you could remove the symbols <code>X</code> and just use the classes to store the information that this cell is a <q>spot</q>.</p>
+
+<p>For a spot with a pallet on it (<code>$</code>), you could update the symbol to the pallet symbol <code>#</code> and again use the classes to store the information that this cell is a <q>spot</q>.</p>
+
+<pre>
+ let tbl = '&lt;table&gt;\n';
+ for (let ir=0; ir&lt;nr; ir++ ) {
+  tbl += '&lt;tr&gt;\n';
+  let row = wh[ir]
+  for (let ic=0; ic&lt;nc; ic++ ) {
+   let cell = row[ic];
+   <span class='new'>let cls  = 'empty';
+
+   if (cell === 'w') {
+    cls = 'wall';
+   } else if (cell === 'X') {
+    cls = 'spot';
+    cell = ' ';
+   } else if (cell === '$') {
+    cls = 'spot';
+    cell = '#';
+   }
+   tbl += '&lt;td class="' + cls + '"&gt;' + cell + '&lt;/td&gt;';</span>
+  }
+  tbl += '&lt;/tr&gt;\n';
+ } 
+ tbl += '&lt;/table&gt;';
+</pre>
+</details>
+</div><!-- }}} -->
+
+<h2>Task 3: Define <q>handles</q> in the game board for JavaScript</h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<ul>
+ <li>The JavaScript code you will write later will need to interact with the cell of your game board. Define handles for JavaScript to address a given cell.</li>
+ <li>Define an event handler to react when you wants to move the warehouse worker.</li>
+ <li>Just to make sure this works, write a test JavaScript function that just prints the arguments it is called with when you click the cell - the actual JavaScript code for the event handler function you'll write later...</li>
+</ul>
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<ul>
+ <li>As the handle needs to be unique, the <code>id</code> attribute comes in handy. You could add <code>id='1-3'</code> to the cell in the 1<sup>st</sup> cell of the 3<sup>rd</sup> row (see <a href= "https://www.w3schools.com/html/html_id.asp" target="_blank"  class="bgtip">W3Schools: HTML id Attribute</a>).</li>
+ <li>Add an evenhandler to the <code>td</code>-tag (see <a href= "https://www.w3schools.com/js/js_events.asp" target="_blank"  class="bgtip">W3Schools: Events</a>).</li>
+ <li>You could call the JavaScript function <code>Move()</code>, and have it take the column and row indices as an argument.</li>
+ <li>Write a test JavaScript function as a stand-in for <code>Move()</code> that just alerts you to which arguments it was called with.</li>
+</ul>
+</details>
+
+<p class="box bgsol"><a href= "Warehouse_step3.html" target="_blank" class="bgsol">Solution Proposal for adding JavaScript handles</a></p>
+
+<details class="box bghig"><summary>Highlights of added code</summary>
+<p>As an identifier we can build a string from the column and row index. Note that when we use the dash as a separator: <br/>
+&nbsp; &nbsp; <code>let idstr = ic + '-' + ir;</code><br/>
+then the "+" operator will convert the <em>integers</em> <code>ic</code> and <code>ir</code> to strings and then concatiate all three strings together.<br/>
+(Just using <code>let idstr = ic + ir;</code> would add the<em> integers and thus not work as a unique cell id.<br/>
+E.g. <em>2+3=6</em> and </em>3+2=6, but "2-3" is different from "3-2".)</p>
+<pre>
+function BuildWarehouse() {
+ \\ ... \\
+ for (let ir=0; ir&lt;nr; ir++ ) {
+  \\ ... \\
+  for (let ic=0; ic&lt;nc; ic++ ) {
+   \\ ... \\
+   <span class='new'>let idstr = ic + '-' + ir;</span>
+    \\ ... \\
+   tbl += '&lt;td <span class='new'>id="' + idstr + '" class="' + cls + '" onclick="Move(' + ic + ',' + ir +')"</span>&gt;' + cell + '&lt;/td&gt;';
+   \\ ... \\
+}
+
+function Move(ic,ir) {
+	alert('Cell is: ' + ic + ' and row is: ' + ir)
+}
+</pre>
+</details>
+</div><!-- }}} -->
+
+<h2>Task 4: JavaScript function for moving the worker</h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+ <ul>
+  <li>Write the code for the JavaScript function <code>Move()</code> so that if you click a cell that is next to the worker, the worker moves into that cell.</li>
+ </ul>
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<ul>
+	<li>First you need to find a way to keep track where the worker is.</li>
+	<li>Then you need to figure out if you clicked a cell that is <em>next</em> to the worker.</li>
+	<li>If so you can move the worker to the selected cell.</li>
+</ul>
+</details>
+
+<p class="box bgsol"><a href= "Warehouse_step4.html" target="_blank" class="bgsol">Solution Proposal for the first version of the <code>Move()</code> function</a></p>
+
+<details class="box bghig"><summary>Highlights of added code</summary>
+<p>You can define a global list-type variable <code>y</code> that stores the current position of the worker:</p>
+<pre>
+<span class='new'>var y   = [0,0]; //Coordinates of "You"</span>
+</pre>
+
+<p>In the <code>BuildWarehouse()</code> function you can update the <code>y</code> list, if you encounter the <code>Y</code> in the cell:</p>
+<pre>
+function BuildWarehouse() {
+ // ... //
+  for (let ir=0; ir&lt;nr; ir++ ) {
+  // ... //
+  let row = wh[ir]
+  for (let ic=0; ic&lt;nc; ic++ ) {
+   let cell = row[ic];
+   // ... //
+   if (cell === 'w') {
+    cls = 'wall';
+   } else if (cell === 'X') {
+    cls = 'spot';
+   <span class="new">} else if (cell === 'Y') {
+    y = [ic,ir];</span>
+   }
+  // ... //
+}
+</pre>
+
+<p>To find out if you clicked a cell right next to the worker, you can check if the difference between the column and row indices of the cell you clicked and the corresponding cell indices of the worker just one. Well, actually it could be +1 or -1 in either the column or row index... so that would be 4 conditions to keep track off. But you could compress that into just one check if you take the sum of the differences in the column or row index and the take the absolute value of that with <a href= "https://www.w3schools.com/jsref/jsref_obj_math.asp">Math.abs()</a>:<br/>
+<code>oneStep = Math.abs((ic-y[0]) + (ir-y[1]));</code>. <br/>
+So now if <code>oneStep === 1</code> you know that the cell you clicked is next to the worker!</p>
+
+<p>Now you can create the function that moves to worker into the clicked cell:</p>
+<pre>
+function Move(ic,ir) {
+ <span class='new'>let idstr = ic + '-' + ir;
+ let youstr = y[0] + '-' + y[1];
+ cell = document.getElementById(idstr).innerHTML;
+ oneStep = Math.abs((ic-y[0]) + (ir-y[1]));
+ if ( oneStep === 1 ) {
+  document.getElementById(youstr).innerHTML = ' ';
+  document.getElementById(idstr ).innerHTML = 'Y';
+  y = [ic, ir];
+ } else {
+  alert('... not so fast, I can go only one step at a time!');
+ }</span>
+}
+</pre>
+</details>
+</div><!-- }}} -->
+
+<h2>Task 5: Don't run into walls!</h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>Cool - you can now control the worker and guide the worker to walk around the warehous!</p>
+
+<p>... but the worker can walk right through walls and pallets. You'll have to do something about that:</p>
+
+<ul>
+  <li>Improve the <code>Move()</code> function to not let the worker walk through walls and pallets.</li>
+ </ul>
+ 
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<ul>
+	<li>You can use an <code>if/else if</code> block to check what the value of cell you clicked is and let the worker move only if the value is right (see <a href= "https://www.w3schools.com/js/js_if_else.asp">W3 School: JavaScript if else and else if</a>).</li>
+</ul>
+</details>
+
+<p class="box bgsol"><a href= "Warehouse_step5.html" target="_blank" class="bgsol">Solution Proposal for prevening running through walls and pallets</a></p>
+
+<details class="box bghig"><summary>Highlights of added code</summary>
+<p>All you need is an <code>if/else if</code> block that executes the move if the cell value is <code>' '</code>, that means the cell is empty, or <code>'X'</code>, that means the cell is a spot for the pallets.</p>
+<p>If it is <code>'w'</code>, that means a wall, or <code>'#'</code>, that means a pallet, you can just warn about it, and do nothing otherwise:</p>
+<pre>
+ <span class='new'>if (cell == ' ' || cell == 'X') {</span>
+  oneStep = Math.abs((ic-y[0]) + (ir-y[1]));
+  if ( oneStep === 1 ) {
+   document.getElementById(youstr).innerHTML = ' ';
+   document.getElementById(idstr ).innerHTML = 'Y';
+   y = [ic, ir]; 
+  } else {
+   alert('... not so fast, I can go only one step at a time!');
+  }
+ <span class='new'>} else if (cell == 'w') {
+  alert("Watch out - don't run into the wall!");
+ } else if (cell == '#') {
+  alert("Watch out - don't run into the pallet!");
+ }</span>
+</pre>
+</details>
+</div><!-- }}} -->
+
+<h2>Task 6: Moving the pallet</h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>Ok, that's better... but you still need to let your worker push the pallet.</p>
+
+<ul>
+ <li>Modify the <code>Move()</code> function so that when the worker <em>is next to a pallet</em>, and you <em>click on the pallet</em>, and the <em>cell behind the pallet is empty or a spot</em>, the worker can push the pallet one cell over. Note that the worker cannot push two pallets at once!</li>
+</ul>
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<ul>
+ <li>You can update the section of the code from Task 4, where you now have the alert <code>"Watch out - don't run into the pallet!"</code>.</li>
+ <li>You will need to find a way to compute the indices of the cell that the worker would push the pallet into.</li>
+ <li>You then will need to check if this cell is within the warehouse, or contains a wall or another pallet - if not you can execute the push and update the values of the three cells involved, as well as store the new location of the worker.</li>
+</ul>
+</details>
+
+<p class="box bgsol"><a href= "Warehouse_step6.html" target="_blank" class="bgsol">Solution Proposal for enabling pushing the pallets</a></p>
+
+<details class="box bghig"><summary>Highlights of added code</summary>
+<p>You can just expand the <code>if</code> section you defined for Task 5, where you found that (a) you have clicked a cell that is next to the worker, and (b) a pallet is on this cell.</p>
+<p>There are many ways to find the indices of the cell you will push the pallet to. A rather compact way is to add the difference of pallet index and the worker index to the pallet index. You'll have to do that for both the column and the row index. But that is only works, because you already know that the worker is next to the pallet.</p>
+<pre>
+function Move(ic,ir) {
+ // ...
+ if ( oneStep === 1 ) {
+  if (cell == ' ' || cell == 'X') {
+  // ...
+  } else if (cell == '#') {<span class='new'>
+   let nextic = ic + (ic-y[0]);
+   let nextir = ir + (ir-y[1]);
+   alert('Next cell for the pallet is: (' + nextic + ',' + nextir + ')')</span>
+   // ...
+</pre>
+
+<p>Now the new cell for the pallet may be outside of the warehouse, that is the case if either the column or the row index is either <code>-1</code> or the same as the number of columns or rows, respectively. (Note that the columns and rows are counted starting from 0, so the last index is one less than the number of columns or rows, respectively.)</p>
+<pre><span class='new'>
+   if ( (nextic == -1) || (nextic == nc) || (nextir == -1) || (nextir == nr)) {
+    alert("Watch out - don't push the pallet off the warehouse!");</span>
+   // ...
+</pre>
+
+<p>If not, then you still need to check if the cell that you want to push the pallet into is not a wall (value is <code>'w'</code>), or another pallet (value is <code>'#'</code>).</p>
+<pre><span class='new'>
+   } else {
+    let pushtocell = document.getElementById(nextic + '-' + nextir).innerHTML;
+    let ptc_class  = document.getElementById(nextic + '-' + nextir).className;
+    // alert('!&gt;' + ptc_class + '&lt;');
+    let canIpush = false;
+    if (pushtocell === 'w')  {
+     alert("Watch out - don't push the pallet into the wall!");
+    } else if (pushtocell === '#')  {
+     alert('You are strong, but you can still only push one pallet at a time!');</span>
+   // ...
+</pre>
+
+<p>... otherwise you can push the pallet, and update all three cells accordingly, as well as the list that keeps track of where the worker is.</p>
+<pre><span class='new'>
+    } else {
+     document.getElementById(youstr ).innerHTML = ' ';
+     document.getElementById(idstr  ).innerHTML = 'Y';
+     y = [ic, ir];
+     let nextstr = nextic + '-' + nextir;
+     document.getElementById(nextstr).innerHTML = '#';
+    }
+   }</span>
+  }
+ } else {
+  alert('... not so fast, I can go only one step at a time!');
+ }
+}
+</pre>
+</details>
+</div><!-- }}} -->
+
+<h2>Task 7: Implement a counter</h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>Wow, you can play the game now. But how do you know if your winning?</p>
+<ul>
+ <li>Implement a counter that keeps track of the number of steps you are taking to solve the game, as well as counts how many pallets you have placed on the spots alreday.</li>
+ <li>Enable the counter to determine when you have solved the puzzle.</li>
+</ul>
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<p>You as a human can just look at the game board and <q>see</q> how many pallet are placed on the spots and how many are still in the wrong places. For the computer it is not so easy to get this immediate overview.</p>
+<ul>
+ <li>You can create a function, say <code>Counter()</code> that keeps track of the number of steps taken, and also loops through all cells of the game board and counts the number of pallets, the number of spots, and the number of pallets that are found on the spots.</li>
+ <li>You can also have this function check if all the pallets are on the spots - and thus the puzzle is solved.</li>
+ <li>Just in case, you could add a check that tells you if the warehouse is defined such that there are the same number of pallets and spots.</li>
+</ul>
+</details>
+
+<p class="box bgsol"><a href= "Warehouse_step7.html" target="_blank" class="bgsol">Solution Proposal for implementing a counter</a></p>
+
+<details class="box bghig"><summary>Highlights of added code</summary>
+<p>You can to define a global variable <code>nsteps</code> that will store the number of steps takes so far, but set it to <code>-1</code>, as you will call the <code>Counter()</code> function once <em>before</em> you have takes any steps, at the end of the <code>BuildWarehouse()</code> function - to show how many pallets and spots are there, and to make sure the warehouse has the same number of pallets as spots for them.
+
+<p>You will also call the <code>Counter()</code> function at the end of the <code>Move()</code> function - to update the number of steps takes, and the number of places pallets.</p>
+<pre>
+// ...
+<span class='new'>var nstep = -1;</span>
+// ...
+function BuildWarehouse() {
+// ...
+<span class='new'> Counter();</span>
+}
+// ...
+function Move(ic,ir) {
+// ...
+<span class='new'> Counter();</span>
+}
+</pre>
+<p>In the <code>Counter()</code> function you will need local variables to store the number of pallets, the number of places for the pallets, and the number of corectly places pallets:</p>
+<pre><span class='new'>
+function Counter() {
+ nstep++;
+ let np  = 0;     //Number of pallets
+ let nx  = 0;     //Number of places for the pallets
+ let px  = 0;     //Number of correctly places pallets</span>
+</pre>
+<p>Then you can just loop through all cells and get the values of each cell as well as the value of the class attribute. If the value of the cell is <code>'#'</code> you found a pallet (update the corresponding variables), and if for this cell the class attribute is <code>'spot'</code> the pallet is already placed correctly (update the corresponding variables).<br/>
+And also check if a cell has the class attribute <code>'spot'</code> independent if it hold a pallet or not. That gives you the number of spots:</p>
+<pre><span class='new'>
+ for (let ir=0; ir&lt;nr; ir++ ) {
+  for (let ic=0; ic&lt;nc; ic++ ) {
+   let idstr = ic + '-' + ir;
+   let cell = document.getElementById(idstr).innerHTML;
+   let cls  = document.getElementById(idstr).className;
+   if ( cell === '#' ) {
+    np++;
+    if ( cls === 'spot' ) { px++; }
+   }
+   if (cls === 'spot') { nx++; }
+  }
+ }</span>
+</pre>
+
+<p>You can then check if the number of pallets matches the number of spots. This test is important for the call from <code>BuildWarehouse()</code>, but you may as well save yourself the trouble of defining an extra function for this test:</p>
+<pre><span class='new'>
+ if ( np &gt; nx ) { 
+  alert('ERROR: More pallets than places for them!') 
+ } else if ( np &lt; nx ) { 
+  alert('ERROR: Less pallets than places for them!') 
+ }</span>
+</pre>
+
+<p>Now you can write your findings to the HTML placeholder (which you still need to create...).</p>
+<pre><span class='new'>
+ counter = 'Number of Steps: ' + nstep + '&lt;br&gt;Pallets placed: ' + px + ' of ' + np + '.';
+ document.getElementById('counter').innerHTML = counter;
+ if ( px == np ) { alert('Congratulations! You placed all pallets!'); }
+}
+</pre>
+
+<p>Lastly, you need to create the placeholder for the counter in the HTML section:</p>
+<pre>
+&lt;body onload="BuildWarehouse()"&gt;
+&lt;h1&gt;Shove it! The Warehouse Game&lt;/h1&gt;
+
+&lt;div id='warehouse'&gt; Warehouse goes here... &lt;/div&gt;
+<span class='new'>&lt;div id='counter'&gt; Counter goes here ... &lt;/div&gt;</span>
+
+&lt;/body&gt;
+</details>
+</div><!-- }}} -->
+
+<h2>Task 8: Create different level for the game</h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>Cool - now you can play the game!</p>
+
+<p>... but solving the same warehouse again and again gets boring. How about creating new levels for the game?</p>
+
+<ul>
+	<li>Store all the information needed for each level,</li>
+	<li>and implement a way that you can select which level you want to play.</li>
+</ul>
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+
+<ol>
+	<li>You could consider <q>Objects</q> (see <a href= "https://www.w3schools.com/js/js_objects.asp">W3Schools: JavaScript Objects</a>) as a way  store all the information needed for each level.</li>
+	<li>You could consider the <code>&lt;select&gt;</code> tag (see <a href= "https://www.w3schools.com/tags/tag_select.asp">W3Schools: HTML &lt;select&gt; Tag</a>) as a way to select which level you want to play.</li>
+	<li>You will need to modify a few things to make the <code>BuildWarehouse()</code> function read the information of the object you created.</li>
+	<li>Also, now you will call the <code>BuildWarehouse()</code> whenever you want to change levels, and not just when loading the game. That also means that you need to reset some counters.</li>
+</ol>
+</details>
+
+<p class="box bgsol"><a href= "Warehouse_step8.html" target="_blank" class="bgsol">Solution Proposal for implementing different level for the game</a></p>
+
+<details class="box bghig"><summary>Highlights of added code</summary>
+<p>You can define an array <code>warehouse</code> that holds all the different levels of the warehouse. Each array element can be a object that stores the number of columns, the number of rows, and the list of strings that define the warehouse layout, in the object properies <code>nc</code>, <code>nr</code>, and <code>wh</code>, respectively. Note that value of object property <code>wh</code> is itself a list.</p>
+
+<p>Wow... that means you have a list, where each list element is an object, and some of the object properties are lists, and the list elements are strings that you will read character-by-character as the cells of a 2-dimensional array - <em>is your head spinning already?</em></p>
+<pre>
+  &lt;script&gt;
+// Declare global variables
+var nc  = 0; var nr = 0;
+var y   = [0,0]; //Coordinates of "You"
+var nstep = -1;  //Number of steps taken
+<span class='new'>var lvl = 0;     //Level
+var warehouse = [
+ {'nc':8, 'nr':6, 'wh':
+ ['Y       ',
+  '  # # # ',
+  ' #w w w ',
+  '    wXwX',
+  '    wXw$',
+  '       X'
+ ]},
+ {'nc':7, 'nr':7, 'wh':
+ ['Y  w   ',
+  ' ##w ww',
+  ' # w wX',
+  'ww wwwX',
+  'ww    X',
+  'w   w  ',
+  'w   www',
+ ]},
+ {'nc':4, 'nr':6, 'wh':
+ ['w  w',
+  'Y# w',
+  'w# w',
+  'w # ',
+  'X#  ',
+  'XX$X'
+ ]},
+ {'nc':8, 'nr':5, 'wh':
+ ['w     ww',
+  'w#www   ',
+  ' Y #  # ',
+  ' XXw # w',
+  'wXXw   w'
+ ]}
+];</span>
+// ...
+</pre>
+
+
+<p>As you play with this game, you may want to add new layers to the code. To make that simple, you can just create a level selector that automatically figures out how many level are available and let's you pick one of them - to make that automatic, you need a function! This function could first read the length of the <code>warehouse</code> list to determine how many levels there are in the game and then builds up HTML code for a <code>&lt;select&gt;</code>-tag.</p>
+
+<p>If you would write the selector directly in HTML the selector would have look like this (assuming you have 3 levels):</p>
+<pre>
+&lt;select id="getLvl" onchange="BuildWarehouse()"&gt;
+ &lt;option value= "0"&gt;0&lt;/option&gt;
+ &lt;option value= "1"&gt;1&lt;/option&gt;
+ &lt;option value= "2"&gt;2&lt;/option&gt;
+&lt;/select&gt;
+</pre>
+<p>When you change the setting the selector event handler calls the function <code>BuildWarehouse()</code>.</p>
+
+<p>But you can write a loop that builds up a string with the HTML code with:</p>
+<pre><span class='new'>function showLvlSelector() {
+ let nLvl = warehouse.length;
+ let selector = '&lt;select id="getLvl" onchange="BuildWarehouse()"&gt;\n';
+  for (let iLvl=0; iLvl&lt;nLvl; iLvl++ ) {
+   selector += '&lt;option value= "' + iLvl + '"&gt;'  + iLvl + '&lt;/option&gt;\n'; 
+  }
+  selector += '&lt;/select&gt;\n';</span>
+  // ...
+</pre>
+<p>... and then write this HTML code into a placeholder with the id <code>'lvl</code> with:</p>
+<pre>
+<span class='new'>  document.getElementById('lvl').innerHTML = selector;
+}</span>
+</pre>
+
+<p>Obviously, you still need to create the placeholder in the HTML body:</p>
+<pre>
+&lt;body <span class='new'>onload="firstView()"</span>&gt;
+&lt;h1&gt;Shove it! The Warehouse Game&lt;/h1&gt;
+
+<span class='new'>&lt;div&gt;Select level: &lt;span id='lvl'&gt;Level Selector goes here ... &lt;/span&gt;&lt;/div&gt;</span>
+&lt;div id='warehouse'&gt; Warehouse goes here... &lt;/div&gt;
+&lt;div id='counter'&gt; Counter goes here ... &lt;/div&gt;
+
+&lt;/body&gt;
+</pre>
+
+<p>Also, you need to adjust the <code>onload</code> event handle in the <code>&lt;body&gt;</code>-tag, because you need to call the <code>showLvlSelector()</code> before you can call <code>BuildWarehouse()</code>. Not a problem - just define a new function, say <code>fisrtView()</code>, which calls both functions in the right order:</p>
+<pre>
+<span class='new'>function firstView() {
+ showLvlSelector()
+ BuildWarehouse()
+}</span>
+</pre>
+
+<p>You'll also need a few update in <code>BuildWarehouse()</code>: you can no longer assume that this is the beginning of you playing the game, so you need to reset the step counter.</p>
+
+<p>You can read the currently selected level with <code>document.getElementById("getLvl").value</code>.</p>
+
+<p>Then you can just read the dimensions of the current warehouse from the <code>.nc</code> and <code>.nr</code> properties of <code>lvl</code><sup>th</sup> warehouse list element.</p>
+
+<p>Similarity, you can read the <code>ir</code><sup>th</sup> row which describes the current warehouse, by reading the <code>ir</code><sup>th</sup> element in the list, from the <code>.wh</code> property of the <code>lvl</code><sup>th</sup> warehouse list element:</p>
+<pre>
+function BuildWarehouse() {
+ <span class='new'>nstep = -1; //Reset counter for next level
+ let lvlstr = document.getElementById("getLvl").value;
+ lvl = parseInt(lvlstr);
+ nc = warehouse[lvl]['nc'];
+ nr = warehouse[lvl]['nr'];</span>
+
+ let tbl = '&lt;table&gt;\n';
+ for (let ir=0; ir&lt;nr; ir++ ) {
+  tbl += '&lt;tr&gt;\n';
+  <span class='new'>let row = warehouse[lvl].wh[ir]</span>
+  // ...
+</pre>
+
+</details>
+</div><!-- }}} -->
+
+<h2>Task 9: Instruction and a <q>back story</q></h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>That is pretty much it! ... maybe as a finishing touch add some instructions for first time users and a <q>back story</q> to set the stage.</p>
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<p>Add an expandable section to the HTML that explains how to play the game.</p>
+<p>Add an expandable section to the HTML that provides a <q>back story</q></p>
+</details>
+
+<p class="box bgsol"><a href= "Warehouse.html" target="_blank" class="bgsol">Final Solution Proposal for the game.</a></p>
+</div><!-- }}} -->
+
+<p>Congratulations! You completed the JuStGo kit!</p>
+
+<h1>Challenges</h1>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<ul>
+ <li>Implement more levels either by designing your own, or by reading them off the <a href= "https://www.youtube.com/watch?v=sRkACTQj3IY">You Tube Reference</a> (levels 1-3 already come from there).</li>
+ <li>The graphical appearance could use some work, don't you think?</li>
+ <li>How about a scoring table</li>
+ <li>Replace the <code>'#'</code> for the pallet and the <code>'Y'</code> for the worker with a images.</li>
+ <li>Re-write the code to control the movement of the worker with the arrow keys instead of the mouse.</li>
+</ul>
+
+</div><!-- }}} -->
+</body></html>

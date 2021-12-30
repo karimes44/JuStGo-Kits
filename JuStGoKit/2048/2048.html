@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+  <title>2048</title>
+<!-- STYLE {{{ ____________________________________________________ -->
+  <style>
+body {
+ font-family:  "Helvetica";
+}
+#gameboard {
+ margin:  auto;
+ padding: 0px;
+ height:  256px;
+ width:   256px;
+ border:  2px solid black;
+}
+
+table {
+ padding:      0px;
+ margin:       0px 0px 0px 20pt;
+ border-collapse: collapse;
+ border:       1px solid black;
+}
+
+th {
+ text-align:   left;
+ font-family:  "Helvetica";
+ font-size:    14px;
+ padding:      4px;
+ margin:       0px;
+ border-collapse: collapse;
+ border:       1px solid black;
+}
+
+td {
+ text-align:   right;
+ font-family:  "Courier New";
+ font-size:    14px;
+ padding:      4px;
+ margin:       0px;
+ border-collapse: collapse;
+ border:       1px solid black;
+}
+.score {
+ margin: auto;
+ width:   256px;
+ font-family:  "Helvetica";
+ font-weight:  bold;
+ font-size:    18px;
+}
+
+.box {
+ float:        left;
+ border:       2px solid black;
+ width:        60px;
+ text-align:   center;
+ font-family:  "Courier New";
+ font-weight:  bold;
+}
+
+.newbox {
+ float:        left;
+ border:       2px solid black;
+ width:        60px;
+ text-align:   center;
+ font-family:  "Courier New";
+ font-style:   italic;
+}
+
+.c0 {
+ font-size:    38px;
+ padding-top:  10px;
+ height:       50px;
+ color:            white;
+ background-color: white;
+}
+
+.c2 {
+ font-size:    38px;
+ padding-top:  10px;
+ height:       50px;
+ color:            black;
+ background-color: hsl( 0, 75%, 75%);
+}
+
+.c4 {
+ font-size:    38px;
+ padding-top:  10px;
+ height:       50px;
+ color:            black;
+ background-color: hsl(36, 75%, 75%);
+}
+
+.c8 {
+ font-size:    38px;
+ padding-top:  10px;
+ height:       50px;
+ color:            black;
+ background-color: hsl(72, 75%, 75%);
+}
+
+.c16 {
+ font-size:    38px;
+ padding-top:  10px;
+ height:       50px;
+ color:            black;
+ background-color: white;
+ background-color: hsl(108, 75%, 75%);
+}
+
+.c32 {
+ font-size:    38px;
+ padding-top:  10px;
+ height:       50px;
+ color:            black;
+ background-color: hsl(144, 100%, 50%);
+}
+
+.c64 {
+ font-size:    38px;
+ padding-top:  10px;
+ height:       50px;
+ color:            black;
+ background-color: hsl(180, 100%, 50%);
+}
+
+.c128 {
+ font-size:    28px;
+ padding-top:  15px;
+ height:       45px;
+ color:            white;
+ background-color: hsl(216, 100%, 50%);
+}
+
+.c256 {
+ font-size:    28px;
+ padding-top:  15px;
+ height:       45px;
+ color:            white;
+ background-color: hsl(252, 100%, 50%);
+}
+
+.c512 {
+ font-size:    28px;
+ padding-top:  15px;
+ height:       45px;
+ color:            white;
+ background-color: hsl(288, 100%, 50%);
+}
+
+.c1024 {
+ font-size:    18px;
+ padding-top:  20px;
+ height:       40px;
+ color:            white;
+ background-color: hsl(324, 100%, 50%);
+}
+
+.c2048 {
+ font-size:    18px;
+ padding-top:  20px;
+ height:       40px;
+ color:            white;
+ background-color: hsl(360, 100%, 50%);
+}
+
+.hide      * { display: none; }
+  </style>
+<!-- }}} ___________________________________________________________ -->
+  <script>
+  /*
+var board = [
+	[  2,   4,   8, 16],
+	[ 32,  64, 128,256],
+	[  0, 512,1024,  0],
+	[  0,2048,   0,  0]];*/
+var Board  = [ 0,0,0,0, 0,0,0,0 , 0,0,0,0, 0,0,0,0];
+var Boards = [];
+var Score  = 0;
+var Scores = [];
+var HighScore = 0;
+var SessionScore = 0;
+var istep  = 0;
+var init   = true;
+
+var Start = {};
+var Stop = {};
+Start['Left']  = [ 1, 5, 9,13];
+Start['Right'] = [ 2, 6,10,14];
+Start['Up']    = [ 4, 5, 6, 7];
+Start['Down']  = [ 8, 9,10,11];
+
+var Incr = {};
+Incr['Left']  =  1;
+Incr['Right'] = -1;
+Incr['Up']    =  4;
+Incr['Down']  = -4;
+
+function insert24(s24) {
+	let zeros = getZeros();
+	let r = Math.floor(Math.random() * zeros.length);
+	let new24 = 2;
+	//alert('r: ' + r + ' -- s24: ' + s24)
+	if ( s24 == 4 ) {
+		new24 = 2*Math.floor(Math.random() * 2) + 2;
+	}
+	Board[zeros[r]] = new24;
+	return zeros[r];
+}
+
+function showBoard(lnew) {
+ gbd = '<div id="gameboard">'
+ for (let j=0; j<16; j++ ) {
+  let n = Board[j];
+  if ( j == lnew ) {
+   gbd += '<div class="newbox c'+n+'">'+n+'</div>';
+  } else {
+   gbd += '<div class="box c'+n+'">'+n+'</div>';
+  }
+ }
+ gbd += '</div>';
+ if ( init ) {
+  init = false;
+  document.getElementById('game').innerHTML = gbd;
+ } else {
+  let txt = '<p class="score">Step #' + (istep+1) + ' &nbsp; Score: ' + Score + '</p>';
+  document.getElementById('game').innerHTML = gbd + txt;
+  ShowScore()
+ }
+}
+
+function showLastBoard() {
+ if ( istep > 0 ) {
+  gbd = '<h2>Last Board</h2><div id="gameboard">'
+  for (let j=0; j<16; j++ ) {
+   let n = Boards[istep-1][j];
+   gbd += '<div class="box c'+n+'">'+n+'</div>';
+  }
+  gbd += '</div>';
+  let txt = '<p class="score">Step #' + (istep+1) + ' &nbsp; Score: ' + Score + '</p>';
+  document.getElementById('history').innerHTML = gbd + txt;
+ }
+}
+
+function getZeros() {
+ let zeros = [];
+ for (let j=0; j<16; j++ ) {
+  let n = Board[j];
+  if ( n == 0 ) {
+   zeros.push(j);
+  }
+ }
+ return zeros;
+}
+
+function Move(direction) {
+ //alert(direction);
+ let moved = false;
+ let inc =  Incr[direction];
+ for (let j=0; j<4; j++ ) {
+  let srt = Start[direction][j];
+  let stp = srt - inc;
+  for (let k=0; k<3; k++ ) {
+   let l = srt + k*inc;
+   if (Board[l] != 0) {
+    //alert(' B['+l+']='+Board[l]+' B['+(l-inc)+']='+Board[l-inc]+' stp:'+stp);
+    while ((l!=stp) && (Board[l-inc] == 0)) {
+     //alert('Moving ' + l + ' to ' + direction);
+     Board[l-inc] = Board[l];
+     Board[l]   = 0;
+     moved = true;
+     l -= inc;
+     //alert('+B['+l+']='+Board[l]+' B['+(l-inc)+']='+Board[l-inc]+' stp:'+stp);
+    }
+    //alert(direction + ' -- l=' + l + '\n b1: ' + Board[l] + '\n b2: ' + Board[l-inc]);
+    if ( (l!=stp) && (Board[l-inc] == Board[l]) ) {
+     let newVal = 2*Board[l];
+     Score += newVal
+     Board[l-inc] = newVal;
+     Board[l]   = 0;
+     moved = true;
+    }
+   }
+  }
+ }
+ if ( moved ) {
+  let lnew = insert24(4);
+  showBoard(lnew);
+  showLastBoard()
+  istep++;
+  Boards.push([...Board]);
+  Scores.push(Score);
+ } else {
+  let zeros = getZeros();
+  if ( zeros.length == 0 ) {
+   alert('Game Over!');
+   if ( Score > SessionScore ) {
+    SessionScore = Score;
+   }
+   if ( Score > HighScore ) {
+    HighScore = Score;
+    localStorage.setItem("HighScore", HighScore);
+   }
+  }
+ }
+}
+
+function Back() {
+ istep -= 2
+ Boards.pop()
+ Board = [...Boards.pop()];
+ Scores.pop()
+ Score = Scores.pop();
+ showBoard(-1);
+ showLastBoard()
+}
+
+function ToggelHistory() {
+ //	alert(document.getElementById('history').className);
+ if ( document.getElementById('history').className == "show" ) {
+  document.getElementById('history').className = "hide";
+ } else {
+  document.getElementById('history').className = "show";
+ };
+};
+
+function Reset() {
+ alert('Resetting Highscore');
+ localStorage.removeItem('HighScore');
+}
+
+// Defining Key Short-Cuts
+// https://keycode.info/
+window.addEventListener('keydown', function (e) {
+ //alert("KEYDOWN");
+ //e.preventDefault();
+ //Keys = (Keys || []);
+ let Keys = [];
+ Keys[e.keyCode] = (e.type == "keydown");
+ if (Keys && Keys[37]) {
+  //alert('Left');
+  Move('Left');
+ } else if (Keys && Keys[38]) {
+  //alert('Up');
+  Move('Up');
+ } else if (Keys && Keys[39]) {
+  // alert('Right');
+  Move('Right');
+ } else if (Keys && Keys[40]) {
+  // alert('Down');
+  Move('Down');
+ } else if (Keys && Keys[76]) {
+  // alert('L-ast Board');
+  ToggelHistory();
+ } else if (Keys && Keys[8]) {
+  // alert('Back');
+  Back();
+ } else if (Keys && Keys[78]) {
+  // alert('N-ew Game');
+  firstView();
+ } else if (Keys && Keys[48]) {
+  // alert('0 > Resest HighScore');
+  Reset();
+ } else if (Keys && Keys[96]) {
+  // alert('0 > Resest HighScore');
+  Reset();
+ }
+})
+
+function ShowScore() {
+	let tbl = '<table> <tr> <th colspan="2">Score Table</th> </tr>';
+	tbl += '<tr> <td>' + HighScore + '</td> <th>High Score</th> </tr>';
+	tbl += '<tr> <td>' + SessionScore + '</td> <th>Session Score</th> </tr>';
+	tbl += '<tr> <td>' + Score + '</td> <th>Current Score</th> </tr> </table>';
+	tbl += '<br/> <br/>'
+	document.getElementById('highscore').innerHTML = tbl
+}
+function firstView(){
+ istep  = 0;
+ init   = true;
+ Board  = [ 0,0,0,0, 0,0,0,0 , 0,0,0,0, 0,0,0,0];
+ Boards = [];
+ Score  = 0;
+ document.getElementById('history').innerHTML = '';
+ insert24(2);
+ let lnew=insert24(2);
+ showBoard(lnew);
+ //alert(localStorage.getItem('HighScore'));
+ if (localStorage.getItem('HighScore')) {
+  HighScore = localStorage.getItem('HighScore');
+ }
+ ShowScore()
+}
+  </script>
+ </head>
+<!-- _______________________________________________________________ -->
+<body onload="firstView()">
+<h1>2048 Game</h1>
+<div id='highscore'></div>
+<div id='game'></div>
+
+<div class='hide' id='history'></div>
+<details><summary>Instructions</summary>
+<ul>
+	<li>Move all tiles to one side with the arrow keys.</li>
+	<li>After each move a new tile with either a 2 or a 4 gets created.</li>
+	<li>If in a move two tiles with the same number touch, they get combined and  this combined number gets added to your score.</li>
+	<li>The game ends when you cannot make any more moves.</li>
+</ul>
+
+<h2>Action Keys</h2>
+<table>
+<tr> <td>&uarr;</td> <th>Move tiles up</th> </tr>
+<tr> <td>&darr;</td> <th>Move tiles down</th> </tr>
+<tr> <td>&larr;</td> <th>Move tiles left</th> </tr>
+<tr> <td>&rarr;</td> <th>Move tiles right</th> </tr>
+
+<tr> <td>n</td> <th>N-ew game</th> </tr>
+<tr> <td>l</td> <th>Show/Hide L-ast board</th> </tr>
+<tr> <td>Backspace</td> <th>Undo last move (can be repreated)</th> </tr>
+<tr> <td>0</td> <th>Reset high score</th> </tr>
+</table>
+
+<!-- https://www.washingtonpost.com/news/arts-and-entertainment/wp/2014/04/23/everything-you-ever-wanted-to-know-about-2048-the-internets-latest-impossible-hit-game/ -->
+</details>
+</body>
+<!-- _______________________________________________________________ -->
+</html>
+

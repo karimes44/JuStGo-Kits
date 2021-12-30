@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <meta charset="utf-8"/>
+ <title>JuStGo Kit: Pong</title>
+ <link rel="stylesheet" type="text/css" href="../styles/justgo.css">
+</head>
+
+<!-- _______________________________________________________________ -->
+<body>
+<h1>JuStGo Kit: Pong</h1>
+
+<h2>Introduction</h2>
+<!-- _______________________________________________________________ -->
+<h3>Working with the JuStGo Kit</h3>
+<!-- {{{ ---><div class="txt">
+<p>In this JuStGo kit you will build a version of a <em>Pong</em> game. The kit will lead you step-by-step through each task that needs to be completed to build the entire game.</p>
+
+<p>You will find explanations, tips, and resources that help you complete each task. At the end a solution is given. You can decide for yourself if you want to continue with your own solution, switch to the provided one, or to mix-and-match.</p>
+<p><b>Note:</b> To see the HTML code, open the solution proposal in your text editor, such as <a href= "https://chrome.google.com/webstore/detail/caret/fljalecfjciodhpcledpamjachpmelml?hl=en"> Chrome Caret</a>, or right-click anywhere on the solution proposal page and select <em>View Page Source</em>.</p>
+
+<p>The provided solution solves the task with very little code so that you can clearly see what is done and how. As a consequence, it may look a bit plain. Let this inspire you to spice it up!<br/>
+Go wild with CSS and add HTML elements as you like - make it yours! </p>
+</div><!-- }}} -->
+
+<h3>What is the Pong game about?</h3>
+<div class="txt"><!-- {{{ -->
+<p><em>Pong</em> is a table tennis-themed game. The first version of this game was an Arcade game manufactured by Atari and originally released in 1972.</p>
+
+<p>You can find a more information about this game on
+<a href= "https://en.wikipedia.org/wiki/Pong">Wikipedia: Pong</a>.</p>
+
+<p><b>Note:</b> As you work your way up step by step to the full two-player <em>Pong</em> game, you will create a single-player <em>Squash</em> version of the game.</p>
+</div><!-- }}} -->
+
+<h2>Task 0: Create the HTML placeholder</h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>Create an HTML placeholder page that...</p>
+	<ul>
+	 <li>defines the page document type to be HTML5,</li>
+	 <li>has a header section with a <code>title</code> tag,</li>
+	 <li>has a style section for the CSS definition,</li>
+	 <li>has a body section with a heading, and</li>
+	 <li>has a script section for the JavaScript code.</li>
+	</ul>
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<p>You can find a good intoduction to HTML at <a href= "https://www.w3schools.com/html/html_intro.asp" target="_blank" class="bgtip">W3Schools: HTML Introduction</a>.</p></details>
+
+<p class="box bgsol"><a href= "Pong_step0.html" target="_blank" class="bgsol">Solution Proposal for HTML placeholder</a></p>
+</div><!-- }}} -->
+
+<h2>Task 1: Create the game board</h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p><em>Pong</em> is a graphics game, so use a graphics oriented game board. Also add a play ball.</p>
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<p>You can use a <code>canvas</code> element for the game board.
+You can find a good explanation of how a canvas is defined in HTML at
+<a href= "https://www.w3schools.com/html/html5_canvas.asp" target="_blank"  class="bgtip">W3Schools: HTML Canvas Graphics</a>.</p>
+
+<p>You can draw the ball on the canvas as a circle using the <a href= "https://www.w3schools.com/tags/canvas_arc.asp">HTML <code>canvas arc()</code> Method</a>.</p>
+
+<p>Check out <a href= "https://www.w3schools.com/tags/canvas_fillstyle.asp"> HTML <code>canvas fillStyle</code> Property</a> to see how you can fill the play ball with a color.</p>
+</details>
+
+<p class="box bgsol"><a href= "Pong_step1.html" target="_blank" class="bgsol">Solution Proposal for the game board</a></p>
+
+<details class="box bghig"><summary>Highlights of added code</summary>
+
+<p>In the <code>&lt;body&gt;</code> section you can add a <code>&lt;canvas&gt;</code> element. You will need to define the <code>width</code> and <code>height</code> property right here inside of the <code>&lt;canvas&gt;</code>. If you define it in CSS the size of the HTML element will be set, but internal graphics size of the canvas will be the default size of 300x150 pixels - probably not what you want...</p>
+
+<p>A text value of the <code>&lt;canvas&gt;</code> element is not really needed, however, as the <code>&lt;canvas&gt;</code> element is a relatively new feature in HTML some (very) older browsers may not support it. So it is good practice to put a text message there so that a player with an old browser understand what is (not) happening.</p>
+
+<pre>
+&lt;body&gt;
+&lt;h1&gt;Pong/Squash&lt;/h1&gt;
+<span class='new'>&lt;canvas id="Canvas" width="1000" height="600"&gt;
+Your browser does not support the HTML5 canvas tag.&lt;/canvas&gt;</span>
+...
+</pre>
+
+<p>While defining the width and height of the <code>&lt;canvas&gt;</code> element in CSS is not a good idea, you still could define other properties there, such as <code>margin</code> and <code>border</code>:</p>
+
+<pre>
+&lt;style&gt;
+/* ...
+<span class='new'>canvas {
+ margin-left: 50px;
+ border:3px solid #d3d3d3;
+}</span>
+&lt;/style&gt;
+</pre>
+
+<p>To make sure the JavaScript can find the <code>&lt;canvas&gt;</code> element in the HTML you need to define the <code>&lt;script&gt;</code> block <em>after</em> the <code>&lt;canvas&gt;</code> element. You may be used to place the <code>&lt;script&gt;</code> block inside the <code>&lt;head&gt;</code> section, which indeed is usualy good practice, but here it is better to place it at the end of the <code>&lt;body&gt;</code> section.</p>
+<pre>
+...
+<span class='new'>&lt;script&gt;
+var c = document.getElementById("Canvas");
+var ctx = c.getContext("2d");
+var W = c.width ; var H = c.height;
+var x  = W/2; var y  = H/2;
+var ball_radius = 10;
+
+ctx.beginPath()
+ctx.arc(x, y, ball_radius, 0 , 2 * Math.PI);
+ctx.fillStyle = "red";
+ctx.fill();
+ctx.stroke();
+&lt;/script&gt;</span>
+&lt;/body&gt;
+</pre>
+<p>The first two line create the link between the HTML <code>&lt;canvas&gt;</code> element and the internal graphics area. The global  variable <code>ctx</code> (<em>context</em>) serves as a handle for JavaScript to address the graphics object.</p>
+
+<p>You have set the width and height of the <code>&lt;canvas&gt;</code> in HTML, so you could also just hard-code it in the <code>&lt;script&gt;</code> section, but alternativly you can automatically retrieve it by reading, e.g., the <code>width</code> property of the <code>c</code> object with <code>c.width</code>.</p>
+
+<p>You will need to keep track of where the ball is. You could use two global variables, <code>x</code> and <code>y</code> for that. To start with you could place the ball in the middle of the game board. Also pick a good size for the radius of the ball.</p>
+
+<p><b>Notes:</b> The coordinates of the canvas are a bit different compared to what you may be used to:<br/>
+The x-axis points left (so far so good), but the y-axis points down. And the origin (x=0 and y=0) is at the upper left corner.</p>
+</details>
+</div><!-- }}} -->
+
+<h2>Task 2: <em>You got to move it - move it!</em></h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>Can you make the ball move across the graphics area? </p>
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<p>Just like in a movie you need to create the <em>illusion</em> of movement by creating a sequence of <em>snapshots</em>, each with the ball in a slightly different position.</p>
+
+<p>For that you can place the code that draws the ball into a function, say <code>Move()</code>, which first clears the canvas and then re-draws the ball at a new position.</p>
+
+<p>To control the movement you will need new variables that could define, e.g., the time step size and the velocities in the x and y directions.</p>
+
+<p>You could use the keyboard to trigger a step movement. See for example:</p>
+<ul>
+	<li><a href= "https://www.w3schools.com/js/js_htmldom_eventlistener.asp" target="_blank"  class="bgtip">W3 School: JavaScript HTML DOM EventListener</a></li>
+	<li><a href= "https://www.w3schools.com/jsref/event_onkeydown.asp">onkeydown Event</a></li>
+	<li><a href= "https://www.w3schools.com/jsref/event_key_key.asp"> KeyboardEvent key Property</a></li>
+</ul>
+</details>
+
+<p class="box bgsol"><a href= "Pong_step2.html" target="_blank" class="bgsol">Solution Proposal for moving the ball</a></p>
+
+<details class="box bghig"><summary>Highlights of added code</summary>
+<p>You can use two variables, like <code>vx</code> and <code>vy</code> to store the current velocity of the ball along the x- and y-axis, and another variable <code>dt</code> to contain the time step.</p>
+<pre>
+&lt;script&gt;
+// ...
+<span class='new'>var vx = 1; var vy =   1;
+var dt = 1;</span>
+// ...
+</pre>
+
+<p>You can place the actual drawing of the ball into a function, say <code>Move()</code>, which first clears a rectangle on the canvas with <code>ctx.clearRect(0, 0, W, H)</code> - which here happens to be the entire canvas...</p>
+<p>Then you can compute the new coordinates of the ball from the previous one and the incremental movement, given by the product of the time step and the velocities. Then you can just draw the ball as before.</p>
+<pre>
+// ...
+<span class='new'>function Move() {
+ ctx.clearRect(0, 0, W, H)
+ x += dt*vx; y += dt*vy
+</span>
+ ctx.beginPath()
+ ctx.arc(x, y, ball_radius, 0 , 2 * Math.PI);
+ ctx.fillStyle = "red";
+ ctx.fill();
+ ctx.stroke();
+<span class='new'>}</span>
+// ...
+</pre>
+
+<p>Then you can define an event listener, so that when you press the <code>m</code>-key the <code>Move()</code> function is called.
+</p>
+<pre>
+<span class='new'>// Defining Key Short-Cuts
+window.addEventListener('keydown', function (e) {
+ let k = e.key;
+ //alert('&gt;'+k+'&lt;');
+ if (k == 'm') {
+  //alert('M-ove');
+  Move()
+ }
+})</span>
+&lt;/script&gt;
+</pre>
+<p>So now each time you press the <code>m</code>-key the ball will make a single step forward!</p>
+</details>
+</div><!-- }}} -->
+
+<h2>Task 3: <em>Let's get the ball rolling!</em></h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>Hm, pressing the <code>m</code>-key all the time get boring quickly... <br/>
+Can you write a function that keeps calling <code>Move()</code> automatically?</p>
+
+<p>You could trigger it with the space bar and make it a toggle, so you can start and stop the movement any time.</p>
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+
+<p>You can use <a href= "https://www.w3schools.com/js/js_timing.asp">JavaScript Timing Events</a> to call your <code>Move()</code> funtion at specific time intervals. At this site you can learn also how to stop the timer again (Watch out: strange things will start to happen if you start the same timer more than once!)</p>
+
+<p>To create a toggle you could use a <em>flag</em> technique and define a global Boolean, that is a variable which can only take on the values <code>true</code> or <code>false</code>, to keep track if the time is on or off. So if you press the space bar when the time is on, the timer gets stopped, and if you press the space bar again, the timer start over new.</p>
+</details>
+
+<p class="box bgsol"><a href= "Pong_step3.html" target="_blank" class="bgsol">Solution Proposal for getting the ball rolling</a></p>
+
+<details class="box bghig"><summary>Highlights of added code</summary>
+<p>You can use the variable <code>running</code> as a flag to keep track of if the animation is currently running or not.</p>
+
+<p>Depending on whether the flag is set to <code>true</code> or <code>false</code>, you can have a <code>StartStop()</code> function either start the timer with the <code>setInterval</code> call, or stop it with the <code>clearInterval</code> call. The first argument of <code>setInterval</code> is the function that it will call, and the second one the time interval length in milliseconds.</p>
+<pre>
+&lt;script&gt;
+// ...
+<span class='new'>let running = false;</span>
+// ...
+<span class='new'>function StartStop() {
+ if ( running ) {
+  running = false;
+  clearInterval(Timer);
+ } else {
+  running = true;
+  Timer = setInterval(Move,10);
+ }
+}</span>
+// ...
+</pre>
+
+<p>All that you have left to do is to add to your <code>keydown</code> event handler that the space bar should call the new <code>StartStop()</code> function:</p>
+<pre>
+// Defining Key Short-Cuts
+window.addEventListener('keydown', function (e) {
+ let k = e.key;
+ //alert('&gt;'+k+'&lt;');
+ <span class='new'>if (k == ' ') {
+  // alert('Space');
+  StartStop();
+ }</span>
+ if (k == 'm') {
+  //alert('M-ove');
+  Move()
+ }
+})
+</pre>
+</details>
+</div><!-- }}} -->
+
+<h2>Task 4: <em>Let's add some bounce!</em></h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>Well, the ball just rolls off the game board - that's no fun...</p>
+
+<p>Can you make it bounce of the walls?</p>
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<p>To make the ball bounces of a wall the velocity orthogonal to the wall just needs to changes direction.</p>
+
+<ul>
+	<li>You can add code to detect that the ball has reached a wall, and </li>
+	<li>then change the sign of the velocity component orthogonal to that wall.</li>
+</ul>
+</details>
+
+<p class="box bgsol"><a href= "Pong_step4.html" target="_blank" class="bgsol">Solution Proposal for the ball bouncing off the walls</a></p>
+
+<details class="box bghig"><summary>Highlights of added code</summary>
+<p>In the <code>Move()</code> function you can check if the current <code>x</code> or <code>y</code> coordinates are at a wall, that is <code>0</code>, or <code>W</code> for <code>x</code>, and <code>0</code>, or <code>H</code> for <code>y</code>. Then just multiply the corresponding velocity by <code>-1</code>.</p>
+
+<p>Well, not quite... the coordinates <code>x</code> and <code>y</code> track the center of the ball, but the ball bounces as soon as the <em>outer edge</em> touches the wall, so you should correct for the ball radius.</p>
+
+<p>Also, as time evolves in <em>discrete</em> steps in your animation, you may miss the point at which the ball touches the wall <em>exactly</em>... so to be sure you can check for when the ball is just <em>beyond</em> the wall, so test for <br/>
+&nbsp; <code>y &lt; ball_radius</code> instead of <code>y == ball_radius</code></em>:</p>
+<pre>
+// ...
+<span class='new'>var lastEvent = '';</span>
+function Move() {
+ ctx.clearRect(0, 0, W, H)
+ x += dt*vx; y += dt*vy
+
+ ctx.beginPath()
+ ctx.arc(x, y, ball_radius, 0 , 2 * Math.PI);
+ ctx.fillStyle = "red";
+ ctx.fill();
+ ctx.stroke();
+
+ <span class='new'>if ( y &lt; ball_radius ) {
+  if ( lastEvent != 'top wall' ) {
+   // Simple bounce of top wall.
+   vy = -1*vy
+   lastEvent = 'top wall';
+  }
+ } else if ( y &gt; H - ball_radius ) {
+  if ( lastEvent != 'bottom wall' ) {
+  // Simple bounce of top and bottom walls.
+   vy = -1*vy
+   lastEvent = 'bottom wall';
+  }
+ } else if ( x &lt; ball_radius ) {
+  if ( lastEvent != 'left wall' ) {
+   vx = -1*vx
+   lastEvent = 'left wall';
+  }
+ } else if ( x &gt; W - ball_radius ) {
+  if ( lastEvent != 'right wall' ) {
+   // Simple bounce of right wall.
+   vx = -1*vx
+   lastEvent = 'right wall';
+  }
+ }</span>
+}
+</pre>
+
+<p><b>Note:</b> Because you are performing the animation in discrete time steps a few <em>oddities</em> may happen: your ball may <em>penetrate</em> the wall before your code as a chance to realize that the ball is at the wall. Ok, you took care of that by using the <em>greater than</em> and <em>smaller than</em> test conditions.</p>
+
+<p>... but sometimes the ball may get to a point where after the next time step the ball is still at the wall and your code may end up flipping the orthogonal velocity direction again, and again, and again - your ball just seems stuck to the wall (sigh).</p>
+
+<p>But actually... once the ball has hit one wall it has to hit <em>something else</em> before it can hit <em>this</em> wall again, so you could keep track of which wall was hit last and suppress any double bounces.</p>
+
+</details>
+</div><!-- }}} -->
+
+<h2>Task 5: Add a paddle</h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>Ok, watching the ball bounce around in the box is soothing for a while... but now you may want to add a paddle to get ready for playing <em>Pong</em>, also the ball is going a bit slow, don't you think?</p>
+
+<ul>
+  <li>Add a paddle to the right side of the game board.</li>
+  <li>Add controls to make the paddle move up and down.</li>
+  <li>Can you add controls to make the ball speed up and slow down?</li>
+ </ul>
+ 
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<ul>
+	<li>For the paddle you could draw a thin bar near the right edge of the game board.</li>
+	<li>Similar to the ball, you could add an upward or downward velocity to the paddle when, e.g., you press the up or down arrow keys.</li>
+	<li>You can experiment with different ways to control the movement, e.g., one <code>keydown</code> even corresponds to one step, or one <code>keydown</code> increase the velocity, and the paddle keeps moving until you reverse the velocity, or you add a key for stopping the motion, etc.</li>
+	<li>Experiment which paddle controls result in the smoothest user experience... </li>
+</ul>
+</details>
+
+<p class="box bgsol"><a href= "Pong_step5.html" target="_blank" class="bgsol">Solution Proposal for adding a paddle</a></p>
+
+<details class="box bghig"><summary>Highlights of added code</summary>
+<p>To add the right paddle to the game board you could just add another rectangle to the <code>Move()</code> function. You may also want to define some global variables that store the desired length of the paddle (here <code>pad2</code> is half the paddle length), the current center position of the paddle (here <code>right</code>). Depending of how you want the paddle movement to be controlled, you could define a variable which stores the current velocity of the paddle (here <code>vright</code>, and a variable which stores the increments of the paddle velocity (here <code>dvpad</code>).</p>
+
+<p>Another variable may store a speed factor used to scale up the ball velocity one you are comfortable with the game (here <code>Speed</code>). The factor is 1 at the beginning of the game, but you can increase and decrease it while playing.</p>
+
+<pre>
+&lt;script&gt;
+\\ ...
+<span class='new'>var pad2 = 100;
+var dvpad = 1;
+var Speed = 1;
+var right  = H/2; var vright = 0;</span>
+\\ ...
+</pre>
+
+<p>In the <code>Move()</code> function you can just add the drawing of a rectangle at the current position of the paddle:</p>
+<pre>
+\\ ...
+function Move() {
+\\ ...
+ <span class='new'>right+= vright;
+ if ( right &lt; 0 || right &gt; H ) { vright = 0 }
+ ctx.fillStyle = "black";
+ ctx.fillRect(W-20, right-pad2, 10, 2*pad2);</span>
+\\ ...
+</pre>
+<p>... but before you draw it, update the current position with the paddle velocity. (To be able to independently control the paddle and the ball movement you can consider using the time step <code>dt</code> only for the ball, or to define another time step, just for the paddle.)</p>
+
+<p>If you don't stop the paddle movement in time, it will just drift of the game board (sigh). To prevent that you could stop the paddle movement automatically when it's half of the board - that's what the second red line accomplishes.</p>
+
+<p>Now you need to update the <code>keydown</code> event handler:</p>
+<pre>
+// ...
+// Defining Key Short-Cuts
+window.addEventListener('keydown', function (e) {
+ let k = e.key;
+ //alert('&gt;'+k+'&lt;');
+ if (k == ' ') {
+  // alert('Space');
+  StartStop();
+ }
+ if (k == 'm') {
+  //alert('M-ove');
+  Move()
+ }
+  <span class='new'>if (k == 'ArrowUp') {
+  //alert('Up');
+  vright -= dvpad;
+ }
+ if (k == 'ArrowDown') {
+  // alert('Down');
+  vright += dvpad;
+ }
+ if (k == 'ArrowLeft') {
+  // alert('Left-Stop');
+  vright = 0;
+ }
+ if (k == 'ArrowRight') {
+  // alert('Right-Reset');
+  vright = 0;
+   right = H/2;
+ }
+ if (k == '+') {
+  // alert('+');
+  vx *= 1.4 ; vy *= 1.4; Speed *= 1.4;
+ }
+ if (k == '-') {
+  // alert('-');
+  vx /= 1.4 ; vy /= 1.4; Speed /= 1.4;
+ }</span>
+})
+&lt;/script&gt;
+</pre>
+<p>Pressing the <em>Up</em>-key adds to the paddle velocity and <em>Down</em>-key reduces it, the <em>Left</em>-key stops the paddle movement, and the <em>Right</em>-key puts the paddle back into the center position.</p>
+
+<p>Pressing the <code>'+'</code>-key or <code>'-'</code>-keys scales the ball velocities by a factor of <code>1.4</code> either up or down. The <code>Speed</code> variable stores the current speed (... for later use).</p>
+</details>
+</div><!-- }}} -->
+
+<h2>Task 6: Let the ball bounce of the paddle</h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>Once you are comfortable with moving the paddle with your new controls, you need to make the ball bounce of the paddle.</p>
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<ul>
+ <li>You can add another condition to your bouncing-off-the-wall code that detects when the ball touches the paddle and - again - just reflects the orthogonal velocity.</li>
+</ul>
+</details>
+
+<p class="box bgsol"><a href= "Pong_step6.html" target="_blank" class="bgsol">Solution Proposal for letting the ball bounce of the paddle</a></p>
+
+<details class="box bghig"><summary>Highlights of added code</summary>
+<p>The only difference to checking if a ball hit a wall or the paddle is that for the paddle you need a check for the <code>x</code>-coordinate <b>and</b> then two more the for <code>y</code>-coordinate of the ball to make sure it is within the current extend of the paddle:</p>
+<pre>
+function Move() {
+ \\ ...
+ if ( y &lt; ball_radius ) {
+  if ( lastEvent != 'top wall' ) {
+   // Simple bounce of top wall.
+   vy = -1*vy
+   lastEvent = 'top wall';
+  }
+\\ ...
+ } else if ( x &gt; W - ball_radius ) {
+  if ( lastEvent != 'right wall' ) {
+   // Simple bounce of right wall.
+   vx = -1*vx
+   lastEvent = 'right wall';
+  }
+ <span class='new'>} else if ( x &gt; W-20-ball_radius 
+          &amp;&amp; y &gt;= right-pad2-ball_radius 
+          &amp;&amp; y &lt;= right+pad2+ball_radius ) {
+  if ( lastEvent != 'right paddle' ) {
+   // Simple bounce of right paddle.
+   vx = -1*vx
+   lastEvent = 'right paddle';
+  }
+ }
+}
+</pre>
+</details>
+</div><!-- }}} -->
+
+<h2>Task 7: Control the reflection angle of the ball</h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>Hm... have you noticed that the ball moves through the game board always at the same angle? That makes the game a bit boring...</p>
+
+<p>Can you modify the paddle-bounce to allow for different angles of reflection?</p>
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<p>There are many ways to do that, but here are a few things to consider:</p>
+
+<ul>
+	<li>Will your modification change the speed of the ball?</li>
+	<li>How to define the new angle so that the movement appears <em><q>natural</q></em> for the players so that they can intuitively anticipate it?</li>
+</ul>
+
+<p>One way to approach this is to emulate that paddle being a rounded surface and compute the reflection angle of the ball bouncing off this rounded surface. The bouncing rule remains the same:</p>
+<p> <em><q>The tangential component of the ball velocity with respect to the surface remains unchanged, and the orthogonal component changes its sign.</q></em></p>
+ <p>... however, when it was just a straight side wall you knew that <em>x</em>-component of the velocity was the orthogonal component and had to be flipped - but for a refection of a curved paddle you need to actually compute the tangential and orthogonal components of the ball velocity.</p>
+</details>
+
+<p class="box bgsol"><a href= "Pong_step7.html" target="_blank" class="bgsol">Solution Proposal for a paddle bounce that changes the angle of reflection</a></p>
+
+<details class="box bghig"><summary>Highlights of added code</summary>
+<p>If you learn about trigonometry and/or vector algebra you can derive the expressions for the the tangential and orthogonal components of the ball velocity with respect to a curved paddle surface. Discussing the derivation is a bit much for this page.</p>
+
+<p>... but basically you need you replace the line:</p>
+<pre>
+   // Simple bounce of right paddle.
+   vx = -1*vx
+</pre>
+<p>with:</p>
+<pre>
+   // Bounce of rounded right paddle.
+   let dh = y-right;
+   let s = dh/R;
+   let c = Math.sqrt(1.0-s*s);
+   let c2s2 = c*c-s*s
+   let cs2  = 2*c*s
+   vx_new = -vx*c2s2 - vy*cs2;
+   vy_new = -vy*c2s2 + vx*cs2;
+   vx = vx_new; vy = vy_new
+</pre>
+
+<p>But to give you a feel for what is happening, you can draw the curved paddle surface with the code shown in <em>italic</em> below.</p>
+<pre>
+<span class='new'>var R  = 200;
+
+<em>var cos = 1.0*pad2/R;
+var offset = R * Math.sqrt(1.0-cos*cos);</em></span>
+
+function Move() {
+ // ...
+ right+= vright;
+ if ( right < 0 || right > H ) { vright = 0 }
+ <span class='new'><em>ctx.beginPath()
+ ctx.arc(W+offset, right, R, 0, 2*Math.PI);
+ ctx.fillStyle = "lightgray";
+ ctx.fill();
+ ctx.stroke();</em></span>
+ ctx.fillStyle = "black";
+ ctx.fillRect(W-20, right-pad2, 10, 2*pad2);
+ // ...
+ if ( y &lt; ball_radius ) {
+  // ...
+ } else if ( x &gt; W-20-ball_radius 
+          &amp;&amp; y &gt;= right-pad2-ball_radius 
+          &amp;&amp; y &lt;= right+pad2+ball_radius ) {
+  if ( lastEvent != 'right paddle' ) {
+   <span class='new'>// Bounce of rounded right paddle.
+   let dh = y-right;
+   let s = dh/R;
+   let c = Math.sqrt(1.0-s*s);
+   let c2s2 = c*c-s*s
+   let cs2  = 2*c*s
+   vx_new = -vx*c2s2 - vy*cs2;
+   vy_new = -vy*c2s2 + vx*cs2;
+   vx = vx_new; vy = vy_new</span>
+   lastEvent = 'right paddle';
+  }
+ }
+}
+</pre>
+
+<p>You may notice that the code is cheating a bit: The ball still bounces of the straight(!) paddle, <em>but</em> the reflected velocity is computed <em>as if</em> it bounced of a rounded paddle. That way you can still just check if <code>x &gt; W-20-ball_radius</code> instead of checking if the ball actually touched the rounded surface - for this <em>Pong</em> game that should be good enough... but you can take it as a challenge to improve the code!</p>
+</details>
+</div><!-- }}} -->
+
+<h2>Task 8: The <em>Squash</em> game</h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>You are almost ready for a single-player <em>Squash</em> game!</p>
+<p>Can you complete the code accordingly?</p>
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<p>Just suppress the bouncing off the right wall, and add a count-down counter that counts how many times the ball flew out of bounds through the right side.</p>
+
+<p>Also, when the ball flies out of bounds you need to stop the game, and when you re-start it for the next serve, you need to re-set the game accordingly.</p>
+</details>
+
+<p class="box bgsol"><a href= "Pong_step8.html" target="_blank" class="bgsol">Solution Proposal for a <em>Squash</em> game</a></p>
+
+<details class="box bghig"><summary>Highlights of added code</summary>
+<p>You can use a <code>&lt;table&gt;</code> element for the score board. You might as well implement it to support two player, so that you can use it for <em>Pong</em> as well.</p>
+<pre>
+&lt;body onload="Move()"&gt;
+&lt;h1&gt;Squash&lt;/h1&gt;
+<span class='new'>&lt;div id='scoretable'&gt;
+&lt;table&gt;
+&lt;tr&gt; &lt;th colspan="2"&gt;Score Table&lt;/th&gt; &lt;/tr&gt;
+&lt;tr&gt; &lt;th&gt;Left&lt;/th&gt; &lt;th&gt;Right&lt;/th&gt; &lt;/tr&gt;
+&lt;tr&gt; &lt;td id='score_left'&gt;0&lt;/td&gt; &lt;td id='score_right'&gt;0&lt;/td&gt; &lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;</span>
+&lt;canvas id="Canvas" width="1000" height="600"&gt;
+Your browser does not support the HTML5 canvas tag.&lt;/canvas&gt;
+</pre>
+<p>You can also add instructions for the <em>Squash</em> game:</p>
+<pre>
+<span class='new'>&lt;details&gt;&lt;summary&gt;Squash Instructions&lt;/summary&gt;
+&lt;table&gt;
+&lt;tr&gt; &lt;th class='key'&gt;Key&lt;/th&gt; &lt;th&gt;Action&lt;/th&gt; &lt;/tr&gt;
+&lt;tr&gt; &lt;td class='key'&gt;Space&lt;/td&gt; &lt;td&gt;Start/Pause Game&lt;/td&gt; &lt;/tr&gt;
+&lt;tr&gt; &lt;td class='key'&gt;+&lt;/td&gt; &lt;td&gt;Increase ball speed&lt;/td&gt; &lt;/tr&gt;
+&lt;tr&gt; &lt;td class='key'&gt;-&lt;/td&gt; &lt;td&gt;Decrease ball speed&lt;/td&gt; &lt;/tr&gt;
+&lt;tr&gt; &lt;td class='key'&gt;&uarr;&lt;/td&gt; &lt;td&gt;Increase upward velocity of right paddle&lt;/td&gt; &lt;/tr&gt;
+&lt;tr&gt; &lt;td class='key'&gt;&darr;&lt;/td&gt; &lt;td&gt;Increase downward velocity of right paddle&lt;/td&gt; &lt;/tr&gt;
+&lt;tr&gt; &lt;td class='key'&gt;&larr;&lt;/td&gt; &lt;td&gt;Reset velocity of right paddle&lt;/td&gt; &lt;/tr&gt;
+&lt;tr&gt; &lt;td class='key'&gt;&rarr;&lt;/td&gt; &lt;td&gt;Reset velocity paddle&lt;/td&gt; &lt;/tr&gt;
+&lt;/table&gt;
+&lt;/details&gt;</span>
+</pre>
+
+<p>You can preset the score to 10 and write the current score to the table:</p>
+<pre>
+&lt;script&gt;
+// ...
+<span class='new'>var score_right = 10;
+document.getElementById('score_right').innerHTML = score_right;</span>
+</pre>
+
+<p>In the <code>Move()</code> function the new condition for the ball touching the right wall could be:</p>
+<pre>
+function Move() {
+ // ...
+ if ( y &lt; ball_radius ) {
+  // ...
+ <span class='new'>} else if ( x &gt; W ) {
+  // Open right wall with Squash counter.
+  StartStop();
+  score_right--;
+  document.getElementById('score_right').innerHTML = score_right;
+  x  =    W/2; y  = H/2;
+  vx =  Speed; vy =   0;
+  right  = H/2;
+  vright = 0;
+  lastEvent = '';
+  if (score_right == 0) {
+   alert('Game Over!')
+   vx =  2*Speed; vy =   0;
+   right  = H/2; vright = 0;
+   Move()
+   score_right = 10;
+   document.getElementById('score_right').innerHTML = score_right;
+  }
+ }</span> 
+ // ...
+}
+</pre>
+<p>So as soon as the ball flies out of bounds you:</p>
+<ul>
+	<li>stop the animation, and</li>
+	<li>reduce the score by one, and</li>
+	<li>update the score table, and</li>
+	<li>place the ball in the center of the court, and set the velocity to the stored <code>Speed</code>, and into the direction of the right paddle. (That's an <q>easy serve</q>, you can change that if you like...), and </li>
+	<li>reset the paddle, and</li>
+	<li>clear the <code>lastEvent</code> flag.</li>
+</ul>
+
+<p>If the score has counted down to zero, the game is over, so reset everything and you are ready for a new game!</p>
+</details>
+</div><!-- }}} -->
+
+
+<h2>Task 9: The <em>Pong</em> game</h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>Now to turning the <em>Squash</em> into <em>Pong</em> is easy, right?</p>
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<p>For the <em>left</em> player you don't have another set of arrow keys, but you could just use some other keys on the left side of the keyboard that are in an arrangement similar to the arrow keys. For example, the <code>W</code>-key for up, the <code>S</code>-key for down, and the <code>D</code>-key for stopping the paddle, and the <code>A</code>-key for resetting it.</p>
+
+<p>Other than that, just add a left paddle in the same way as you did the right paddle, open up the left wall, and change the scoring.</p>
+
+<p>... adding a center line to the pong table would add a nice touch.</p>
+</details>
+
+<p class="box bgsol"><a href= "Pong.html" target="_blank" class="bgsol"> Solution Proposal for the <em>Pong</em> game</a></p>
+
+<details class="box bghig"><summary>Highlights of added code</summary>
+<p>Add the variables for storing the current position and velocity of the left paddle, and the current score:</p>
+<pre>
+&lt;script&gt;
+// ...
+<span class='new'>var left  = H/2; var vleft = 0;
+var score_left  = 0;
+var score_right = 0;</span>
+</pre>
+
+<p>In the <code>Move()</code> function, draw the center line of the pong table, and draw the left paddle:</p>
+<pre>
+function Move() {
+ // ...
+
+ <span class='new'>ctx.fillStyle = "lightgray";
+ ctx.fillRect(W22,   H15, 4, H15);
+ ctx.fillRect(W22, 3*H15, 4, H15);
+ ctx.fillRect(W22, 5*H15, 4, H15);
+ ctx.fillRect(W22, 7*H15, 4, H15);
+ ctx.fillRect(W22, 9*H15, 4, H15);
+ ctx.fillRect(W22,11*H15, 4, H15);
+ ctx.fillRect(W22,13*H15, 4, H15);</span>
+ // ...
+ <span class='new'>left+= vleft;
+ if ( left &lt; 0 || left &gt; H ) { vleft = 0 }
+ ctx.fillStyle = "black";
+ ctx.fillRect(10, left-pad2, 10, 2*pad2);</span>
+</pre>
+
+<p>Add the code for the ball bouncing off the left paddle:</p>
+<pre>
+ if ( y &lt; ball_radius ) {
+ \\...
+ <span class='new'>} else if ( x &lt; 20+ball_radius
+          &amp;&amp; y &gt;= left-pad2-ball_radius
+          &amp;&amp; y &lt;= left+pad2+ball_radius ) {
+  // Bounce of rounded left paddle.
+  if ( lastEvent != 'left paddle' ) {
+   let dh = y-left;
+   let s = dh/R;
+   let c = Math.sqrt(1.0-s*s);
+   let c2s2 = c*c-s*s
+   let cs2  = 2*c*s
+   vx_new = -vx*c2s2 - vy*cs2;
+   vy_new =  vy*c2s2 - vx*cs2;
+   vx = vx_new; vy = vy_new
+   lastEvent = 'left paddle';
+  } </span>
+  \\ ...
+</pre>
+
+<p>And the code for scoring and ending the game:</p>
+<pre>
+ // ...
+ <span class='new'>} else if ( x &lt; 0 ) {
+  // Pong Scoring for right player
+  StartStop();
+  score_right++;
+  if ( score_right == 10 ) {
+   alert('Right Player won!');
+   score_right = 0;
+   score_left  = 0;
+  }
+  document.getElementById('score_right').innerHTML = score_right;
+  x  =     W/2; y  = H/2;
+  vx =   Speed; vy =   0;
+  left = H/2; right  = H/2;
+  vleft =  0; vright = 0;
+  lastEvent = '';
+ } else if ( x &gt; W ) {
+  // Pong Scoring for left player
+  StartStop();
+  score_left++;
+ if ( score_left == 10 ) {
+   alert('Left Player won!');
+   score_right = 0;
+   score_left  = 0;
+  }
+  document.getElementById('score_left').innerHTML = score_left;
+  x  =       W/2; y  = H/2;
+  vx =  -1*Speed; vy =   0;
+  left = H/2; right  = H/2;
+  vleft =  0; vright = 0;
+  lastEvent = '';
+ }</span>
+</pre>
+
+<p>And lastly, add the new keys to the event listener:</p>
+
+<pre>
+// Defining Key Short-Cuts
+window.addEventListener('keydown', function (e) {
+ let k = e.key;
+ //...
+  <span class='new'>if (k == 'w') {
+  // alert('w-Up');
+  vleft -= dvpad;
+ }
+ if (k == 's') {
+  // alert('s-Down');
+  vleft += dvpad;
+ }
+ if (k == 'd') {
+  // alert('d-Stop');
+  vleft = 0;
+ }
+ if (k == 'a') {
+  // alert('a-Reset');
+  vleft = 0;
+   left = H/2;
+ }</span>
+})
+&lt;/script&gt;
+</pre>
+
+<p>... and there is your <em>Pong</em> game!</p>
+</details>
+</div><!-- }}} -->
+
+<p>Congratulations! You completed the JuStGo kit!</p>
+
+<h1>Challenges</h1>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<ul>
+ <li>The graphical appearance could use some work, don't you think?</li>
+ <li>Experiment with the sizes and placement of the paddles, and the ways the paddles are controlled to improve the user experience.</li>
+ <li>Experiment with the way the paddle deflects the balls.</li>
+ <li>How about introducing obstacles on the board that do something with the ball (deflecting it, speeding it up, or making it disappear).</li>
+ <li>Here the ball flies in straight lines between bounces - how about adding gravity?</li>
+ <li>With the element of the <em>Pong</em> game you can build other similar games, such as <a href= "https://en.wikipedia.org/wiki/Breakout_(video_game)"><em>Breakout</em></a> - give it a try.</li>
+ <li>You could even try your hand on a version of pinball or billiards.</li>
+</ul>
+</div><!-- }}} -->
+</body></html>
