@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <title>MasterMind</title>
+<!-- _______________________________________________________________ -->
+<style>
+.board {
+ width: 600px;
+ text-align: center;
+}
+
+.sel {
+ margin-top: 20px;
+}
+
+label {
+ padding: 15px
+}
+
+h1 {
+ font-family: "Helvetica";
+ font-size:    18pt;
+ margin-left:  10pt;
+ color:        navy; }
+
+table {
+ margin:  auto;
+ font-family:  "Courier New";
+ font-weight:  bold;
+ font-size:    18pt;
+ border-collapse: collapse;
+ border:       1px solid black;
+}
+
+td, th {
+ height:       2em;
+ width:        2em;
+ text-align:   center;
+ padding:      4px;
+ margin:       0px;
+ border-collapse: collapse;
+ border:       1px solid black;
+}
+
+.c1 {
+ background-color: red;
+}
+.c2 {
+	background-color: orange;
+}
+.c3 {
+	background-color: green;
+}
+.c4 {
+	background-color: teal;
+}
+.c5 {
+	background-color: blue;
+}
+.c6 {
+	background-color: purple;
+}
+
+.answer_color {
+	background-color: lightgray;
+}
+.answer_spot {
+	background-color: pink;
+}
+
+.hide {
+ display: none;
+}
+</style>
+
+<!-- _______________________________________________________________ -->
+<script>
+var Code = [];
+
+function Random() {
+	for (let i=0; i<4;i++) {	
+		let r = Math.ceil(Math.random() * 6);
+		Code.push('c'+r);
+		document.getElementById('a'+i).className = 'c'+r;
+	}
+	//alert(Code);
+}
+
+function Select(N) {
+	let Col = document.forms.SelectColor.elements.Color.value;
+	//alert(Col)
+	document.getElementById(N).className = Col;
+}
+
+function Reveal() {
+ let cls = document.getElementById('code').className;
+ if ( cls == 'hide' ) {
+  document.getElementById('code').className = 'show';
+ } else {
+  document.getElementById('code').className = 'hide';
+ }
+}
+
+function Eval(R) {
+	let RSpot   = 0;
+	let RColor  = 0;
+	let Guesses = [];
+	let ColCode = [];
+	for (let i=0; i<4;i++) {
+		let Guess = document.getElementById(R*4+i).className
+		//alert(Guess)
+		if (Guess == Code[i]) {
+			RSpot++;
+		} else {
+			Guesses.push(Guess);
+			ColCode.push(Code[i]);
+		}
+	}
+	document.getElementById('r'+R).innerHTML = RSpot;
+
+	for (let i=0; i<Guesses.length;i++) {
+		index = ColCode.indexOf(Guesses[i])
+		//alert(index + '-' + i + ':'+ Guesses + '|' + ColCode);
+		if (index > -1) {
+			RColor++;
+			ColCode.splice(index,1);
+			//alert(ColCode);
+		}
+	}
+	document.getElementById('c'+R).innerHTML = RColor;
+	if ( RSpot == 4 ) {
+		Reveal();
+		alert('Congratulation!')
+	}
+}
+</script>
+</head>
+<!-- _______________________________________________________________ -->
+<body onload='Random()'>
+<h1>MasterMind</h1>
+
+<div class='board'>
+<table>
+<tr>
+ <th colspan='4'>Your Guesses</th>
+ <th><button onclick='Reveal()'>Reveal</button></th> 
+ <th colspan='2'>Answer</th></tr>
+<tr>
+ <td id= '0' onclick='Select( 0)' class='free'>&nbsp;</td>
+ <td id= '1' onclick='Select( 1)' class='free'>&nbsp;</td>
+ <td id= '2' onclick='Select( 2)' class='free'>&nbsp;</td>
+ <td id= '3' onclick='Select( 3)' class='free'>&nbsp;</td>
+ <td><button onclick='Eval( 0)'>Check</button></td>
+ <td id='r0' class='answer_spot'>&nbsp;</td>
+ <td id='c0' class='answer_color'>&nbsp;</td>
+</tr>
+<tr>
+ <td id= '4' onclick='Select( 4)' class='free'>&nbsp;</td>
+ <td id= '5' onclick='Select( 5)' class='free'>&nbsp;</td>
+ <td id= '6' onclick='Select( 6)' class='free'>&nbsp;</td>
+ <td id= '7' onclick='Select( 7)' class='free'>&nbsp;</td>
+ <td><button onclick='Eval( 1)'>Check</button></td>
+ <td id='r1' class='answer_spot'>&nbsp;</td>
+ <td id='c1' class='answer_color'>&nbsp;</td>
+</tr>
+<tr>
+ <td id= '8' onclick='Select( 8)' class='free'>&nbsp;</td>
+ <td id= '9' onclick='Select( 9)' class='free'>&nbsp;</td>
+ <td id='10' onclick='Select(10)' class='free'>&nbsp;</td>
+ <td id='11' onclick='Select(11)' class='free'>&nbsp;</td>
+ <td><button onclick='Eval( 2)'>Check</button></td>
+ <td id='r2' class='answer_spot'>&nbsp;</td>
+ <td id='c2' class='answer_color'>&nbsp;</td>
+</tr>
+<tr>
+ <td id='12' onclick='Select(12)' class='free'>&nbsp;</td>
+ <td id='13' onclick='Select(13)' class='free'>&nbsp;</td>
+ <td id='14' onclick='Select(14)' class='free'>&nbsp;</td>
+ <td id='15' onclick='Select(15)' class='free'>&nbsp;</td>
+ <td><button onclick='Eval( 3)'>Check</button></td>
+ <td id='r3' class='answer_spot'>&nbsp;</td>
+ <td id='c3' class='answer_color'>&nbsp;</td>
+</tr>
+<tr>
+ <td id='16' onclick='Select(16)' class='free'>&nbsp;</td>
+ <td id='17' onclick='Select(17)' class='free'>&nbsp;</td>
+ <td id='18' onclick='Select(18)' class='free'>&nbsp;</td>
+ <td id='19' onclick='Select(19)' class='free'>&nbsp;</td>
+ <td><button onclick='Eval( 4)'>Check</button></td>
+ <td id='r4' class='answer_spot'>&nbsp;</td>
+ <td id='c4' class='answer_color'>&nbsp;</td>
+</tr>
+<tr>
+ <td id='20' onclick='Select(20)' class='free'>&nbsp;</td>
+ <td id='21' onclick='Select(21)' class='free'>&nbsp;</td>
+ <td id='22' onclick='Select(22)' class='free'>&nbsp;</td>
+ <td id='23' onclick='Select(23)' class='free'>&nbsp;</td>
+ <td><button onclick='Eval( 5)'>Check</button></td>
+ <td id='r5' class='answer_spot'>&nbsp;</td>
+ <td id='c5' class='answer_color'>&nbsp;</td>
+</tr>
+
+<tr>
+ <td id='24' onclick='Select(24)' class='free'>&nbsp;</td>
+ <td id='25' onclick='Select(25)' class='free'>&nbsp;</td>
+ <td id='26' onclick='Select(26)' class='free'>&nbsp;</td>
+ <td id='27' onclick='Select(27)' class='free'>&nbsp;</td>
+ <td><button onclick='Eval( 6)'>Check</button></td>
+ <td id='r6' class='answer_spot'>&nbsp;</td>
+ <td id='c6' class='answer_color'>&nbsp;</td>
+</tr>
+
+<tr>
+ <td id='28' onclick='Select(28)' class='free'>&nbsp;</td>
+ <td id='29' onclick='Select(29)' class='free'>&nbsp;</td>
+ <td id='30' onclick='Select(30)' class='free'>&nbsp;</td>
+ <td id='31' onclick='Select(31)' class='free'>&nbsp;</td>
+ <td><button onclick='Eval( 7)'>Check</button></td>
+ <td id='r7' class='answer_spot'>&nbsp;</td>
+ <td id='c7' class='answer_color'>&nbsp;</td>
+</tr>
+
+<tr>
+ <td id='32' onclick='Select(32)' class='free'>&nbsp;</td>
+ <td id='33' onclick='Select(33)' class='free'>&nbsp;</td>
+ <td id='34' onclick='Select(34)' class='free'>&nbsp;</td>
+ <td id='35' onclick='Select(35)' class='free'>&nbsp;</td>
+ <td><button onclick='Eval( 8)'>Check</button></td>
+ <td id='r8' class='answer_spot'>&nbsp;</td>
+ <td id='c8' class='answer_color'>&nbsp;</td>
+</tr>
+
+<tr>
+ <td id='36' onclick='Select(36)' class='free'>&nbsp;</td>
+ <td id='37' onclick='Select(37)' class='free'>&nbsp;</td>
+ <td id='38' onclick='Select(38)' class='free'>&nbsp;</td>
+ <td id='39' onclick='Select(39)' class='free'>&nbsp;</td>
+ <td><button onclick='Eval( 9)'>Check</button></td>
+ <td id='r9' class='answer_spot'>&nbsp;</td>
+ <td id='c9' class='answer_color'>&nbsp;</td>
+</tr>
+
+<tr id='code' class='hide'>
+ <td id='a0'>&nbsp;</td>
+ <td id='a1'>&nbsp;</td>
+ <td id='a2'>&nbsp;</td>
+ <td id='a3'>&nbsp;</td>
+ <td></td>
+ <td></td>
+ <td></td>
+</tr>
+</table>
+
+<div class='sel'>
+<form name='SelectColor'>
+<p>Select a Color </p>
+<label class='c1'>
+<input type='radio' name='Color' value='c1' checked>&nbsp;</label>
+<label  class='c2'>
+<input type='radio' name='Color' value='c2'>&nbsp;</label>
+<label class='c3'>
+<input type='radio' name='Color' value='c3'>&nbsp;</label>
+<label class='c4'>
+<input type='radio' name='Color' value='c4'>&nbsp;</label>
+<label class='c5'>
+<input type='radio' name='Color' value='c5'>&nbsp;</label>
+<label class='c6'>
+<input type='radio' name='Color' value='c6'>&nbsp;</label>
+</form>
+</div>
+</div>
+</body>
+<!-- _______________________________________________________________ -->
+</html>

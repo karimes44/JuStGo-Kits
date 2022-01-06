@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <meta charset="utf-8"/>
+ <title>RPN Calculator</title>
+ 
+<!-- {{{ Style _________________________________________________ -->
+<style>
+body {
+ font-family: "Helvetica";
+ font-size:    14pt;
+ margin-left:  20pt; }
+h1 {
+ font-family: "Helvetica";
+ font-size:    18pt;
+ margin-left:  10pt;
+ color:        navy; }
+p {
+ font-family: "Helvetica";
+ margin-left:  20pt; }
+input {
+ font-family:  "Courier New";
+ font-size:    14pt;
+ font-weight:  bold;
+}
+em {
+ color:       brown;	
+ font-style: normal;
+}
+.num {
+ text-align: right;	
+ font-family:  "Courier New";
+ font-weight:  bold;
+}
+.res {
+ font-size:     16pt;
+ text-align:    center;
+ width:         12em;
+ border-style:  solid;
+ border-width:  2px;
+ border-radius: 4px;
+ padding:       1em;
+ margin:        1em;
+ border-color:  gray;
+}
+table {
+  border-collapse: collapse;
+}
+</style><!-- }}} ______________________________________________ -->
+
+<script  type="text/javascript">// {{{ _________________________ -->
+
+// {{{ Global Variables _________________________________________ //
+var stk = [];
+var his = [];
+var hiscom = [];
+var fmt = '.f';
+var fmtn = 0;
+var degtorad = Math.PI/180.0;
+var com = '';
+
+var ops = {
+ '+':   [2, 'add',        'Binary'],
+ '-':   [2, 'substract',  'Binary'],
+ '*':   [2, 'multiply',   'Binary'],
+ '/':   [2, 'divide',     'Binary'],
+ '^':   [2, 'x^y',        'Binary'],
+ 'sum': [2, 'sum up entire stack', 'Summary'],
+ '1/x': [1, 'inverse',    'Unary'],
+ 'x2':  [1, 'square',     'Unary'],
+ 'sqr': [1, 'square root','Unary'],
+ '+/-': [1, 'flip sign',  'Unary'],
+ 'abs': [1, 'abs value',  'Unary'],
+ 'exp': [1, 'e^x',        'Unary'],
+ 'ln':  [1, 'nat log',    'Unary'],
+ 'log': [1, '10 log',     'Unary'],
+ 'sin': [1, 'sin',        'Unary'],
+ 'cos': [1, 'cos',        'Unary'],
+ 'tan': [1, 'tan',        'Unary'],
+ 'asin':[1, 'asin',       'Unary'],
+ 'acos':[1, 'acos',       'Unary'],
+ 'atan':[1, 'atan',       'Unary'],
+ 'sinh':[1, 'sinh',       'Unary'],
+ 'cosh':[1, 'cosh',       'Unary'],
+ 'tanh':[1, 'tanh',       'Unary'],
+ 'f2c': [1, 'Farenheit to Celsius',   'Unary'],
+ 'c2f': [1, 'Celsius to Farenheit',   'Unary'],
+ 'm':   [1, 'get number from history','Unary'],
+ 'e':   [0, 'e',          'Const'],
+ 'pi':  [0, 'pi',         'Const'],
+ '.f':  [1, 'Set fixed format (reset w/ arg=0)', 'Setting w/Arg'],
+ '.e':  [1, 'Set exp. format',                   'Setting w/Arg'],
+ 'sc':  [1, 'set comment',                       'Setting w/Arg'],
+ 'cs':  [0, 'clear stack',   'Setting'],
+ 'ch':  [0, 'clear history', 'Setting'],
+ 'rad': [0, 'Use radiants',  'Setting'],
+ 'deg': [0, 'Use degrees',   'Setting'],
+} // }}} ________________________________________________________ //
+
+function rpnparse () {
+// {{{ __________________________________________________________ //
+ var inp = document.getElementById("IN").value;
+ inp = inp.trim()
+ cmdcom = inp.split('#')
+ cmds = cmdcom[0].split(' ')
+ if ( cmdcom[1] ) {
+  com = cmdcom[1].trim()
+ } else {
+  com = '';
+ }
+ var len = cmds.length;
+ for ( var ic=0; ic<len-1; ic++ ) {
+  var N = cmds[ic].trim();
+  rpn(N, '');
+ }
+ var N = cmds[len-1].trim();
+ rpn(N, com);
+} // }}} ________________________________________________________ //
+
+function rpn(N, com) {
+// {{{ __________________________________________________________ //
+ if ( N != '' ) {
+  var c = 0;
+  if ( isNaN(N) ) {
+   if ( ops[N] ) {
+    if ( stk.length < ops[N][0]  ) {
+     alert('Stack to short for operation: ' + N);
+    } else {
+     his.push(N); hiscom.push(com);
+
+     if ( ops[N][2] == 'Binary' ) {
+// {{{ __________________________________________________________ //
+      a = parseFloat(stk.pop()); b = parseFloat(stk.pop());
+      if        ( N == '+' ) {
+       c = b + a;
+      } else if ( N == '-' ) {
+       c = b - a;
+      } else if ( N == '*' ) {
+       c = b * a;
+      } else if ( N == '/' ) {
+       c = b / a;
+      } else if ( N == '^' ) {
+       c = Math.pow(b,a);
+      }
+      stk.push(c); his.push(c); hiscom.push('=');
+// }}} __________________________________________________________ //
+
+     } else if ( ops[N][2] == 'Unary' ) {
+// {{{ __________________________________________________________ //
+      astr = stk.pop();
+      x = parseFloat(astr);
+      if        ( N == '1/x' ) {
+       c = 1.0/x;
+      } else if ( N == 'x2' ) {
+       c = x*x;
+      } else if ( N == '+/-' ) {
+       c = -1.0*x;
+      } else if ( N == 'sqr' ) {
+       c = Math.sqrt(x);
+      } else if ( N == 'abs' ) {
+       c = Math.abs(x);
+      } else if ( N == 'exp' ) {
+       c = Math.exp(x);
+      } else if ( N == 'ln' ) {
+       c = Math.log(x);
+      } else if ( N == 'log' ) {
+       c = Math.log10(x);
+      } else if ( N == 'sin' ) {
+       c = Math.sin(degtorad*x);
+      } else if ( N == 'cos' ) {
+       c = Math.cos(degtorad*x);
+      } else if ( N == 'tan' ) {
+       c = Math.tan(degtorad*x);
+      } else if ( N == 'asin' ) {
+       c = Math.asin(x)/degtorad;
+      } else if ( N == 'acos' ) {
+       c = Math.acos(x)/degtorad;
+      } else if ( N == 'atan' ) {
+       c = Math.atan(x)/degtorad;
+      } else if ( N == 'sinh' ) {
+       c = Math.sinh(x);
+      } else if ( N == 'cosh' ) {
+       c = Math.cosh(x);
+      } else if ( N == 'tanh' ) {
+       c = Math.tanh(x);
+      } else if ( N == 'f2c' ) {
+       c = (x-32.0)*5.0/9.0;
+      } else if ( N == 'c2f' ) {
+       c = x*9.0/5.0+32.0;
+      } else if ( N == 'm') { 
+       m = parseInt(astr);
+       c = his[m];
+       //alert('Retrieving value >' + c + '< form cell ' + m);
+       if ( isNaN(c) ) {
+        alert(c + ' is not a number - using 0 instead');
+        c = 0;
+       }
+      }
+      stk.push(c); his.push(c); hiscom.push('=');
+// }}} __________________________________________________________ //
+
+     } else if ( ops[N][2] == 'Summary' ) {
+// {{{ __________________________________________________________ //
+      if ( N == 'sum' ) {
+       c = 0;
+       var len = stk.length;
+       for ( var i=0; i<len; i++ ) {
+        c += parseFloat(stk[i]);
+       }
+       stk = [];
+      }
+      stk.push(c); his.push(c); hiscom.push('=');
+// }}} __________________________________________________________ //
+
+     } else if ( ops[N][2] == 'Const' ) {
+// {{{ __________________________________________________________ //
+      if ( N == 'pi' ) {
+       c = Math.PI
+      } else if ( N == 'e' ) {
+       c = Math.E;
+      } 
+      stk.push(c); his.push(c); hiscom.push('=');
+// }}} __________________________________________________________ //
+
+     } else if ( ops[N][2] == 'Setting w/Arg' ) {
+// {{{ __________________________________________________________ //
+      n = parseInt(stk.pop());
+      if ( N == '.f' ) {
+       fmt = '.f'; fmtn = n;
+      } else if ( N == '.e' ) {
+       fmt = '.e'; fmtn = n;
+      } else if ( N == 'sc' ) {
+       //alert('Setting comment >' + com + '< for cell ' + n);
+       hiscom[n] = com;
+      }
+// }}} __________________________________________________________ //
+
+     } else if ( ops[N][2] == 'Setting' ) {
+// {{{ __________________________________________________________ //
+      if ( N == 'cs' ) {
+       c = 'Clear Stack';
+       stk = [];
+       his.push(c); hiscom.push('=');
+      } else if ( N == 'ch' ) {
+        c = 'Clear History';
+       his = []; hiscom = [];
+      } else if ( N == 'deg' ) {
+       degtorad = Math.PI/180.0;
+      } else if ( N == 'rad' ) {
+       degtorad = 1.0;
+      }
+     }
+    }
+// }}} __________________________________________________________ //
+   } else {
+    alert("Don't know how to '" + N + "'");
+   }
+  } else {
+   stk.push(N); his.push(N); hiscom.push(com);
+  }
+
+  document.getElementById("IN").value = '';
+  var OUT = stk[stk.length - 1];
+  document.getElementById("OUT").innerHTML = getFmt(OUT);
+
+  stkol = '<ol>';
+  stk.forEach(showStk);
+  stkol += '</ol>'
+  document.getElementById("STK").innerHTML = stkol;
+
+  hisol = showHis();
+  document.getElementById("HIS").innerHTML = hisol;
+ } else {
+  document.getElementById("IN").value = '';
+ }
+} // }}} ________________________________________________________ //
+
+function showHis () {
+// {{{ __________________________________________________________ //
+ imax = his.length-1;
+ hisol = '<table border="1"><tr> <th>No.</th> <th>Input/Result</th> <th>Comment</th> <tr>';
+ for ( var i=imax; i>-1; i-- ) {
+  var com =  hiscom[i];
+  if ( com != '') {
+  // alert(com + ' (0,1):' + com.slice(0,1) );
+   if ( com.slice(0,1) == '=' ) { 
+    hisol += '<tr> <td>' + i + '</td> <td class="num"><em>' + his[i] + '</em></td> <td>' + com + '</td></tr>';
+   } else {
+    hisol += '<tr> <td>' + i + '</td> <td class="num">' + his[i] + '</td> <td>' + hiscom[i] + '</td></tr>';
+   }
+  } else {
+   hisol += '<tr> <td>' + i + '</td> <td class="num">' + his[i] + '</td> <td>&nbsp;</td></tr>';
+  }
+ }
+ hisol += '</table>';
+ return hisol;
+} // }}} ________________________________________________________ //
+
+function showStk (value, index, array) {
+// {{{ __________________________________________________________ //
+ stkol += '<li>' + getFmt(value) + '</li>';
+} // }}} ________________________________________________________ //
+
+function getFmt( n ) {
+// {{{ __________________________________________________________ //
+ //alert(n)
+ var c = parseFloat(n);
+ if ( fmt == '.f' ) {
+  if ( fmtn == 0 ) {
+   return n;
+  } else {
+   return c.toFixed(fmtn);
+  }
+ } else if ( fmt == '.e' ) {
+  if ( fmtn == 0 ) {
+   return n;
+  } else {
+   return c.toExponential(fmtn);
+  }
+ } else {
+   alert('Unknown format: ' + fmt + fmtn);
+ }
+} // }}} ________________________________________________________ //
+
+function help( ) {
+// {{{ __________________________________________________________ //	
+ html  = '<table border="1">'
+ html += '<tr> <th>key</th> <th>Operation</th> <th>Type</th></tr>'
+ for ( op in ops ) {
+  html += '<tr> <td>' + op + '</td> <td>' + ops[op][1] + '</td> <td>' + ops[op][2] + '</td> <tr>';
+ }
+ html += '</table>'
+ document.getElementById("HELP").innerHTML = html;
+} // }}} ________________________________________________________ //
+window.onload = help;
+</script><!--  }}} -->
+
+</head>
+<body>
+<h1>RPN Calculator</h1>
+
+<input type='text' onchange='rpnparse()' id='IN'> </input>
+
+<button type="button" onclick="rpnparse()">Submit</button>
+
+<h4>Result</h4><div class='res' id='OUT'></div>
+
+<h4>Stack</h4><div id='STK'></div>
+
+<h4>History</h4><div id='HIS'></div>
+
+<hr>
+<details><summary><b>Help</b></summary>
+<h2>Reverse Polish Notation Calculator</h2>
+<p>For an explanation of Reverse Polish Notation see: <a href="https://en.wikipedia.org/wiki/Reverse_Polish_notation"> Wikipedia</a> or 
+<a href="https://www.youtube.com/watch?v=qN8LPIcY6K4"> YouTube</a>
+<ul>
+ <li>Type into the input area a single input number, or a single command from the list below.</li>
+ <li>Alternatively, you can add a space-separated string of inputs, e.g. '<tt>1 2 +</tt>'.</li>
+ <li>You can end your input with a comment starting with <tt>#</tt>, e.g., '<tt>1 2 +#WOW</tt>'</li>
+ <li>Hit 'Enter' to submit, or click the 'Submit' button.</li>
+ <li>Retrieve the <i>n</i><sup>th</sup> number from the history to the stack with the command "m". E.g, to retrieve the <i>5</i><sup>th</sup> number, enter <tt>5 m</tt>.</li>
+ <li>Add a comment to the <i>n</i><sup>th</sup> history entry with the command "sc". E.g. to set the comment for <i>7</i><sup>th</sup> entry, enter: '<tt>7 sc#Important Result!</tt>'.</li>
+</ul>
+<h4>Command Reference</h4>
+<span id='HELP'> (If you see this text, then your browser is blocking the Javascript ...) </span>
+</details>
+
+</body></html>
