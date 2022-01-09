@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
  <meta charset="UTF-8">
- <title>Mastermind</title>
+ <title>Mastermind/7</title>
 <!-- _______________________________________________________________ -->
 <style>
 .c1 { background-color: red;    }
@@ -51,13 +51,6 @@ label { padding: 15px; }
 .hide {
  display: none;
 }
-
-details {
- width: 600px;
- margin: 50px;
- font-family: "Helvetica";
- font-size:    14pt;
- margin-left:  20pt; }
 </style>
 
 <!-- _______________________________________________________________ -->
@@ -79,10 +72,6 @@ function SetColor(N) {
  document.getElementById(N).className = Col;
 }
 
-function Reveal() {
- document.getElementById('code').className = 'show';
- document.getElementById('rvl').innerHTML = '<button><a href="Mastermind.html">New Game?</a></button>';
-}
 
 function Eval(R) {
  let RSpot   = 0;
@@ -111,11 +100,6 @@ function Eval(R) {
   }
  }
  document.getElementById('c'+R).innerHTML = RColor;
- document.getElementById('b'+R).innerHTML = '';
- if ( RSpot == 4 ) {
-  Reveal();
-  alert('Congratulation - You solved the code after ' + (R+1) + ' guesses!')
- }
 }
 </script>
 </head>
@@ -128,7 +112,7 @@ function Eval(R) {
 
   <tr>
    <th colspan='4'>Your Guesses</th>
-   <th id='rvl'><button onclick='Reveal()'>Reveal</button></th> 
+   <th></th>
    <th colspan='2'>Answer</th>
   </tr>
 
@@ -272,20 +256,6 @@ function Eval(R) {
  </div>
 </div>
 
-<details><summary>Help</summary>
-<p>This version of Mastermind is single player a code-breaking game (see
-<a href= "https://en.wikipedia.org/wiki/Mastermind_(board_game)">Wikipedia: Mastermind</a>).</p>
-
-<p>Here computer creates a hidden random code of four colors. The code may contain a given color more than once. You have 10 tries to guess the code.</p>
-
-<p>To submit your guess first select a color in the row below the game board, then select a square in the first row of the game board. The square will be colored with the selected color. Continue to make the other three color guesses.</p>
-
-<p>When you completed a row, press the <button>Check</button> of that row. The computer will tell you in the pink square how many of your guessed squares have the <em>right color</em> in the <em>right spot</em>, and in the gray field how many have the right color, but in the <em>wrong spot</em>.</p>
-
-<p>Learn from the answer for each row to refine your guess for the next row, until you broke the code (that is have guessed all for colors correctly). The computer will then reveal the code.</p>
-
-<p>(If you are impatient or confused, you can press the <button>Reveal</button> to end the game and check the code.)</p>
-</details>
 </body>
 <!-- _______________________________________________________________ -->
 </html>

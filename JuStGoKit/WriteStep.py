@@ -16,13 +16,14 @@ A stream list is active until the next stream list is defined. Nesting is not su
 """
 
 # Read pano file:
-fLoc = './Warehouse/'
-fName = 'Warehouse'
+#fLoc = './Warehouse/'
+#fName = 'Warehouse'
 #fLoc = './15squares/'
 #fName = '15sqr'
 #fLoc = './Pong/'
 #fName = 'Pong'
-
+fLoc = './Mastermind/'
+fName = 'Mastermind'
 with open(fLoc + 'pano/' + fName + '_pano.html') as fin:
 	lines = fin.readlines()
 fin.close()

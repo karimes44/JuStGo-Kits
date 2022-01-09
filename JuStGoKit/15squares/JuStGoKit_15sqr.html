@@ -30,7 +30,7 @@ Go wild with CSS and add HTML elements as you like - make it yours! </p>
 <p>Have you played the 15 Squares Puzzle before?</p>
 <p>To solve the puzzle, you have to slide a numbered tile into an empty position. Do this to all tiles as needed to organize them in ascending order from top left to bottom right.</p>
 
-<p>You can find more information and interesting historical notes about it at: <a href= "https://en.wikipedia.org/wiki/15_puzzle">Wikipedia: 15 puzzle</a>.</p>
+<p>You can find more information and interesting historical notes about it at: <a href= "https://en.wikipedia.org/wiki/15_puzzle" target="_blank">Wikipedia: 15 puzzle</a>.</p>
 </div><!-- }}} -->
 
 <h2>Task 0: Create the HTML placeholder</h2>
@@ -59,7 +59,7 @@ Go wild with CSS and add HTML elements as you like - make it yours! </p>
 
 <details class="box bgtip"><summary>Tips and Resources</summary>
 <p>One way to define the game board is to use an HTML table. You can find a good explanation of how tables are defined in HTML at
-<a href= "https://www.w3schools.com/html/html_tables.asp" target="_blank"  class="bgtip">W3Schools: HTML Tables</a>.</p></details>
+<a href= "https://www.w3schools.com/html/html_tables.asp" target="_blank" class="bgtip">W3Schools: HTML Tables</a>.</p></details>
 
 <p class="box bgsol"><a href= "15sqr_step1.html" target="_blank" class="bgsol">Solution Proposal for the game board</a></p>
 
@@ -275,7 +275,7 @@ st[15] = [11,14,16];   st[16] = [12,15,12];</span>
 <pre>
  <span class='new'>for ( let jj=0; jj&lt;st[id].length; jj++ ) {
   // ...
- }<span class='new'>
+ }</span>
 </pre>
 
 <p>Check the value stored in the neighboring tiles and check it is "0" with:</p>
@@ -360,7 +360,7 @@ Ok, why don't you do the same with your <em>virtual</em> game.
  <li>The array index starts at 0, and the largest array index is one less than the array length. For example, if the array length is 3, then the array contains the indices 0,1,2, but not 3.</li>
  <li><code>Math.random()*3</code> may give you 2.71, or 0.717. You can't use that as an index, however, 2 and 0 would work fine! <code>Math.floor()</code> can help you out: it just returns the integer part (see <a href= "https://www.w3schools.com/js/js_math.asp" target="_blank" class="bghig">W3Schools: JavaScript Math Object</a>).</li>
  <li>The <code>for</code> loop runs through 800 randomization steps - that should do it... (see <a href= "https://www.w3schools.com/js/js_loop_for.asp" target="_blank" class="bghig">W3Schools: JavaScript For Loop</a>).</li>
- <li>The command <code>window.onload = randomizeGame;</code> makes sure that your <code>randomizeGame</code> function is called once the page has loaded (see <a href= "https://www.w3schools.com/jsref/event_onload.asp" target="_blank" class="bghig">W3Schools: onload Event</a>).</li>
+ <li>The <code>onload="randomizeGame()"</code> event handle in the <code>&lt;body&gt;</code> tag makes sure that the <code>randomizeGame()</code> function is called once the page has loaded (see <a href= "https://www.w3schools.com/jsref/event_onload.asp" target="_blank" class="bghig">W3Schools: onload Event</a>).</li>
 </ul>
 <pre>
 <span class='new'>function firstView() {

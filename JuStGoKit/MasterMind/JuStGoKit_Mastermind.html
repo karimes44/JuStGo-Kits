@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <meta charset="utf-8"/>
+ <title>JuStGo Kit: Mastermind</title>
+ <link rel="stylesheet" type="text/css" href="../styles/justgo.css">
+</head>
+
+<!-- _______________________________________________________________ -->
+<body>
+<h1>JuStGo Kit: Mastermind - The Code-Breaking Game</h1>
+
+<h2>Introduction</h2>
+<!-- _______________________________________________________________ -->
+<h3>Working with the JuStGo Kit</h3>
+
+<div class="txt"><!-- {{{ -->
+<p>In this JuStGo kit you will build a single player Mastermind Game. The kit will lead you step-by-step through each task that needs to be completed to build the entire game.</p>
+
+<p>You will find explanations, tips, and resources that help you complete each task. At the end of each step a solution proposal is given. You can decide for yourself if you want to continue with your own solution, switch to the provided one, or to mix-and-match.</p>
+<p><b>Note:</b> To see the HTML code, open the solution proposal in your text editor, such as <a href= "https://chrome.google.com/webstore/detail/caret/fljalecfjciodhpcledpamjachpmelml?hl=en"> Chrome Caret</a>, or right-click anywhere on the solution proposal page and select <em>View Page Source</em>.</p>
+
+<p>The provided solution solves the task with very little code so that you can clearly see what is done and how. As a consequence, it may look a bit plain. Let this inspire you to spice it up!<br/>
+Go wild with CSS and add HTML elements as you like - make it yours! </p>
+</div><!-- }}} -->
+
+<h3>What is the Mastermind Game about?</h3>
+
+<div class="txt"><!-- {{{ -->
+<p>Have you played the Mastermind  before?</p>
+<p>The computer creates a hidden random code of four colors. The code may contain a given color more than once. You have 10 tries to guess the code.</p>
+
+<p>After you completed your first guess the computer will tell you how many of the colors you guessed are correct <em>and</em> on the right spot, and how many are the correct colors, but on the wrong spot.</p>
+
+<p>Learn from the answer for each guess to refine your next guess, until you broke the code.</p>
+
+<p>You can find more information about Mastermind and its history at
+<a href= "https://en.wikipedia.org/wiki/Mastermind_(board_game)">Wikipedia: Mastermind</a>.</p>
+</div><!-- }}} -->
+
+<h2>Task 0: Create the HTML placeholder</h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>Create an HTML placeholder page that...</p>
+	<ul>
+	 <li>defines the page document type to be HTML5,</li>
+	 <li>has a header section with a <code>title</code> tag,</li>
+	 <li>has a style section for the CSS definition,</li>
+	 <li>has a script section for the JavaScript code,</li>
+	 <li>has a body section, and</li>
+	 <li>has a body section a heading.</li>
+	</ul>
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<p>You can find a good intoduction to HTML at <a href= "https://www.w3schools.com/html/html_intro.asp" target="_blank" class="bgtip">W3Schools: HTML Introduction</a>.</p></details>
+
+<p class="box bgsol"><a href= "Mastermind_step0.html" target="_blank" class="bgsol">Solution Proposal for HTML placeholder</a></p>
+</div><!-- }}} -->
+
+<h2>Task 1: Create the game board</h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>You will need 4 columns for the guessing the code, maybe one for submitting your guess (... that depends on how you want to design the <q>user interface</q>), and then maybe two for the computer to <q>grade</q> your guess. The number of rows depend on the number of guesses you want to allow. Anything between 8 and 12 would work.</p>
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<p>One way to define the game board is to use an HTML table. You can find a good explanation of how tables are defined in HTML at
+<a href= "https://www.w3schools.com/html/html_tables.asp" target="_blank"  class="bgtip">W3Schools: HTML Tables</a>.</p>
+
+<p>While <em>developing</em> the game you could use only a few rows, like say four. Once the game is working you can add the other rows, as it is just <em>more of the same</em>.</p>
+
+<p>If you want to use a code just based on colors, as in the original Mastermind game, you could just leave the cells of the table empty, or better yet place a <q>none-breaking-space</q> <code>&amp;nbsp;</code> (see <a href= "https://www.w3schools.com/html/html_entities.asp" target="_blank"  class="bgtip">W3schools: HTML Entities</a>) in it, and use CSS classes to set the background color of the cell in the table. Using JavaScript you could just change the classes of the cell you want to put a color guess into - that's for later, but right now you could already define a CSS for each color and give each table cell one of these classes to see how it will look.</p>
+
+<p>As the Wikipedia article explained, often small colored pegs are used to indicte the number of right colors on the right spot, and while pegs for the number of right color on the wrong spots. You could implement something like that, but an easier alternative would be just show the <em>number</em> of rights spots and colors, but you could use a colored background to indicate which number is for what.</p>
+
+<p>You can define the classes for the colors in the CSS section (for a good introduction to CSS see <a href= "https://www.w3schools.com/css/default.asp" target="_blank" class="bgtip">W3 School: CSS Tutorial</a>.)</p>
+</details>
+
+<p class="box bgsol"><a href= "Mastermind_step1.html" target="_blank" class="bgsol">Solution Proposal for the game board</a></p>
+
+<details class="box bghig"><summary>Highlights of added code</summary>
+<p>You can define a different class for each color of the code as well as for the cells for grading with:</p>
+<pre>
+&lt;style&gt;
+<span class='new'>.c1 { background-color: red;    }
+.c2 { background-color: orange; }
+.c3 { background-color: green;  }
+.c4 { background-color: teal;   }
+.c5 { background-color: blue;   }
+.c6 { background-color: purple; }
+.answer_color { background-color: lightgray; }
+.answer_spot  { background-color: pink; }</span>
+&lt;/style&gt;
+</pre>
+
+<p>And for the table you could use something like:</p>
+<pre>
+&lt;body&gt;
+&lt;h1&gt;Mastermind&lt;/h1&gt;
+ <span class='new'>&lt;table&gt;
+
+  &lt;tr&gt;
+   &lt;th colspan='4'&gt;Your Guesses&lt;/th&gt;
+   &lt;th&gt;&lt;/th&gt; 
+   &lt;th colspan='2'&gt;Answer&lt;/th&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+   &lt;td class='c1'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td class='c2'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td class='c3'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td class='c4'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td&gt;&lt;button&gt;Check&lt;/button&gt;&lt;/td&gt;
+   &lt;td class='answer_spot'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td class='answer_color'&gt;&amp;nbsp;&lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+   &lt;td class='c5'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td class='c6'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td&gt;&lt;button&gt;Check&lt;/button&gt;&lt;/td&gt;
+   &lt;td class='answer_spot'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td class='answer_color'&gt;&amp;nbsp;&lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+   &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td&gt;&lt;button&gt;Check&lt;/button&gt;&lt;/td&gt;
+   &lt;td class='answer_spot'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td class='answer_color'&gt;&amp;nbsp;&lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+   &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td&gt;&lt;button&gt;Check&lt;/button&gt;&lt;/td&gt;
+   &lt;td class='answer_spot'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td class='answer_color'&gt;&amp;nbsp;&lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;/tr&gt;
+ &lt;/table&gt;</span>
+&lt;/body&gt;
+</pre>
+<p>Note that you can use the attribute <code>colspan</code> to create a cell that spans several columns (see <a href= "https://www.w3schools.com/tags/tag_th.asp" target="_blank"  class="bghig">W3schools: HTML &lt;th&gt; Tag </a>).</p>
+</details>
+</div><!-- }}} -->
+
+<h2>Task 2: Improve the look of the game board</h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>Not bad for a start, but you could improve the appearance of your gameboard...</p>
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<p>You can use CSS to improve the look of your game board in the following way:</p>
+<ul>
+  <li>Style-up the <code>&lt;h1&gt;</code> tag so that the title looks the way you like it.</li>
+  <li>For the <code>&lt;table&gt;</code> tag:</li>
+  <ul>
+   <li>Select a big nice font for all of the table.</li>
+   <li>Have the cell borders shown as a single line.</li>
+  </ul>
+  <li>For the <code>&lt;td&gt;</code> tag:</li>
+  <ul>
+    <li>To have nice square cells explicitly set the cell height and width to the same value. Experiment with the value to have the cells just the size you like.</li>
+    <li>Make sure to center the text in the cell.</li>
+    <li>Set the margin to zero pixel. Experiment with the padding to give the number just the right room in the cell.</li>
+    <li>Define the same type of borders for the cells that you defined for the table.</li>
+   <li>Think about possibly centering the game board on the screen.</li>
+  </ul>
+</ul>
+</details>
+
+<p class="box bgsol"><a href= "Mastermind_step2.html" target="_blank" class="bgsol">Solution Proposal for a better looking game board</a></p>
+
+<details class="box bghig"><summary>Highlights of added code</summary>
+<pre>
+&lt;style&gt;
+/* ... */
+<span class='new'>
+h1 {
+ font-family: "Helvetica";
+ font-size:    18pt;
+ margin-left:  10pt;
+ color:        navy; }
+
+table {
+ margin:  auto;
+ font-family:  "Helvetica";
+ font-weight:  bold;
+ font-size:    18pt;
+ border-collapse: collapse;
+ border:       1px solid black;
+}
+
+td, th {
+ height:       40px;
+ width:        40px;
+ text-align:   center;
+ padding:      4px;
+ margin:       0px;
+ border-collapse: collapse;
+ border:       1px solid black;
+}</span>
+&lt;/style&gt;
+</pre>
+
+<p><b>Notes:</b> When using the value <code>auto</code> for the <code>margin</code> property, the table gets centered (see  <a href= "https://www.w3schools.com/css/css_margin.asp" target="_blank" class="bghig">W3Schools: CSS Margins</a> and scroll down to <q>The auto Value</q>).</p></details>
+</div><!-- }}} -->
+
+<h2>Task 3: Define <q>handles</q> in the game board for JavaScript</h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<ul>
+ <li>The JavaScript code you will write later will need to interact with the cells of your game board. Define handles for JavaScript to address a given cell.</li>
+ <li>Define an event handler to color-in a cell when the player clicks it. (The JavaScript code for the event handler function you'll write later...)</li>
+</ul>
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<ul>
+ <li>As the handle needs to be unique, the <code>id</code> attribute comes in handy... so you could add <code>id= '0'</code> to cell 0, and <code>id='1'</code> to cell 1, and so on (see <a href= "https://www.w3schools.com/html/html_id.asp" target="_blank"  class="bgtip">W3Schools: HTML id Attribute</a>).</li>
+ <li>Add an event handler to the <code>&lt;td&gt;</code> tag (see <a href= "https://www.w3schools.com/js/js_events.asp" target="_blank"  class="bgtip">W3Schools: Events</a>).</li>
+ <li>You could call the JavaScript function <code>SetColor()</code>, and have it take a cell id as the argument.</li>
+</ul>
+</details>
+
+<p class="box bgsol"><a href= "Mastermind_step3.html" target="_blank" class="bgsol">Solution Proposal for adding JavaScript handles</a></p>
+
+<details class="box bghig"><summary>Highlights of added code</summary>
+<pre>
+&lt;body&gt;
+&lt;h1&gt;Mastermind&lt;/h1&gt;
+ &lt;table&gt;
+
+  &lt;tr&gt;
+   &lt;th colspan='4'&gt;Your Guesses&lt;/th&gt;
+   &lt;th&gt;&lt;/th&gt; 
+   &lt;th colspan='2'&gt;Answer&lt;/th&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+   <span class='new'>&lt;td id= '0' onclick='SetColor( 0)' class='c1'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id= '1' onclick='SetColor( 1)' class='c2'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id= '2' onclick='SetColor( 2)' class='c3'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id= '3' onclick='SetColor( 3)' class='c4'&gt;&amp;nbsp;&lt;/td&gt;</span>
+   &lt;td&gt;&lt;button&gt;Check&lt;/button&gt;&lt;/td&gt;
+   &lt;td class='answer_spot'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td class='answer_color'&gt;&amp;nbsp;&lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+   <span class='new'>&lt;td id= '4' onclick='SetColor( 4)' class='c5'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id= '5' onclick='SetColor( 5)' class='c6'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id= '6' onclick='SetColor( 6)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id= '7' onclick='SetColor( 7)'&gt;&amp;nbsp;&lt;/td&gt;</span>
+   &lt;td&gt;&lt;button&gt;Check&lt;/button&gt;&lt;/td&gt;
+   &lt;td class='answer_spot'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td class='answer_color'&gt;&amp;nbsp;&lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+   <span class='new'>&lt;td id= '8' onclick='SetColor( 8)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id= '9' onclick='SetColor( 9)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='10' onclick='SetColor(10)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='11' onclick='SetColor(11)'&gt;&amp;nbsp;&lt;/td&gt;</span>
+   &lt;td&gt;&lt;button&gt;Check&lt;/button&gt;&lt;/td&gt;
+   &lt;td class='answer_spot'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td class='answer_color'&gt;&amp;nbsp;&lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+   <span class='new'>&lt;td id='12' onclick='SetColor(12)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='13' onclick='SetColor(13)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='14' onclick='SetColor(14)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='15' onclick='SetColor(15)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td&gt;&lt;button&gt;Check&lt;/button&gt;&lt;/td&gt;</span>
+   &lt;td class='answer_spot'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td class='answer_color'&gt;&amp;nbsp;&lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;/tr&gt;
+ &lt;/table&gt;
+ 
+&lt;/body&gt;
+</pre></details>
+</div><!-- }}} -->
+
+<h2>Task 4: JavaScript function for coloring a cell</h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+ <p>Write the code for the JavaScript function <code>SetColor()</code>. You will also have to find a way to let the <code>SetColor()</code> know which color you want the cell to be set to.</p>
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<p>What would be a good way to let the <code>SetColor()</code> know which color you want the cell to be set to?</p>
+<p>If you think about the physical game as described on Wikipedia, there the player would pick a colored peg from a box and place in a cell &mdash; how about emulating this user experience?</p>
+
+<p>For that you could create a selection field below the game board in which the player can select a color, for example with a radio button (see <a href= "https://www.w3schools.com/tags/att_input_type_radio.asp" target="_blank"  class="bgtip">W3schools: HTML &lt;input type="radio"&gt;</a>), and then the <code>SetColor()</code> function can just check which color the player has selected.</p>
+</details>
+
+<p class="box bgsol"><a href= "Mastermind_step4.html" target="_blank" class="bgsol">Solution Proposal for the <code>SetColor()</code> function</a></p>
+
+<details class="box bghig"><summary>Highlights of added code</summary>
+<p>You can create a color selector radio button strip with:</p>
+<pre>
+&lt;body&gt;
+&lt;h1&gt;Mastermind&lt;/h1&gt;
+<span class='new'>&lt;div class='board'&gt;</span>
+ &lt;table&gt;
+
+ <span class='new'>&lt;div class='sel'&gt;
+  &lt;form name='SetColorColor'&gt;
+   &lt;p&gt;Select a Color &lt;/p&gt;
+   &lt;label for='c1' class='c1'&gt;
+    &lt;input type='radio' name='Color' value='c1' checked&gt;&amp;nbsp;
+   &lt;/label&gt;
+
+   &lt;label for='c2' class='c2'&gt;
+    &lt;input type='radio' name='Color' value='c2'&gt;&amp;nbsp;
+   &lt;/label&gt;
+
+   &lt;label for='c3' class='c3'&gt;
+    &lt;input type='radio' name='Color' value='c3'&gt;&amp;nbsp;
+   &lt;/label&gt;
+
+   &lt;label for='c4' class='c4'&gt;
+    &lt;input type='radio' name='Color' value='c4'&gt;&amp;nbsp;
+   &lt;/label&gt;
+
+   &lt;label for='c5' class='c5'&gt;
+    &lt;input type='radio' name='Color' value='c5'&gt;&amp;nbsp;
+   &lt;/label&gt;
+
+   &lt;label for='c6' class='c6'&gt;
+    &lt;input type='radio' name='Color' value='c6'&gt;&amp;nbsp;
+   &lt;/label&gt;
+
+  &lt;/form&gt;
+ &lt;/div&gt;
+&lt;/div&gt;</span>
+&lt;/body&gt;
+</pre>
+<p><b>Note:</b> The attribute <code>checked</code>, which is used only in the first color selector, sets the default color selection.</p>
+
+<p>In the <code>SetColor()</code> function you can now read the selected color with <code>document.forms.SetColorColor.elements.Color.value</code> (see <a href= "https://www.w3schools.com/js/js_validation.asp" target="_blank" class="bghig">W3school: JavaScript Form Validation</a>) and the just change the cell class to the selected one: </p>
+<pre>
+&lt;script&gt;
+<span class='new'>function SetColor(N) {
+	let Col = document.forms.SetColorColor.elements.Color.value;
+	//alert(Col)
+	document.getElementById(N).className = Col;
+}</span>
+&lt;/script&gt;
+</pre>
+<p>Now you can first select the color you want to place by clicking one of the radio buttons and then click the cell you want to place the color.</p>
+
+<p>You can also clean-up a bit, by placing <code>&lt;div&gt;</code> elements arround the game board (<code>class='board'</code>) and the selector (<code>class='sel'</code>) to align them nicely, and tweak the CSS for the selector boxes to look neat:</p>
+<pre>
+<span class='new'>.board {
+ width: 600px;
+ text-align: center;
+}
+
+.sel { margin-top: 20px; }
+
+label { padding: 15px }</span>
+</pre>
+</details>
+</div><!-- }}} -->
+
+<h2>Task 5: Automatic creation of a hidden code</h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>Now you need the computer to generate the hidden code. Write a function, say <code>Random()</code> for that, and have it called automatically when the page loads.</p>
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<ul>
+  <li>You could have the <code>Random()</code> function create an array that hold the four randomly generated class names of the corresponding colors of the code.</li>
+  <li>When the game is completed the code needs to remain hidden during the game and be only revealed at the end. But during the <em>development</em> of the code it would help to see the code right away, so that you can later test your <q>grading</q> algorithm. So you could add a row at the bottom of the game board that <em>shows</em> the <q>hidden</q> code, and only when at a later stage of the game development you could use CSS to hide this row.</li>
+  <li>Make sure <code>Random()</code> the function is called once the page has loaded.</li>
+</ul>
+
+<p>Resources:</p>
+<ul>
+ <li><a href= "https://www.w3schools.com/js/js_arrays.asp" target="_blank"  class="bgtip">W3Schools: JavaScript Arrays</a></li>
+ <li><a href= "https://www.w3schools.com/js/js_random.asp" target="_blank" class="bgtip">W3Schools: JavaScript Random</a></li>
+ <li><a href= "https://www.w3schools.com/js/js_math.asp" class="bgtip">W3Schools: JavaScript Math Object</a></li>
+ <li><a href= "https://www.w3schools.com/js/js_loop_for.asp" target="_blank" class="bgtip">W3Schools: JavaScript For Loop</a></li>
+ <li><a href= "https://www.w3schools.com/jsref/event_onload.asp" target="_blank" class="bgtip">W3Schools: onload Event</a></li>
+</ul>
+</details>
+
+<p class="box bgsol"><a href= "Mastermind_step5.html" target="_blank" class="bgsol">Solution Proposal for the automatic creation of a hidden code</a></p>
+
+<details class="box bghig"><summary>Highlights of added code</summary>
+
+<ul>
+ <li>You could use a global variable <code>Code</code> and initialized it as an empty array.</li>
+ <li><code>Math.random()</code> gives you a random number between 0 and 1. Multiply that with the number of colors (here 6) and you have your randomly selected color. Well, not quite...</li>
+ <li>That random number would be any <q>floating point</q> number between 0 and 6, like for example 2.71, but you need an integer number, like 1, 2, 3, 4, 5, or 6.</li>
+ <li><code>Math.ceil()</code> can help you out: it just returns the next integer larger than the given number.</li>
+ <li>The classes are actually named 'c1', 'c2', 'c3', 'c4', 'c5', or 'c6', but we can add the 'c' by just <q>adding</q> it to the random integer. Remember, when you use the '+' operator on variables where at least one is a string, that instead of adding number, the '+' operator just return combined string.</li>
+ <li>Then you can use JavaScript to assign this class to the cells in the table which hold the code (see below).</li>
+ <li>The <code>onload="Random()"</code> event handle in the <code>&lt;body&gt;</code> tag makes sure that the <code>Random()</code> function is called once the page has loaded (see <a href= "https://www.w3schools.com/jsref/event_onload.asp" target="_blank" class="bghig">W3Schools: onload Event</a>).</li></ul>
+<pre>
+&lt;script&gt;
+<span class='new'>var Code = [];
+
+function Random() {
+ for (let i=0; i&lt;4;i++) { 
+  let r = Math.ceil(Math.random() * 6);
+  Code.push('c'+r);
+  document.getElementById('a'+i).className = 'c'+r;
+ }
+ //alert(Code);
+}</span>
+...
+&lt;body <span class='new'>onload="Random()"</span>&gt;
+</pre>
+
+<p>At the end of the table, you can add a row for the code. The cells of that row can have ids like <code>a1</code>, for the answer for the first color of the code. You can assign to the entire row the <code>hide</code>, but because you have not yet defined this class in the CSS <code>&lt;style&gt;</code> section, the row is actually shown, which is good while you still develop the game.</p>
+<pre>
+ &lt;table&gt;
+  ...
+  <span class='new'>&lt;tr id='code' class='hide'&gt;
+   &lt;td id='a0'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='a1'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='a2'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='a3'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td&gt;&lt;/td&gt;
+   &lt;td&gt;&lt;/td&gt;
+   &lt;td&gt;&lt;/td&gt;
+  &lt;/tr&gt;</span>
+ &lt;/table&gt;
+</pre>
+</details>
+</div><!-- }}} -->
+
+<h2>Task 6: Add the <q>grading</q> function</h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>Create a function that checks your guess against the hidden code and counts how many spots you guesses correctly, and how may colors you guessed correctly, but are not in the right spot. Make sure to avoid double counting.</p>
+
+<p>Find a way to let the computer know that your next guess is ready to be graded.</p>
+
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<ul>
+ <li>To find out the correctly guessed spots, you could just check the cells of your guess against the code one by one.</li>
+ <li>To find the correct number of colors is a bit more tricky. If you just check which of the colors in your guess are also in the code you may double-count. You also need to ensure that you do not include the correctly guesses spots when evaluating the number of correct colors.</li>
+ <li>So when you loop through the guess for checking the correctly guessed spots, you could store all the <em>incorrectly</em> guessed colors an array, as well as all the colors from the code that where not correctly guessed in another array.</li>
+ <li>Then in a second loop, you could check if any of the remaining colors are also in the array of the remaining codes. If so take that color out of the array of not guessed colors. (That's one way to avoid double-counting, but there may be others that work just as well.)</li>
+ <li>One you filled in a row with your guess, you need to <q>submit</q> it for grading. You have have already placed a button for that at the end of the row, but you still need to connect it to the grading function, and you have to let the grading function now which row to grade. You could use the function argument for that.</li>
+ <li>(Also remove the any initial colors from the first six cells that you may have put in to check the definition of the classes.)</li>
+</ul>
+</details>
+
+<p class="box bgsol"><a href= "Mastermind_step6.html" target="_blank" class="bgsol">Solution Proposal for the <q>grading</q> function</a></p>
+</body></html>
+
+<details class="box bghig"><summary>Highlights of added code</summary>
+<ul>
+ <li>Your <code>Eval()</code> function could take the row number as an argument.</li>
+ <li>You could use local variables <code>RSpot</code> and <code>RColor</code> to keep track of the number of rights spots and right colors, while grading the guess.</li>
+ <li>You could use local array <code>Guesses</code> and <code>ColCode</code> to keep track of the remaining guesses that are not in the right spot and the parts of the code that have not need guessed so far.</li>
+ <li>In a first loop you could check if the class name of the guess, which represents the color, matches that of the code. If so, increase the <code>RSpot</code> counter.</li>
+ <li>Then write out the number of correctly guessed cells to the table wwith <code>document.getElementById('r'+R).innerHTML = RSpot;</code>.</li>
+</ul>
+<pre>
+ <span class='new'>function Eval(R) {
+ let RSpot   = 0;
+ let RColor  = 0;
+ let Guesses = [];
+ let ColCode = [];
+ for (let i=0; i&lt;4;i++) {
+  let Guess = document.getElementById(R*4+i).className
+  //alert(Guess)
+  if (Guess == Code[i]) {
+   RSpot++;
+  } else {
+   Guesses.push(Guess);
+   ColCode.push(Code[i]);
+  }
+ }
+ document.getElementById('r'+R).innerHTML = RSpot;</span>
+ // ...
+</pre>
+ <ul>
+  <li>In a second loop you just look at the guesses that were not correct.</li>
+  <li>For each of the guesses you check if the guessed color is in the code. You can do that with <code>index = ColCode.indexOf(Guesses[i])</code> (see <a href= "https://www.w3schools.com/jsref/jsref_indexof_array.asp" target="_blank"  class="bghig">W3school: JavaScript Array indexOf()</a>). The <code>indexOf()</code> returns <code>-1</code> if the color is not part of the code. Otherwise it returns the position (or index) of the color in the code, and you have found a correcr color guess that is on the wrong spot. So increase the counter <code>RColor</code>.</li>
+  <li>To make sure you don't count this color again you have to take it out of the remaining code. You can do that with <code>ColCode.splice(index,1);</code> (see <a href= "https://www.w3schools.com/jsref/jsref_slice_array.asp" target="_blank" class="bghig">W3school: JavaScript Array slice()</a>).</li>
+  <li>... and again write the number of correct colors into the table. </li>
+</ul>
+<pre>
+ // ...
+ <span class='new'> for (let i=0; i&lt;Guesses.length;i++) {
+  index = ColCode.indexOf(Guesses[i])
+  //alert(index + '-' + i + ':'+ Guesses + '|' + ColCode);
+  if (index &gt; -1) {
+   RColor++;
+   ColCode.splice(index,1);
+   //alert(ColCode);
+  }
+ }
+ document.getElementById('c'+R).innerHTML = RColor;
+}</span>
+</pre>
+<p>Test you code to make sure the grading works correctly!</p>
+</details>
+</div><!-- }}} -->
+
+<h2>Task 7: Get the game ready for playing</h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>Almost there... to have the game ready to be played, you just need to hide the code, and to add more rows.</p>
+
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<p>To hide the code, you can just define the class <code>hidden</code> to not be displayed.</p>
+
+<p>Add more rows for a total, of say ten.</p>
+</details>
+
+<p class="box bgsol"><a href= "Mastermind_step7.html" target="_blank" class="bgsol">Solution Proposal for a game ready for playing</a></p>
+
+<details class="box bghig"><summary>Highlights of added code</summary>
+<p>you can  define the class <code>hidden</code> to not be displayed simply with:</p>
+<pre>
+.hide {
+ display: none;
+}
+</pre>
+<p>And the table with all the 10 row is:</p>
+<pre>
+ &lt;table&gt;
+
+  &lt;tr&gt;
+   &lt;th colspan='4'&gt;Your Guesses&lt;/th&gt;
+   &lt;th&gt;&lt;/th&gt; 
+   &lt;th colspan='2'&gt;Answer&lt;/th&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+   &lt;td id= '0' onclick='SetColor( 0)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id= '1' onclick='SetColor( 1)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id= '2' onclick='SetColor( 2)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id= '3' onclick='SetColor( 3)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='b0'&gt;&lt;button onclick='Eval( 0)'&gt;Check&lt;/button&gt;&lt;/td&gt;
+   &lt;td id='r0' class='answer_spot'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='c0' class='answer_color'&gt;&amp;nbsp;&lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+   &lt;td id= '4' onclick='SetColor( 4)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id= '5' onclick='SetColor( 5)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id= '6' onclick='SetColor( 6)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id= '7' onclick='SetColor( 7)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='b1'&gt;&lt;button onclick='Eval( 1)'&gt;Check&lt;/button&gt;&lt;/td&gt;
+   &lt;td id='r1' class='answer_spot'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='c1' class='answer_color'&gt;&amp;nbsp;&lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+   &lt;td id= '8' onclick='SetColor( 8)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id= '9' onclick='SetColor( 9)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='10' onclick='SetColor(10)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='11' onclick='SetColor(11)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='b2'&gt;&lt;button onclick='Eval( 2)'&gt;Check&lt;/button&gt;&lt;/td&gt;
+   &lt;td id='r2' class='answer_spot'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='c2' class='answer_color'&gt;&amp;nbsp;&lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+   &lt;td id='12' onclick='SetColor(12)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='13' onclick='SetColor(13)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='14' onclick='SetColor(14)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='15' onclick='SetColor(15)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='b3'&gt;&lt;button onclick='Eval( 3)'&gt;Check&lt;/button&gt;&lt;/td&gt;
+   &lt;td id='r3' class='answer_spot'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='c3' class='answer_color'&gt;&amp;nbsp;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td id='16' onclick='SetColor(16)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='17' onclick='SetColor(17)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='18' onclick='SetColor(18)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='19' onclick='SetColor(19)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='b4'&gt;&lt;button onclick='Eval( 4)'&gt;Check&lt;/button&gt;&lt;/td&gt;
+   &lt;td id='r4' class='answer_spot'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='c4' class='answer_color'&gt;&amp;nbsp;&lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+   &lt;td id='20' onclick='SetColor(20)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='21' onclick='SetColor(21)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='22' onclick='SetColor(22)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='23' onclick='SetColor(23)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='b5'&gt;&lt;button onclick='Eval( 5)'&gt;Check&lt;/button&gt;&lt;/td&gt;
+   &lt;td id='r5' class='answer_spot'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='c5' class='answer_color'&gt;&amp;nbsp;&lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+   &lt;td id='24' onclick='SetColor(24)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='25' onclick='SetColor(25)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='26' onclick='SetColor(26)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='27' onclick='SetColor(27)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='b6'&gt;&lt;button onclick='Eval( 6)'&gt;Check&lt;/button&gt;&lt;/td&gt;
+   &lt;td id='r6' class='answer_spot'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='c6' class='answer_color'&gt;&amp;nbsp;&lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+   &lt;td id='28' onclick='SetColor(28)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='29' onclick='SetColor(29)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='30' onclick='SetColor(30)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='31' onclick='SetColor(31)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='b7'&gt;&lt;button onclick='Eval( 7)'&gt;Check&lt;/button&gt;&lt;/td&gt;
+   &lt;td id='r7' class='answer_spot'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='c7' class='answer_color'&gt;&amp;nbsp;&lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+   &lt;td id='32' onclick='SetColor(32)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='33' onclick='SetColor(33)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='34' onclick='SetColor(34)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='35' onclick='SetColor(35)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='b8'&gt;&lt;button onclick='Eval( 8)'&gt;Check&lt;/button&gt;&lt;/td&gt;
+   &lt;td id='r8' class='answer_spot'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='c8' class='answer_color'&gt;&amp;nbsp;&lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+   &lt;td id='36' onclick='SetColor(36)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='37' onclick='SetColor(37)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='38' onclick='SetColor(38)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='39' onclick='SetColor(39)'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='b9'&gt;&lt;button onclick='Eval( 9)'&gt;Check&lt;/button&gt;&lt;/td&gt;
+   &lt;td id='r9' class='answer_spot'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='c9' class='answer_color'&gt;&amp;nbsp;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr id='code' class='hide'&gt;
+   &lt;td id='a0'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='a1'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='a2'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td id='a3'&gt;&amp;nbsp;&lt;/td&gt;
+   &lt;td&gt;&lt;/td&gt;
+   &lt;td&gt;&lt;/td&gt;
+   &lt;td&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+ &lt;/table&gt;
+</pre>
+</details>
+</div><!-- }}} -->
+
+<h2>Task 8: Final touches</h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>Ok, not bad ... but a few things could be be better.</p>
+
+<ol>
+	<li>You can change and re-check rows that you already submitted. Can you prevent that? </li>
+	<li>Once you broke the code there should be something happening, like a pop-up congratulating you or such - and also the code should be revealed.</li>
+	<li>What if you want to <q>give-up</q>? How about a button that lets you reveal the code, but then ends the game?</li>
+	<li>You can restart the game by reloading the page with Ctrl-R, but it would be nice to have button for that one the game is over.</li>
+	<li>Also add an expandable <q>Help</q> with the the game instructions.</li>
+</ol>
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<ol>
+	<li>There are many ways to prevent rechecking a row, for example you can just let the <button>Check</button> button for the row disappear once you pressed it.</li>
+	<li>You can check if the code is broken by checking if <code>RSpot</code> is 4  - to reveal the code you can just change the class of the hidden code from <code>hide</code> to something else.</li>
+	<li>You could create a button that calls a function, say <code>Reveal()</code> that shows the code and then changes itself to a reload button.</li>
+</ol>
+</details>
+
+<p class="box bgsol"><a href= "Mastermind.html" target="_blank" class="bgsol">Final Solution Proposal</a></p>
+
+<details class="box bghig"><summary>Highlights of added code</summary>
+<p>At the end of the <code>Eval()</code> function you can just replace the button in the table with <q>nothing</q> to prevent the player to re-submit a guess. Also check if all four spots are correctly guessed, and if so you can call a <code>Reveal()</code> function (see below) and alert the player to the broken code:</p>
+<pre>
+function Eval(R) {
+ // ...
+ <span class='new'>document.getElementById('b'+R).innerHTML = '';
+ if ( RSpot == 4 ) {
+  Reveal();
+  alert('Congratulation - You solved the code after ' + (R+1) + ' guesses!')
+ }</span>
+}
+</pre>
+<p>In the <code>Reveal()</code> function you can just set the class of the row with the code to <code>show</code> to make the code visible. Note that you have not defined the class <code>show</code>, but that does not matter, you just need to get rid of the <code>hide</code> class.</p>
+<pre>
+<span class='new'>function Reveal() {
+ document.getElementById('code').className = 'show';
+ document.getElementById('rvl').innerHTML = '&lt;button&gt;&lt;a href="Mastermind.html"&gt;New Game?&lt;/a&gt;&lt;/button&gt;';</span>
+}
+</pre>
+<p>A good place for the <button>Reveal</button> button may be in the top row, as there an unused spot. Once you press that button it shows the code and turns itself into an <code>&lt;a href= ""&gt; &lt;/a&gt;</code> element that reloads the page. Just to keep the look you can make it presents itself as a button.</p>
+<pre>
+ &lt;table&gt;
+
+  &lt;tr&gt;
+   &lt;th colspan='4'&gt;Your Guesses&lt;/th&gt;
+   <span class='new'>&lt;th id='rvl'&gt;&lt;button onclick='Reveal()'&gt;Reveal&lt;/button&gt;&lt;/th&gt;</span>
+   &lt;th colspan='2'&gt;Answer&lt;/th&gt;
+  &lt;/tr&gt;
+  ...
+ &lt;/table&gt;
+</pre>
+</details>
+
+</details>
+</div><!-- }}} -->
+<p>Congratulations! You completed the JuStGo kit!</p>
+
+<h1>Challenges</h1>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<ul>
+ <li>Can you improve the look of the game? Make it your own!</li>
+ <li>Create Mastermind versions with longer codes or more than six colors.</li>
+ <li>What would it take to add a high score table?</li>
+ <li>Experiment with the user interface design. Is there a better way to enter your guess?</li>
+ <li>The Wikipedia page introduces algorithms to automatically break the code . Can you implement them?</li>
+</ul>
+</div><!-- }}} -->
+</body></html>

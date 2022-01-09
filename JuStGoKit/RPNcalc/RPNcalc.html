@@ -44,7 +44,10 @@ em {
  border-color:  gray;
 }
 table {
-  border-collapse: collapse;
+ border-collapse: collapse;
+}
+td {
+ padding-left: 10px;
 }
 </style><!-- }}} ______________________________________________ -->
 
@@ -88,6 +91,11 @@ var ops = {
  'm':   [1, 'get number from history','Unary'],
  'e':   [0, 'e',          'Const'],
  'pi':  [0, 'pi',         'Const'],
+ 'x':   [0, 'get number from Register "x"','Const'],
+ 'a':   [0, 'get number from Register "a"','Const'],
+ 'b':   [0, 'get number from Register "b"','Const'],
+ 'c':   [0, 'get number from Register "c"','Const'],
+ 'd':   [0, 'get number from Register "d"','Const'],
  '.f':  [1, 'Set fixed format (reset w/ arg=0)', 'Setting w/Arg'],
  '.e':  [1, 'Set exp. format',                   'Setting w/Arg'],
  'sc':  [1, 'set comment',                       'Setting w/Arg'],
@@ -218,7 +226,17 @@ function rpn(N, com) {
        c = Math.PI
       } else if ( N == 'e' ) {
        c = Math.E;
-      } 
+      } else if ( N == 'x') {
+       c = Number(document.getElementById('x').value);
+      } else if ( N == 'a') {
+        c = Number(document.getElementById('a').value);
+      } else if ( N == 'b') {
+        c = Number(document.getElementById('b').value);
+      } else if ( N == 'c') {
+        c = Number(document.getElementById('c').value);
+      } else if ( N == 'd') {
+        c = Number(document.getElementById('d').value);
+      }
       stk.push(c); his.push(c); hiscom.push('=');
 // }}} __________________________________________________________ //
 
@@ -348,6 +366,17 @@ window.onload = help;
 <h4>Stack</h4><div id='STK'></div>
 
 <h4>History</h4><div id='HIS'></div>
+
+<details><summary><b>Registers</b></summary>
+<table><tr>
+<td>x=</td><td><textarea id="x" rows="1" cols="6">0</textarea></td>
+<td>a=</td><td><textarea id="a" rows="1" cols="6">0</textarea></td>
+<td>b=</td><td><textarea id="b" rows="1" cols="6">0</textarea></td>
+<td>c=</td><td><textarea id="c" rows="1" cols="6">0</textarea></td>
+<td>d=</td><td><textarea id="d" rows="1" cols="6">0</textarea></td>
+</tr>
+</table>
+</details>
 
 <hr>
 <details><summary><b>Help</b></summary>

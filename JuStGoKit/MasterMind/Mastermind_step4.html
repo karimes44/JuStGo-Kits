@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <title>Mastermind/4</title>
+<!-- _______________________________________________________________ -->
+<style>
+.c1 { background-color: red;    }
+.c2 { background-color: orange; }
+.c3 { background-color: green;  }
+.c4 { background-color: teal;   }
+.c5 { background-color: blue;   }
+.c6 { background-color: purple; }
+.answer_color { background-color: lightgray; }
+.answer_spot  { background-color: pink; }
+
+h1 {
+ font-family: "Helvetica";
+ font-size:    18pt;
+ margin-left:  10pt;
+ color:        navy; }
+
+table {
+ margin:  auto;
+ font-family:  "Helvetica";
+ font-weight:  bold;
+ font-size:    18pt;
+ border-collapse: collapse;
+ border:       1px solid black;
+}
+
+td, th {
+ height:       40px;
+ width:        40px;
+ text-align:   center;
+ padding:      4px;
+ margin:       0px;
+ border-collapse: collapse;
+ border:       1px solid black;
+}
+
+.board {
+ width: 600px;
+ text-align: center;
+}
+
+.sel { margin-top: 20px; }
+
+label { padding: 15px; }
+</style>
+
+<!-- _______________________________________________________________ -->
+<script>
+function SetColor(N) {
+ let Col = document.forms.SetColorColor.elements.Color.value;
+ //alert(Col)
+ document.getElementById(N).className = Col;
+}
+
+</script>
+</head>
+<!-- _______________________________________________________________ -->
+<body>
+<h1>Mastermind</h1>
+
+<div class='board'>
+ <table>
+
+  <tr>
+   <th colspan='4'>Your Guesses</th>
+   <th></th>
+   <th colspan='2'>Answer</th>
+  </tr>
+
+<tr>
+   <td id= '0' onclick='SetColor( 0)' class='c1'>&nbsp;</td>
+   <td id= '1' onclick='SetColor( 1)' class='c2'>&nbsp;</td>
+   <td id= '2' onclick='SetColor( 2)' class='c3'>&nbsp;</td>
+   <td id= '3' onclick='SetColor( 3)' class='c4'>&nbsp;</td>
+   <td><button>Check</button></td>
+   <td class='answer_spot'>&nbsp;</td>
+   <td class='answer_color'>&nbsp;</td>
+  </tr>
+
+  <tr>
+   <td id= '4' onclick='SetColor( 4)' class='c5'>&nbsp;</td>
+   <td id= '5' onclick='SetColor( 5)' class='c6'>&nbsp;</td>
+   <td id= '6' onclick='SetColor( 6)'>&nbsp;</td>
+   <td id= '7' onclick='SetColor( 7)'>&nbsp;</td>
+   <td><button>Check</button></td>
+   <td class='answer_spot'>&nbsp;</td>
+   <td class='answer_color'>&nbsp;</td>
+  </tr>
+
+  <tr>
+   <td id= '8' onclick='SetColor( 8)'>&nbsp;</td>
+   <td id= '9' onclick='SetColor( 9)'>&nbsp;</td>
+   <td id='10' onclick='SetColor(10)'>&nbsp;</td>
+   <td id='11' onclick='SetColor(11)'>&nbsp;</td>
+   <td><button>Check</button></td>
+   <td class='answer_spot'>&nbsp;</td>
+   <td class='answer_color'>&nbsp;</td>
+  </tr>
+
+  <tr>
+   <td id='12' onclick='SetColor(12)'>&nbsp;</td>
+   <td id='13' onclick='SetColor(13)'>&nbsp;</td>
+   <td id='14' onclick='SetColor(14)'>&nbsp;</td>
+   <td id='15' onclick='SetColor(15)'>&nbsp;</td>
+   <td><button>Check</button></td>
+   <td class='answer_spot'>&nbsp;</td>
+   <td class='answer_color'>&nbsp;</td>
+  </tr>
+  </tr>
+ </table>
+ 
+ <div class='sel'>
+  <form name='SetColorColor'>
+   <p>Select a Color </p>
+   <label for='c1' class='c1'>
+    <input type='radio' name='Color' value='c1' checked>&nbsp;
+   </label>
+
+   <label for='c2' class='c2'>
+    <input type='radio' name='Color' value='c2'>&nbsp;
+   </label>
+
+   <label for='c3' class='c3'>
+    <input type='radio' name='Color' value='c3'>&nbsp;
+   </label>
+
+   <label for='c4' class='c4'>
+    <input type='radio' name='Color' value='c4'>&nbsp;
+   </label>
+
+   <label for='c5' class='c5'>
+    <input type='radio' name='Color' value='c5'>&nbsp;
+   </label>
+
+   <label for='c6' class='c6'>
+    <input type='radio' name='Color' value='c6'>&nbsp;
+   </label>
+
+  </form>
+ </div>
+</div>
+
+</body>
+<!-- _______________________________________________________________ -->
+</html>

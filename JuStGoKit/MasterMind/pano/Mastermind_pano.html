@@ -1,10 +1,13 @@
+<!-- ![9]! -->
+<!-- ![0+]! -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
  <meta charset="UTF-8">
- <title>Mastermind</title>
+ <title>Mastermind$STREAM$</title>
 <!-- _______________________________________________________________ -->
 <style>
+/* ![1+]! */
 .c1 { background-color: red;    }
 .c2 { background-color: orange; }
 .c3 { background-color: green;  }
@@ -13,6 +16,7 @@
 .c6 { background-color: purple; }
 .answer_color { background-color: lightgray; }
 .answer_spot  { background-color: pink; }
+/* ![2+]! */
 
 h1 {
  font-family: "Helvetica";
@@ -38,6 +42,7 @@ td, th {
  border-collapse: collapse;
  border:       1px solid black;
 }
+/* ![4+]! */
 
 .board {
  width: 600px;
@@ -47,10 +52,12 @@ td, th {
 .sel { margin-top: 20px; }
 
 label { padding: 15px; }
+/* ![7+]! */
 
 .hide {
  display: none;
 }
+/* ![8+]! */
 
 details {
  width: 600px;
@@ -58,10 +65,12 @@ details {
  font-family: "Helvetica";
  font-size:    14pt;
  margin-left:  20pt; }
+ /* ![0+]! */
 </style>
 
 <!-- _______________________________________________________________ -->
 <script>
+// ![5+]!
 var Code = [];
 
 function Random() {
@@ -73,16 +82,19 @@ function Random() {
  //alert(Code);
 }
 
+// ![4+]!
 function SetColor(N) {
  let Col = document.forms.SetColorColor.elements.Color.value;
  //alert(Col)
  document.getElementById(N).className = Col;
 }
 
+// ![8+]!
 function Reveal() {
  document.getElementById('code').className = 'show';
  document.getElementById('rvl').innerHTML = '<button><a href="Mastermind.html">New Game?</a></button>';
 }
+// ![6+]!
 
 function Eval(R) {
  let RSpot   = 0;
@@ -111,26 +123,122 @@ function Eval(R) {
   }
  }
  document.getElementById('c'+R).innerHTML = RColor;
+ // ![8+]!
  document.getElementById('b'+R).innerHTML = '';
  if ( RSpot == 4 ) {
   Reveal();
   alert('Congratulation - You solved the code after ' + (R+1) + ' guesses!')
  }
+ // ![6+]!
 }
+// ![0+]!
 </script>
 </head>
 <!-- _______________________________________________________________ -->
+<!-- ![0-4]!
+<body>
+<!-- ![5+]! -->
 <body onload='Random()'>
+<!-- ![0+]! -->
 <h1>Mastermind</h1>
 
+<!-- ![4+]! -->
 <div class='board'>
+<!-- ![1+]! -->
  <table>
 
   <tr>
    <th colspan='4'>Your Guesses</th>
+<!-- ![1-7]! 
+   <th></th>
+<!-- ![8+]! -->
    <th id='rvl'><button onclick='Reveal()'>Reveal</button></th> 
+<!-- ![1+]! -->
    <th colspan='2'>Answer</th>
   </tr>
+<!-- ![1-2]!
+
+  <tr>
+   <td class='c1'>&nbsp;</td>
+   <td class='c2'>&nbsp;</td>
+   <td class='c3'>&nbsp;</td>
+   <td class='c4'>&nbsp;</td>
+   <td><button>Check</button></td>
+   <td class='answer_spot'>&nbsp;</td>
+   <td class='answer_color'>&nbsp;</td>
+  </tr>
+
+  <tr>
+   <td class='c5'>&nbsp;</td>
+   <td class='c6'>&nbsp;</td>
+   <td>&nbsp;</td>
+   <td>&nbsp;</td>
+   <td><button>Check</button></td>
+   <td class='answer_spot'>&nbsp;</td>
+   <td class='answer_color'>&nbsp;</td>
+  </tr>
+
+  <tr>
+   <td>&nbsp;</td>
+   <td>&nbsp;</td>
+   <td>&nbsp;</td>
+   <td>&nbsp;</td>
+   <td><button>Check</button></td>
+   <td class='answer_spot'>&nbsp;</td>
+   <td class='answer_color'>&nbsp;</td>
+  </tr>
+
+  <tr>
+   <td>&nbsp;</td>
+   <td>&nbsp;</td>
+   <td>&nbsp;</td>
+   <td>&nbsp;</td>
+   <td><button>Check</button></td>
+   <td class='answer_spot'>&nbsp;</td>
+   <td class='answer_color'>&nbsp;</td>
+  </tr>
+<!-- ![3-5]!
+
+<tr>
+   <td id= '0' onclick='SetColor( 0)' class='c1'>&nbsp;</td>
+   <td id= '1' onclick='SetColor( 1)' class='c2'>&nbsp;</td>
+   <td id= '2' onclick='SetColor( 2)' class='c3'>&nbsp;</td>
+   <td id= '3' onclick='SetColor( 3)' class='c4'>&nbsp;</td>
+   <td><button>Check</button></td>
+   <td class='answer_spot'>&nbsp;</td>
+   <td class='answer_color'>&nbsp;</td>
+  </tr>
+
+  <tr>
+   <td id= '4' onclick='SetColor( 4)' class='c5'>&nbsp;</td>
+   <td id= '5' onclick='SetColor( 5)' class='c6'>&nbsp;</td>
+   <td id= '6' onclick='SetColor( 6)'>&nbsp;</td>
+   <td id= '7' onclick='SetColor( 7)'>&nbsp;</td>
+   <td><button>Check</button></td>
+   <td class='answer_spot'>&nbsp;</td>
+   <td class='answer_color'>&nbsp;</td>
+  </tr>
+
+  <tr>
+   <td id= '8' onclick='SetColor( 8)'>&nbsp;</td>
+   <td id= '9' onclick='SetColor( 9)'>&nbsp;</td>
+   <td id='10' onclick='SetColor(10)'>&nbsp;</td>
+   <td id='11' onclick='SetColor(11)'>&nbsp;</td>
+   <td><button>Check</button></td>
+   <td class='answer_spot'>&nbsp;</td>
+   <td class='answer_color'>&nbsp;</td>
+  </tr>
+
+  <tr>
+   <td id='12' onclick='SetColor(12)'>&nbsp;</td>
+   <td id='13' onclick='SetColor(13)'>&nbsp;</td>
+   <td id='14' onclick='SetColor(14)'>&nbsp;</td>
+   <td id='15' onclick='SetColor(15)'>&nbsp;</td>
+   <td><button>Check</button></td>
+   <td class='answer_spot'>&nbsp;</td>
+   <td class='answer_color'>&nbsp;</td>
+  </tr>
+<!-- ![6+]! -->
 
   <tr>
    <td id= '0' onclick='SetColor( 0)'>&nbsp;</td>
@@ -171,6 +279,7 @@ function Eval(R) {
    <td id='r3' class='answer_spot'>&nbsp;</td>
    <td id='c3' class='answer_color'>&nbsp;</td>
   </tr>
+<!-- ![6+]! -->
   <tr>
    <td id='16' onclick='SetColor(16)'>&nbsp;</td>
    <td id='17' onclick='SetColor(17)'>&nbsp;</td>
@@ -230,6 +339,7 @@ function Eval(R) {
    <td id='r9' class='answer_spot'>&nbsp;</td>
    <td id='c9' class='answer_color'>&nbsp;</td>
   </tr>
+ <!-- ![5+]! -->
   <tr id='code' class='hide'>
    <td id='a0'>&nbsp;</td>
    <td id='a1'>&nbsp;</td>
@@ -238,9 +348,11 @@ function Eval(R) {
    <td></td>
    <td></td>
    <td></td>
+ <!-- ![1+]! -->
   </tr>
  </table>
  
+ <!-- ![4+]! -->
  <div class='sel'>
   <form name='SetColorColor'>
    <p>Select a Color </p>
@@ -272,6 +384,7 @@ function Eval(R) {
  </div>
 </div>
 
+<!-- ![8+]! -->
 <details><summary>Help</summary>
 <p>This version of Mastermind is single player a code-breaking game (see
 <a href= "https://en.wikipedia.org/wiki/Mastermind_(board_game)">Wikipedia: Mastermind</a>).</p>
@@ -286,6 +399,7 @@ function Eval(R) {
 
 <p>(If you are impatient or confused, you can press the <button>Reveal</button> to end the game and check the code.)</p>
 </details>
+<!-- ![0+]! -->
 </body>
 <!-- _______________________________________________________________ -->
 </html>
