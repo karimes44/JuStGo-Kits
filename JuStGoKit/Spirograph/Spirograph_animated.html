@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <meta charset="utf-8"/>
+ <title>Spirograph</title>
+<!-- _______________________________________________________________ -->
+<style>
+body {
+ font-family: "Helvetica";
+ font-size:    14pt;
+ margin-left:  20pt; }
+h1 {
+ font-family: "Helvetica";
+ font-size:    18pt;
+ margin-left:  10pt;
+ color:        navy; }
+p {
+ width:        600px;
+ font-family: "Helvetica";
+ margin-left:  14pt; }
+textarea {
+ font-family:  "Courier New";
+ font-size:    14pt;
+ font-weight:  bold;
+}
+
+table {
+	margin-left: 50px;
+}
+th {
+	text-align: right;
+}
+.game {
+	display: flex;
+}
+</style>
+</head>
+
+<!-- _______________________________________________________________ -->
+<body>
+<h1>Spirograph (animated)</h1>
+
+<div class='game'>
+
+<div class='canvas'>
+<canvas id="Canvas" width="600" height="600" style="border:3px solid #d3d3d3;">
+Your browser does not support the HTML5 canvas tag.</canvas>
+</div>
+
+<div class='input'>
+<table>
+<tr><th>Parameter</th><th>Range</th><th>Value</th></tr>
+<tr><th>Stator Radius (R)</th>    <td>[0~12]</td>
+<td><textarea id="R"   rows="1" cols="6">12</textarea></td></tr>
+
+<tr><th>Rotor Radius (r)</th>    <td>[-12~12]</td>
+<td><textarea id="r"   rows="1" cols="6">10</textarea></td></tr>
+
+<tr><th>Pen Hole Radius (&rho;)</th>     <td>[-12~12]</th>
+<td><textarea id="rho" rows="1" cols="6">6</textarea></td></tr>
+
+<tr><th>Phase Shift</th>                 <td>[0-360]:</td>
+<td><textarea id="fi"  rows="1" cols="6">0</textarea></td></tr>
+
+<tr><th>Refresh Rate</th>                 <td>[5-20]:</td>
+<td><textarea id="dt"  rows="1" cols="6">10</textarea></td></tr>
+
+<tr><th>Color:</th>                      <td></td>
+<td><textarea id="Cl"  rows="1" cols="6">red</textarea></td></tr>
+
+<tr><th><button type="button" onclick="StartStop()">Start/Stop</button></th>
+    <td><button type="button" onclick="Clear()">Clear</button></td>
+</table>
+</div>
+
+</div>
+
+<details><summary>Help</summary>
+<h3>Notes:</h3>
+<h4>References:</h4>
+<p>For an introduction to the game and an explanation of the meaning of the parameters see:
+<a href= "https://en.wikipedia.org/wiki/Spirograph" target="_blank">
+Wikipedia: Spirograph</a> and 
+<a href= "https://en.wikipedia.org/wiki/Hypotrochoid" target="_blank"> Wikipedia: Hypotrochoid</a>.</p>
+<p>Derivation of equations used: 
+<a href= "https://en.wikipedia.org/wiki/Spirograph#Mathematical_basis" target="_blank">
+	Wikipedia: Spirograph &rarr; Mathematical basis</a></li>
+</p>
+
+<h4>Scaling</h4>
+<p>An circle with a radius of 12 will touch edges of the canvas.</p>
+
+<h4>Colors</h4>
+<p>For selecting the colors explicitly you can use standard color names (like <code>red</code>) or hex (like <code>#00FF00</code>), or even something like <code>hsl(180, 100%, 64%)</code>.</p>
+
+<h4>Rotor Wheel Placement</h4>
+<p>Positive numbers for the rotor radius correspond to the rotor rolling on the <em>inside</em> of the stator, while for negative numbers the rotor is rolling on the <em>outside</em> of the stator.</p>
+
+<h4>Refresh Rate</h4>
+<p>The maximum speed of the animation is set by the time it takes to draw a frame, which depending on the speed of your computer.At that point reducing the refresh rate will not appear to make any difference.</p>
+</details>
+
+
+<!-- _______________________________________________________________ -->
+<script>
+var c = document.getElementById("Canvas");
+var ctx = c.getContext("2d");
+var W = c.width ; var H = c.height;
+
+var Xscale =  W/(2*12);
+var Yscale = -H/(2*12);
+var Xo     =  W/2
+var Yo     =  H/2
+
+var running = false;
+
+var DegToRad = 2*Math.PI/360;
+var Pi2      = 2*Math.PI;
+var T = 0;
+
+function Draw() {
+ ctx.clearRect(0, 0, W, H);
+ let R   = Number(document.getElementById("R").value);
+ let r   = Number(document.getElementById("r").value);
+ let rho = Number(document.getElementById("rho").value);
+ let fi  = Number(document.getElementById("fi").value);
+ let Cl = document.getElementById("Cl").value;
+
+ let R1 = R-r;
+ let v  = R1/r;
+ let x  = Xo+Xscale*(R1 + rho*Math.cos(fi*DegToRad));
+ let y  = Yo+Yscale*(   - rho*Math.sin(fi*DegToRad));
+
+ ctx.strokeStyle = Cl;
+
+ ctx.beginPath()
+ ctx.moveTo(x,y);
+ for (let t=0; t < T ; t++) {
+  let th = t/2.0
+  x = Xo+Xscale*(R1*Math.cos(th*DegToRad)
+      + rho*Math.cos((th*v+fi)*DegToRad));
+  y = Yo+Yscale*(R1*Math.sin(th*DegToRad)
+      - rho*Math.sin((th*v+fi)*DegToRad));
+  //alert(x + '-' + y);
+  ctx.lineTo(x,y);
+ }
+ ctx.stroke();
+
+ x  = Xo+Xscale*R;
+ y  = Yo;
+ ctx.strokeStyle = 'black';
+ ctx.beginPath()
+ ctx.moveTo(x,y);
+ for (let t=0; t < 121 ; t++) {
+  x = Xo+Xscale*(R*Math.cos(3*t*DegToRad));
+  y = Yo+Yscale*(R*Math.sin(3*t*DegToRad));
+  //alert(x + '-' + y);
+  ctx.lineTo(x,y);
+ }
+ ctx.stroke();
+ 
+ let fiw = 0.5*T*v+fi;
+ x = Xo+Xscale*(R1*Math.cos(0.5*T*DegToRad)
+   + rho*Math.cos(fiw*DegToRad));
+ y = Yo+Yscale*(R1*Math.sin(0.5*T*DegToRad)
+   - rho*Math.sin(fiw*DegToRad));
+ 
+ ctx.beginPath()
+ ctx.arc(x, y, 4, 0, Pi2);
+ ctx.fillStyle = "purple";
+ ctx.fill();
+ ctx.stroke();
+ ctx.strokeStyle = 'black';
+ ctx.beginPath()
+ ctx.moveTo(x,y);
+ for (let t=0; t < 121 ; t++) {
+  x = Xo+Xscale*(R1*Math.cos(0.5*T*DegToRad) + r*Math.cos((fiw+3*t)*DegToRad));
+  y = Yo+Yscale*(R1*Math.sin(0.5*T*DegToRad) - r*Math.sin((fiw+3*t)*DegToRad));
+  //alert(x + '-' + y);
+  ctx.lineTo(x,y);
+ }
+ ctx.stroke();
+
+ T++;
+}
+
+function Clear() {
+ ctx.clearRect(0, 0, W, H);
+ T = 0;
+}
+
+function StartStop() {
+ if ( running ) {
+  running = false;
+  clearInterval(Timer);
+ } else {
+  running = true;
+ let dt   = Number(document.getElementById("dt").value);
+  Timer = setInterval(Draw,dt);
+ }
+}
+</script>
+</body>
+</html>
