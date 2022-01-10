@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <meta charset="utf-8"/>
+ <title>Spirograph</title>
+<!-- _______________________________________________________________ -->
+<style>
+body {
+ font-family: "Helvetica";
+ font-size:    14pt;
+ margin-left:  20pt; }
+h1 {
+ font-family: "Helvetica";
+ font-size:    18pt;
+ margin-left:  10pt;
+ color:        navy; }
+p {
+ width:        600px;
+ font-family: "Helvetica";
+ margin-left:  14pt; }
+textarea {
+ font-family:  "Courier New";
+ font-size:    14pt;
+ font-weight:  bold;
+}
+
+table {
+	margin-left: 50px;
+}
+th {
+	text-align: right;
+}
+.game {
+	display: flex;
+}
+</style>
+</head>
+
+<!-- _______________________________________________________________ -->
+<body>
+<h1>Spirograph</h1>
+
+<div class='game'>
+
+<div class='canvas'>
+<canvas id="Canvas" width="600" height="600" style="border:3px solid #d3d3d3;">
+Your browser does not support the HTML5 canvas tag.</canvas>
+</div>
+
+<div class='input'>
+<table>
+<tr><th>Parameter</th><th>Range</th><th>Value</th></tr>
+<tr><th>Stator Radius (R)</th>    <td>[0~12]</td>
+<td><textarea id="R"   rows="1" cols="6">12</textarea></td></tr>
+
+<tr><th>Rotor Radius (r)</th>    <td>[-12~12]</td>
+<td><textarea id="r"   rows="1" cols="6">10</textarea></td></tr>
+
+<tr><th>Pen Hole Radius (&rho;)</th>     <td>[-12~12]</th>
+<td><textarea id="rho" rows="1" cols="6">6</textarea></td></tr>
+
+<tr><th>Phase Shift</th>                 <td>[0-360]:</td>
+<td><textarea id="fi"  rows="1" cols="6">0</textarea></td></tr>
+
+<tr><th>Stator X-Center (Ox)</th> <td>[-12~12]</td>
+<td><textarea id="Ox"  rows="1" cols="6">0</textarea></td></tr>
+
+<tr><th>Stator Y-Center (Oy)</th> <td>[-12~12]</td>
+<td><textarea id="Oy"  rows="1" cols="6">0</textarea></td></tr>
+
+<tr><th>Color:</th>                      <td></td>
+<td><textarea id="Cl"  rows="1" cols="6">auto</textarea></td></tr>
+
+<tr><th>Number of Loops:</th>            <td>[1~12]</td>
+<td><textarea id="Lp"  rows="1" cols="6">6</textarea></td></tr>
+
+<tr><th><button type="button" onclick="Draw()">Draw</button></th>
+    <td><button type="button" onclick="Clear()">Clear</button></td>
+    <td><button type="button" onclick="Show()">Show Rings</button></td></tr>
+</table>
+</div>
+
+</div>
+
+<details><summary>Help</summary>
+<h3>Notes:</h3>
+<h4>References:</h4>
+<p>For an introduction to the game and an explanation of the meaning of the parameters see:
+<a href= "https://en.wikipedia.org/wiki/Spirograph" target="_blank">
+Wikipedia: Spirograph</a> and 
+<a href= "https://en.wikipedia.org/wiki/Hypotrochoid" target="_blank"> Wikipedia: Hypotrochoid</a>.</p>
+<p>Derivation of equations used: 
+<a href= "https://en.wikipedia.org/wiki/Spirograph#Mathematical_basis" target="_blank">
+	Wikipedia: Spirograph &rarr; Mathematical basis</a></li>
+</p>
+
+<h4>Scaling</h4>
+<p>An circle with a radius of 12 will touch edges of the canvas.</p>
+
+<h4>Colors</h4>
+<p>For Color: <code>auto</code> a new color is selected for the first 32 curves, then the colors start over.</p>
+<p>For selecting the colors explicitly you can use standard color names (like <code>red</code>) or hex (like <code>#00FF00</code>), or even something like <code>hsl(180, 100%, 64%)</code>.</p>
+
+<h4>Multiple Curves</h4>
+<p>You can add curves to your picture by just pressing the <button>Draw</button> for new sets of parameters and create more complex graphs that way.</p>
+
+<h4>Initial Stator and Rotor Placement</h4>
+<p>To visualize the initial stator and rotor placements press the <button>Show Rings</button> button.</p>
+
+<h4>Rotor Wheel Placement</h4>
+<p>Positive numbers for the rotor radius correspond to the rotor rolling on the <em>inside</em> of the stator, while for negative numbers the rotor is rolling on the <em>outside</em> of the stator.</p>
+</details>
+
+
+<!-- _______________________________________________________________ -->
+<script>
+var c = document.getElementById("Canvas");
+var ctx = c.getContext("2d");
+var W = c.width ; var H = c.height;
+
+var Xscale =  W/(2*12);
+var Yscale = -H/(2*12);
+var Xo     =  W/2
+var Yo     =  H/2
+
+var ShowRings = false;
+
+var DegToRad = 2*Math.PI/360;
+var ic = 0;
+
+function Draw() {
+ let R   = Number(document.getElementById("R").value);
+ let r   = Number(document.getElementById("r").value);
+ let rho = Number(document.getElementById("rho").value);
+ let fi  = Number(document.getElementById("fi").value);
+ let Ox  = Number(document.getElementById("Ox").value);
+ let Oy  = Number(document.getElementById("Oy").value);
+ let Cl = document.getElementById("Cl").value;
+ let Lp = Number(document.getElementById("Lp").value);
+
+ let R1 = R-r;
+ let v  = R1/r;
+ let x  = Xo+Xscale*(Ox + R1 + rho*Math.cos(fi*DegToRad));
+ let y  = Yo+Yscale*(Oy      - rho*Math.sin(fi*DegToRad));
+ let tMax = (2*Lp*360+1)
+
+ //alert(x + '-' + y + '(' + Ri + ')');
+ if ( Cl == 'auto' ) {
+  ctx.strokeStyle = "hsl(" + 32*ic%360 +", 100%, 64%)";
+ } else {
+  ctx.strokeStyle = Cl;
+ }
+ ctx.beginPath()
+ ctx.moveTo(x,y);
+ for (let t=0; t < tMax ; t++) {
+  let th = t/2.0
+  x = Xo+Xscale*(Ox+R1*Math.cos(th*DegToRad)
+      + rho*Math.cos((th*v+fi)*DegToRad));
+  y = Yo+Yscale*(Oy+R1*Math.sin(th*DegToRad)
+      - rho*Math.sin((th*v+fi)*DegToRad));
+  //alert(x + '-' + y);
+  ctx.lineTo(x,y);
+ }
+ ctx.stroke();
+ ic++;
+ if (ShowRings) {
+ x  = Xo+Xscale*(Ox + R);
+ y  = Yo+Yscale*(Oy    );
+ ctx.strokeStyle = 'black';
+ ctx.beginPath()
+ ctx.moveTo(x,y);
+ for (let t=0; t < 360 ; t++) {
+  x = Xo+Xscale*(Ox+R*Math.cos(t*DegToRad));
+  y = Yo+Yscale*(Oy+R*Math.sin(t*DegToRad));
+  //alert(x + '-' + y);
+  ctx.lineTo(x,y);
+ }
+ ctx.stroke();
+ 
+ x  = Xo+Xscale*(Ox + R1 + rho);
+ y  = Yo+Yscale*(Oy    );
+ ctx.strokeStyle = 'black';
+ ctx.beginPath()
+ ctx.moveTo(x,y);
+ for (let t=0; t < 360 ; t++) {
+  x = Xo+Xscale*(Ox+R1 + r*Math.cos(t*DegToRad));
+  y = Yo+Yscale*(Oy    - r*Math.sin(t*DegToRad));
+  //alert(x + '-' + y);
+  ctx.lineTo(x,y);
+ }
+ ctx.stroke();
+ }
+}
+
+function Clear() {
+ ctx.clearRect(0, 0, W, H);
+ ic = 0;
+}
+
+function Show() {
+  ShowRings = !ShowRings;
+}
+</script>
+</body>
+</html>
