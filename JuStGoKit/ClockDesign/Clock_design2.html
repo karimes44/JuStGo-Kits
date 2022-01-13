@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <meta charset="utf-8"/>
+ <title>Clock</title>
+
+<!-- _______________________________________________________________ -->
+<style>
+body {
+ font-family: "Helvetica";
+ font-size:    14pt;
+ margin-left:  20pt; }
+h1 {
+ font-family: "Helvetica";
+ font-size:    18pt;
+ margin-left:  10pt;
+ color:        navy; }
+
+.clock {
+	display: flex;
+	justify-content: space-around;
+}
+</style>
+</head>
+
+<!-- _______________________________________________________________ -->
+<body onload="Start()">
+<h1>Clock</h1>
+
+<div class="clock">
+<canvas id="canvas" width="600" height="600" ></canvas>
+</div>
+<!-- _______________________________________________________________ -->
+<script>
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+var W  = canvas.width ; var H  = canvas.height;
+var Ro =  W/2
+ctx.translate(Ro, Ro);
+ctx.font = Ro*0.15 + "px Arial";
+ctx.textBaseline="middle";
+ctx.textAlign="center";
+
+var Pi2   = 2*Math.PI;
+var noon  = -0.5*Math.PI;
+var D2Rad = 2*Math.PI/360;
+var H2Rad = 2*Math.PI/12;
+var M2Rad = 2*Math.PI/60;
+
+var hlen = 0.40*Ro; // Hour Hand
+var mlen = 0.60*Ro; // Minute hand
+var slen = 0.80*Ro; // Second Hand
+var clen = 0.80*Ro; // Tick Length
+var tlen = 0.89*Ro; // Tick Length
+var xlen = 0.90*Ro; // Text Placement
+
+function ShowTime() {
+ let now    = new Date();
+ let hour   = now.getHours()%12;
+ let minute = now.getMinutes();
+ let second = now.getSeconds();
+ let month  = now.getMonth()+1;
+ month = month.toString()
+ if ( month.length == 1 ) {
+  month = "0" + month;
+ } 
+ let mday   = now.getDate();
+ mdays = mday.toString()
+ if ( mday.length == 1 ) {
+  mday = "0" + mday;
+ }
+
+ 
+ let hf  =  hour+minute/60;
+ let hfi =  noon+hf*H2Rad;
+ let mfi =  noon+minute*M2Rad;
+ let sfi =  noon+second*M2Rad;
+
+ ctx.beginPath()
+ ctx.arc(0, 0, clen, 0, Pi2);
+ ctx.fillStyle = "white";
+ ctx.fill();
+ ctx.fillText(month, -xlen, 0);
+ ctx.fillText(mday,   xlen, 0);
+
+ ctx.lineWidth = 2;
+ ctx.strokeStyle = "black"
+
+ ctx.beginPath();
+ ctx.moveTo(0,0)
+ ctx.lineTo(0,-slen);
+ ctx.arc(0, 0, slen, noon, sfi);
+ ctx.lineTo(0,0)
+ ctx.fillStyle = 'orange';
+ ctx.fill();
+ ctx.stroke();
+
+ ctx.beginPath();
+ ctx.moveTo(0,0)
+ ctx.lineTo(0,-mlen);
+ ctx.arc(0, 0, mlen, noon, mfi);
+ ctx.lineTo(0,0)
+ ctx.fillStyle = 'red';
+ ctx.fill();
+ ctx.stroke();
+
+ ctx.beginPath();
+ ctx.moveTo(0,0)
+ ctx.lineTo(0,-hlen);
+ ctx.arc(0, 0, hlen, noon, hfi);
+ ctx.lineTo(0,0)
+ ctx.fillStyle = 'blue';
+ ctx.fill();
+ ctx.stroke();
+}
+
+function ClockFace() {
+ ctx.beginPath()
+ ctx.arc(0, 0, Ro, 0, Pi2);
+ ctx.fillStyle = "black";
+ ctx.fill();
+ 
+ ctx.strokeStyle = "white";
+ ctx.fillStyle   = "lightgray";
+ ctx.lineWidth   = 4;
+ for (let i=0; i<12; i++) {
+  if ( i != 3 && i != 9 ) {
+   let x =  tlen*Math.sin(i*H2Rad);
+   let y = -tlen*Math.cos(i*H2Rad);
+   ctx.beginPath();
+   ctx.moveTo(0,0);
+   ctx.lineTo(x,y);
+   ctx.stroke();
+  }
+ }
+}
+
+function Start() {
+ ClockFace();
+ ShowTime();
+ Timer = setInterval(ShowTime,1000);
+}
+</script>
+</body>
+</html>

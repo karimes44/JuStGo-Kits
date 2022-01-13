@@ -51,13 +51,13 @@ Your browser does not support the HTML5 canvas tag.</canvas>
 <table>
 <tr><th>Parameter</th><th>Range</th><th>Value</th></tr>
 <tr><th>Stator Radius (R)</th>    <td>[0~12]</td>
-<td><textarea id="R"   rows="1" cols="6">12</textarea></td></tr>
+<td><textarea id="R"   rows="1" cols="6">3</textarea></td></tr>
 
 <tr><th>Rotor Radius (r)</th>    <td>[-12~12]</td>
-<td><textarea id="r"   rows="1" cols="6">10</textarea></td></tr>
+<td><textarea id="r"   rows="1" cols="6">-3.125</textarea></td></tr>
 
 <tr><th>Pen Hole Radius (&rho;)</th>     <td>[-12~12]</th>
-<td><textarea id="rho" rows="1" cols="6">6</textarea></td></tr>
+<td><textarea id="rho" rows="1" cols="6">-5.8</textarea></td></tr>
 
 <tr><th>Phase Shift</th>                 <td>[0-360]:</td>
 <td><textarea id="fi"  rows="1" cols="6">0</textarea></td></tr>
@@ -158,29 +158,46 @@ function Draw() {
   ctx.lineTo(x,y);
  }
  ctx.stroke();
- 
- let fiw = 0.5*T*v+fi;
- x = Xo+Xscale*(R1*Math.cos(0.5*T*DegToRad)
-   + rho*Math.cos(fiw*DegToRad));
- y = Yo+Yscale*(R1*Math.sin(0.5*T*DegToRad)
-   - rho*Math.sin(fiw*DegToRad));
- 
- ctx.beginPath()
- ctx.arc(x, y, 4, 0, Pi2);
- ctx.fillStyle = "purple";
- ctx.fill();
- ctx.stroke();
+
  ctx.strokeStyle = 'black';
  ctx.beginPath()
+ x = Xo+Xscale*(R1*Math.cos(0.5*T*DegToRad) + r);
+ y = Yo+Yscale* R1*Math.sin(0.5*T*DegToRad);
+
  ctx.moveTo(x,y);
  for (let t=0; t < 121 ; t++) {
-  x = Xo+Xscale*(R1*Math.cos(0.5*T*DegToRad) + r*Math.cos((fiw+3*t)*DegToRad));
-  y = Yo+Yscale*(R1*Math.sin(0.5*T*DegToRad) - r*Math.sin((fiw+3*t)*DegToRad));
+  x = Xo+Xscale*(R1*Math.cos(0.5*T*DegToRad) + r*Math.cos(3*t*DegToRad));
+  y = Yo+Yscale*(R1*Math.sin(0.5*T*DegToRad) - r*Math.sin(3*t*DegToRad));
   //alert(x + '-' + y);
   ctx.lineTo(x,y);
  }
  ctx.stroke();
 
+ let fiw = 0.5*T*v+fi;
+ xp = Xo+Xscale*(R1*Math.cos(0.5*T*DegToRad)
+   + rho*Math.cos(fiw*DegToRad));
+ yp = Yo+Yscale*(R1*Math.sin(0.5*T*DegToRad)
+   - rho*Math.sin(fiw*DegToRad));
+ 
+ ctx.beginPath()
+ ctx.arc(xp, yp, 4, 0, Pi2);
+ ctx.fillStyle = "purple";
+ ctx.fill();
+ ctx.stroke();
+
+ ctx.beginPath();
+ ctx.moveTo(Xo,Yo);
+ x = Xo+Xscale*R1*Math.cos(0.5*T*DegToRad);
+ y = Yo+Yscale*R1*Math.sin(0.5*T*DegToRad);
+  //alert(x + '-' + y);
+ ctx.lineTo(x,y);
+ x = Xo+Xscale*(R1*Math.cos(0.5*T*DegToRad)
+   + rho*Math.cos(fiw*DegToRad));
+ y = Yo+Yscale*(R1*Math.sin(0.5*T*DegToRad)
+  - rho*Math.sin(fiw*DegToRad));
+ ctx.lineTo(x,y);
+ ctx.stroke();
+ 
  T++;
 }
 

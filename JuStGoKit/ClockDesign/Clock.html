@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <meta charset="utf-8"/>
+ <title>Clock</title>
+
+<!-- _______________________________________________________________ -->
+<style>
+body {
+ font-family: "Helvetica";
+ font-size:    14pt;
+ margin-left:  20pt; }
+h1 {
+ font-family: "Helvetica";
+ font-size:    18pt;
+ margin-left:  10pt;
+ color:        navy; }
+td {
+ width:        3em;
+ height:       3em;
+ font-size:    28pt;
+ text-align:   center;
+ background-color: navy;
+ color:        white;
+}
+
+.clock {
+	display: flex;
+	justify-content: space-around;
+}
+</style>
+</head>
+
+<!-- _______________________________________________________________ -->
+<body onload="Start()">
+<h1>Clock</h1>
+
+
+<table border="1">
+<tr><th>Hour</th><th>Min</th><th>Sec</th></tr>
+<tr><td id="H">0</td><td id="M">0</td><td id="S">0</td></tr>
+<tr><th id="D" colspan="3">0</th></tr>
+</table>
+<div class="clock">
+<canvas id="canvas" width="600" height="600" ></canvas>
+</div>
+<!-- _______________________________________________________________ -->
+<script>
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+var W  = canvas.width ; var H  = canvas.height;
+var Ro =  W/2
+ctx.translate(Ro, Ro);
+ctx.font = "30px Arial";
+ctx.textAlign = "center";
+
+var Pi2   = 2*Math.PI;
+var D2Rad = 2*Math.PI/360;
+var H2Rad = 2*Math.PI/12;
+var M2Rad = 2*Math.PI/60;
+
+var hlen = 0.50*Ro; // Hour Hand
+var mlen = 0.78*Ro; // Minute hand
+var slen = 0.80*Ro; // Second Hand
+var clen = 0.82*Ro; // Animated Clock Face
+var tlen = 0.89*Ro; // Tick Length
+var xlen = 0.94*Ro; // Text Placement
+
+var Months = ['Jan','Feb','Mar','Apr','May','Jun',
+ 'Jul','Aug','Sep','Oct','Nov','Dec'];
+var Days = ['So','Mo','Tu','We','Th','Fr','Sa'];
+var Sups = ['st','nd','rd','th']
+
+function ShowTime() {
+ let now    = new Date();
+ let hour   = now.getHours();
+ let minute = now.getMinutes();
+ let second = now.getSeconds();
+ let year   = now.getFullYear();
+ let month  = now.getMonth();
+ let mday   = now.getDate();
+ let wday   = now.getDay();
+ let iSup   = mday-1;
+ if (iSup > 3) { iSup=3 }
+ let ShowDate = `${Days[wday]} ${Months[month]} ${mday}<sup>${Sups[iSup]}</sup> ${year}`;
+ document.getElementById("H").innerHTML = hour;
+ document.getElementById("M").innerHTML = minute;
+ document.getElementById("S").innerHTML = second;
+ document.getElementById("D").innerHTML = ShowDate;
+
+ let hf =  hour+minute/60;
+ let hx =  hlen*Math.sin(hf*H2Rad);
+ let hy = -hlen*Math.cos(hf*H2Rad);
+ let mx =  mlen*Math.sin(minute*M2Rad);
+ let my = -mlen*Math.cos(minute*M2Rad);
+ let sx =  slen*Math.sin(second*M2Rad);
+ let sy = -slen*Math.cos(second*M2Rad);
+
+ ctx.beginPath()
+ ctx.arc(0, 0, clen, 0, Pi2);
+ ctx.fillStyle = "orange";
+ ctx.fill();
+
+ ctx.beginPath();
+ ctx.strokeStyle = "gray";
+ ctx.lineWidth = 6;
+ ctx.moveTo(0,0);
+ ctx.lineTo(hx,hy);
+ ctx.stroke();
+
+ ctx.beginPath();
+ ctx.strokeStyle = "navy";
+ ctx.lineWidth = 4;
+ ctx.moveTo(0,0);
+ ctx.lineTo(mx,my);
+ ctx.stroke();
+
+ ctx.beginPath();
+ ctx.strokeStyle = "red";
+ ctx.lineWidth = 2;
+ ctx.moveTo(0,0);
+ ctx.lineTo(sx,sy);
+ ctx.stroke();
+
+ ctx.beginPath()
+ ctx.arc(0, 0, 0.03, 0, Pi2);
+ ctx.fillStyle = "purple";
+ ctx.fill();
+}
+
+function ClockFace() {
+ ctx.beginPath()
+ ctx.arc(0, 0, Ro, 0, Pi2);
+ ctx.fillStyle = "black";
+ ctx.fill();
+ 
+ ctx.strokeStyle = "white";
+ ctx.fillStyle   = "lightgray";
+ ctx.lineWidth   = 4;
+ for (let i=0; i<12; i++) {
+  let x =  tlen*Math.sin(i*H2Rad);
+  let y = -tlen*Math.cos(i*H2Rad);
+  ctx.beginPath();
+  ctx.moveTo(0,0);
+  ctx.lineTo(x,y);
+  ctx.stroke();
+  let xtxt =  xlen*Math.sin(i*H2Rad);
+  let ytxt = -xlen*Math.cos(i*H2Rad);
+  j = i;
+  if (i==0) { j=12 }
+  ctx.fillText(j, xtxt, ytxt+11);
+ }
+}
+
+function Start() {
+ ClockFace();
+ ShowTime();
+ Timer = setInterval(ShowTime,1000);
+}
+</script>
+</body>
+</html>

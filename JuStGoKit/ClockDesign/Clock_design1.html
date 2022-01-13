@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <meta charset="utf-8"/>
+ <title>Clock</title>
+
+<!-- _______________________________________________________________ -->
+<style>
+body {
+ font-family: "Helvetica";
+ font-size:    14pt;
+ margin-left:  20pt; }
+h1 {
+ font-family: "Helvetica";
+ font-size:    18pt;
+ margin-left:  10pt;
+ color:        navy; }
+
+.clock {
+	display: flex;
+	justify-content: space-around;
+}
+</style>
+</head>
+
+<!-- _______________________________________________________________ -->
+<body onload="Start()">
+<h1>Clock</h1>
+
+<div class="clock">
+<canvas id="canvas" width="600" height="600" ></canvas>
+</div>
+<!-- _______________________________________________________________ -->
+<script>
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+var W  = canvas.width ; var H  = canvas.height;
+var Ro =  W/2
+ctx.translate(Ro, Ro);
+ctx.font = Ro*0.15 + "px Arial";
+ctx.textBaseline="middle";
+ctx.textAlign="center";
+
+var Pi2   = 2*Math.PI;
+var D2Rad = 2*Math.PI/360;
+var H2Rad = 2*Math.PI/12;
+var M2Rad = 2*Math.PI/60;
+
+var hlen = 0.40*Ro; // Hour Hand
+var mlen = 0.60*Ro; // Minute hand
+var slen = 0.75*Ro; // Second Hand
+var flen = 0.10*Ro; // Serif Length
+var clen = 0.80*Ro; // Tick Length
+var xlen = 0.90*Ro; // Text Placement
+var dlen = 0.02*Ro; // Dot Size
+
+function ShowTime() {
+ let now    = new Date();
+ let hour   = now.getHours()%12;
+ let minute = now.getMinutes();
+ let second = now.getSeconds();
+ let month  = now.getMonth()+1;
+ month = month.toString()
+ if ( month.length == 1 ) {
+  month = "0" + month;
+ } 
+ let mday   = now.getDate();
+ mdays = mday.toString()
+ if ( mday.length == 1 ) {
+  mday = "0" + mday;
+ }
+
+ let hf =  hour+minute/60;
+ let hfi =  hf*H2Rad;
+ let mfi =  minute*M2Rad;
+ let sfi =  second*M2Rad;
+
+ ctx.beginPath()
+ ctx.arc(0, 0, clen, 0, Pi2);
+ ctx.fillStyle = "lightblue";
+ ctx.fill();
+ ctx.fillText(month, -xlen, 0);
+ ctx.fillText(mday,   xlen, 0);
+
+ ctx.lineWidth = 5;
+ ctx.lineCap = "round";
+ ctx.strokeStyle = "gray"
+ ctx.beginPath();
+ for(i = 0; i<12; i++){
+  ang = i * H2Rad;
+  ctx.moveTo(0,0);
+  ctx.rotate(ang);
+  ctx.lineTo(           0,-clen);
+  ctx.lineTo( flen,-clen);
+  ctx.lineTo(-flen,-clen);
+  ctx.rotate(-ang);
+ }
+ ctx.stroke();
+
+ ctx.lineWidth = 2;
+ ctx.strokeStyle = "black"
+ 
+ ctx.beginPath();
+ ctx.rotate(hfi);
+ ctx.moveTo(0, -hlen);
+ ctx.rotate(mfi-hfi); 
+ ctx.lineTo(0, -mlen);
+ ctx.rotate(sfi-mfi);
+ ctx.lineTo(0, -slen);
+ ctx.rotate(hfi-sfi);
+ ctx.lineTo(0, -hlen);
+ ctx.rotate(-hfi);
+ ctx.stroke();
+ 
+ ctx.beginPath();
+ ctx.rotate(hfi);
+ ctx.arc(0, -hlen, 2*dlen, 0, Pi2);
+ ctx.fillStyle = 'blue';
+ ctx.fill();
+ ctx.stroke();
+
+ ctx.beginPath();
+ ctx.rotate(mfi-hfi);
+ ctx.arc(0, -mlen, 1.5*dlen, 0, Pi2);
+ ctx.fillStyle = 'red';
+ ctx.fill();
+ ctx.stroke();
+
+ ctx.beginPath();
+ ctx.rotate(sfi-mfi);
+ ctx.arc(0, -slen, dlen, 0, Pi2);
+ ctx.fillStyle = 'yellow';
+ ctx.rotate(-sfi);
+ ctx.fill();
+ ctx.stroke();
+}
+
+
+function Start() {
+ ShowTime();
+ Timer = setInterval(ShowTime,1000);
+}
+</script>
+</body>
+</html>
