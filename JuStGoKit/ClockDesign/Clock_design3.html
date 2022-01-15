@@ -2,7 +2,7 @@
 <html>
 <head>
  <meta charset="utf-8"/>
- <title>Clock</title>
+ <title>Clock (D3)</title>
 
 <!-- _______________________________________________________________ -->
 <style>
@@ -105,14 +105,14 @@ function ShowTime() {
  ctx.rotate(hfi);
  ctx.stroke();
 
- ctx.rotate(mfi);
+ ctx.rotate(-mfi);
  ctx.lineWidth = 3;
  for(i = 0; i<12; i++){
   ang = i * H2Rad;
   ctx.strokeStyle = "black"
   ctx.fillStyle = "black";
   ctx.beginPath();
-  ctx.rotate(-ang);
+  ctx.rotate(ang);
   ctx.arc(0, -mlen-3, 30, 0, Pi2);
   ctx.fill();
   ctx.stroke();
@@ -121,9 +121,9 @@ function ShowTime() {
   ctx.fillStyle = "orange";
   ctx.fillText(j*5, 0,-mlen);
   ctx.stroke();
-  ctx.rotate(ang);
+  ctx.rotate(-ang);
  }
- ctx.rotate(-mfi);
+ ctx.rotate(mfi);
 
  ctx.strokeStyle = "red"
  ctx.fillStyle = "red";
