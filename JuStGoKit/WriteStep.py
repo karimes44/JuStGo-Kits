@@ -22,8 +22,8 @@ A stream list is active until the next stream list is defined. Nesting is not su
 #fName = '15sqr'
 #fLoc = './Pong/'
 #fName = 'Pong'
-fLoc = './Mastermind/'
-fName = 'Mastermind'
+fLoc = './ChooseAdventure/'
+fName = 'ChooseAdventure'
 with open(fLoc + 'pano/' + fName + '_pano.html') as fin:
 	lines = fin.readlines()
 fin.close()

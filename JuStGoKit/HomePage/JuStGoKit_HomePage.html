@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <meta charset="utf-8"/>
+ <title>JuStGo Kit: Home Page</title>
+ <link rel="stylesheet" type="text/css" href="../styles/justgo.css">
+</head>
+
+<!-- _______________________________________________________________ -->
+<body>
+<h1>JuStGo Kit: Home Page</h1>
+
+<h2>Introduction</h2>
+<!-- _______________________________________________________________ -->
+<h3>Working with the JuStGo Kit</h3>
+
+<div class="txt"><!-- {{{ -->
+<p>In this JuStGo kit you will build a Home Page for yourself or for someone you admire. The kit will lead you step-by-step through each task that needs to be completed to build the entire page.</p>
+
+<p>You will find explanations, tips, and resources that help you complete each task. At the end a solution example is given. You can decide for yourself if you want to take over some of the provided example code or stay with your solution.</p>
+<p><b>Note:</b> To see the HTML code, open the solution proposal in your text editor, such as <a href= "https://chrome.google.com/webstore/detail/caret/fljalecfjciodhpcledpamjachpmelml?hl=en" target="_blank"> Chrome Caret</a>, or right-click anywhere on the solution proposal page and select <em>View Page Source</em>.</p>
+
+<p>The provided solution example solves the task with very little code so that you can clearly see what is done and how. As a consequence, it may look a bit plain. Let this inspire you to spice it up!</p>
+
+<p>Go wild - make it yours! </p>
+</div><!-- }}} -->
+
+<h2>Task 0: Create the HTML placeholder</h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>Create an HTML placeholder page that...</p>
+	<ul>
+	 <li>defines the page document type to be HTML5,</li>
+	 <li>has a header section with a <code>title</code> tag,</li>
+	 <li>has a body section.</li>
+	</ul>
+
+<details class="box bgobj"><summary>Objectives</summary>
+<!-- {{{ -->
+<ul>
+ <li>Introduction to the basic structure of a web page</li>
+</ul>
+</details><!-- }}} -->
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<!-- {{{ -->
+<p>You can find a good introduction to HTML at <a href= "https://www.w3schools.com/html/html_intro.asp" target="_blank" class="bgtip">W3Schools: HTML Introduction</a>.</p></details><!-- }}} -->
+
+<p class="box bgsol"><a href= "HomePage_step0.html" target="_blank" class="bgsol">Solution Proposal</a></p>
+
+<details class="box bghig"><summary>Highlights of added code</summary>
+<!-- {{{ -->
+<p>First line defines the content as HTML5:</p>
+<pre><span class='new'>&lt;!DOCTYPE html&gt;</span>
+...</pre>
+
+<p>The <code>&lt;html&gt;</code> tag encloses the entire page, additional attributes, here <code>lang="en"</code> can give the browser extra information, such that the page in in English.</p>
+<pre>&lt;!DOCTYPE html&gt;
+<span class='new'>&lt;html lang="en"&gt;</span>
+...
+<span class='new'>&lt;/html&gt;</span></pre>
+
+<p>The <code>&lt;head&gt;</code> tag contains "meta data" and the title to be shown on the browser tab:</p>
+<pre>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+<span class='new'>&lt;head&gt;
+ &lt;meta charset="UTF-8"&gt;
+ &lt;title&gt;Home Page&lt;/title&gt;
+&lt;/head&gt;</span>
+...
+&lt;/html&gt;</pre>
+
+<p>The <code>&lt;body&gt;</code> tag contains everything that will "eventually" be shown on the page (we'll start filling that in during the next task):</p>
+<pre>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+
+&lt;head&gt;
+ &lt;meta charset="UTF-8"&gt;
+ &lt;title&gt;Home Page/0&lt;/title&gt;
+&lt;/head&gt;</span>
+<span class='new'>&lt;body&gt;</span>
+...
+<span class='new'>&lt;/body&gt;</span>
+&lt;/html&gt;</pre>
+</details><!-- }}} -->
+
+</div><!-- }}} -->
+
+<h2>Task 1: Introduce yourself</h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>Write a HTML page in which you introduce yourself.</p>
+
+<details class="box bgobj"><summary>Objectives</summary>
+<!-- {{{ -->
+<ul>
+ <li>Introduction to a basic and common set of HTML tags</li>
+ <ol>
+  <li>Heading 1: <code>&lt;h1&gt;...&lt;/h1&gt;</code></li>
+  <li>Heading 2: <code>&lt;h1&gt;...&lt;/h1&gt;</code></li>
+  <li>Paragraph: <code>&lt;p&gt;...&lt;/p&gt;</code></li>
+  <li>Ordered Lists: <code>&lt;ol&gt;&lt;li&gt;...&lt;/li&gt;&lt;/ol&gt;</code></li>
+  <li>Unordered Lists: <code>&lt;ul&gt;&lt;li&gt;...&lt;/li&gt;&lt;/ul&gt;</code></li>
+  <li>Predefined formating: Emphasized text <code>&lt;em&gt;...&lt;/em&gt;</code></li>
+ </ol>
+</ul>
+</details><!-- }}} -->
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<!-- {{{ -->
+<p>Maybe you want to use some
+<ul>
+	<li><a href= "https://www.w3schools.com/html/html_headings.asp" target="_blank">section headers</a>,</li>
+	<li><a href= "https://www.w3schools.com/html/html_paragraphs.asp" target="_blank">paragraphs</a>,</li>
+	<li><a href= "https://www.w3schools.com/html/html_lists.asp">lists</a>,</li>
+	<li>and maybe some pre-defined
+<a href= "https://www.w3schools.com/html/html_formatting.asp" target="_blank">HTML formatting</a>.</li>
+</ul></details><!-- }}} -->
+
+<p class="box bgsol"><a href= "HomePage_step1.html" target="_blank" class="bgsol">Solution Proposal</a></p>
+
+<details class="box bghig"><summary>Highlights of added code</summary>
+<!-- {{{ -->
+<h4>Heading tags</h4>
+<pre>
+<span class='new'>&lt;h1&gt;Pikachu's Home Page&lt;/h1&gt;</span>
+...
+<span class='new'>&lt;h2&gt;Things to know about me:&lt;/h2&gt;</span></pre>
+
+<h4>Paragraph tags</h4>
+<pre>
+<span class='new'>&lt;p&gt;My best friend is Ash Ketchum.&lt;/p&gt;
+&lt;p&gt;My favorate games are:&lt;/p&gt;</span></pre>
+
+<h4>Pre-defined formated tags, here <em>Emphasized Text</em> </h4>
+<pre>
+&lt;p&gt;Hello! My Name is <span class='new'>&lt;em&gt;Pikachu&lt;/em&gt;</span>, and I like to play video game.&lt;/p&gt;</pre>
+
+<h4>Ordered lists</h4>
+<pre>
+&lt;p&gt;My favorite games are:&lt;/p&gt;
+<span class='new'>&lt;ol&gt;
+ &lt;li&gt;Pokemon Yellow&lt;/li&gt;
+ &lt;li&gt;Pokemon Sun and Moon&lt;/li&gt;
+ &lt;li&gt;Pokemon Legends: Arceus&lt;/li&gt;
+&lt;/ol&gt;</span></pre>
+
+<h4>Unordered or bulleted lists</h4>
+<pre>
+&lt;h2&gt;Things to know about me:&lt;/h2&gt;
+<span class='new'>&lt;ul&gt;
+ &lt;li&gt;Atsuko Nishida drew me first&lt;/li&gt;
+ &lt;li&gt;I look a bit like a squirrel&lt;/li&gt;
+ &lt;li&gt;I am electric&lt;/li&gt;
+ &lt;li&gt;I can evolve into a Raichu&lt;/li&gt;
+&lt;/ul&gt;</span>
+
+&lt;p&gt;Do you want to know more? Check out my Wikipedia page.&lt;/p&gt;</pre>
+</details><!-- }}} -->
+
+<details class="box bgcha"><summary>Challenges</summary><!-- {{{ -->
+<p>Explore other <a href= "https://www.w3schools.com/tags/default.asp"  target="_blank">HTML tags</a> and check if you can find something interesting for your page.</p>
+</details><!-- }}} -->
+
+</div><!-- }}} -->
+
+<h2>Task 2: Improve the look of your page</h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>Well, the page is looking a bit bland... Can you fix that?</p>
+
+<details class="box bgobj"><summary>Objectives</summary>
+<!-- {{{ -->
+<ul>
+ <li>Introduction to CSS</li>
+ <li>Basic and common set of CSS properties</li>
+ <ol>
+  <li>Font customization</li>
+  <li>Color customization</li>
+  <li>Margin customization</li>
+  <li>Padding customization</li>
+  <li>Border customization</li>
+  <li>Units</li>
+ </ol>
+</ul>
+</details><!-- }}} -->
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<!-- {{{ -->
+<p>You can find a good introduction to CSS at <a href= "https://www.w3schools.com/css/default.asp" target="_blank" class="bgtip">W3 School: CSS Tutorial</a>.</p>
+<p>You can use CSS to improve the look of your page, for example:</p>
+<ul>
+  <li>Define a <a href= "https://www.w3schools.com/css/css_m" target="_blank">left margin</a> for all elements in the <code>&lt;body&gt;</code> tag.</li>
+  <li>Change the <a href= "https://www.w3schools.com/css/css_font.asp" target="_blank">font</a> and the <a href= "https://www.w3schools.com/css/css_font_size.asp" target="_blank">font size </a> of the <code>&lt;h1&gt;</code>, <code>&lt;h2&gt;</code>, and the <code>&lt;p&gt;</code> tags.</li>
+  <li>Select different <a href= "https://www.w3schools.com/css/css_colors.asp" target="_blank">colors</a> for the text and the  background color of a tag.</li>
+  <li>Use <a href= "https://www.w3schools.com/css/css_padding.asp" target="_blank">padding</a> to place the text within the tag element.</li>
+  <li>Add <a href= "https://www.w3schools.com/css/css_border.asp" target="_blank">borders</a> to further enhance some tag elements.</li>
+  <li>Redefine the <code>&lt;em&gt;</code> tag to make it look the way <em>you</em> want. You can find here some  <a href= "https://www.w3schools.com/css/css_font_style.asp" target="_blank">examples</a>.</li>
+  </ul>
+</ul>
+</details><!-- }}} -->
+
+<p class="box bgsol"><a href= "HomePage_step2.html" target="_blank" class="bgsol">Solution Proposal</a></p>
+
+<details class="box bghig"><summary>Highlights of added code</summary>
+<!-- {{{ -->
+<p>The CSS code is written in the <code>&lt;style&gt;</code> element, which is best placed into the <code>&lt;head&gt;</code> element:
+<pre>&lt;head&gt;
+...
+<span class='new'>&lt;style&gt;
+&lt;/style&gt;</span>
+&lt;/head&gt;
+</pre>
+
+<p>Each CSS block for styling an HTML element has the general form:
+
+<pre>&lt;style&gt;
+<span class='new'><em>TAG</em> {
+ <em>PROPERTY1</em>: <em>VALUE1</em>;
+ <em>PROPERTY2</em>: <em>VALUE2</em>;
+ ...
+}</span>
+&lt;/style&gt;
+</pre>
+
+<p>For example, to change the font for the <code>&lt;h1&gt;</code> heading, you need to use the <code>font-family</code> property, and you can set the text color with the <code>color</code> property. The values sometimes are just a single word, such as the color <code>blue</code>, or a value with a unit, such as setting the font size to <code>10pt</code>.</p>
+
+<p><b>Notes:</b> to define the size of the text or the margins you can use the units of pixels <code>px</code> or points <code>pt</code> (see <a href= "https://www.w3schools.com/css/css_units.asp" target="_blank" class="bghig">W3Schools: CSS Units</a>).</p>
+
+<pre>
+<span class='new'>h1 {
+ font-family:  cursive;
+ font-size:    20pt;
+ color:        blue;
+ background-color: pink;
+ padding:      20pt; }</span>
+</pre>
+
+<p>The <code>padding</code> property let's you space the text a bit away from the edges of the element - try changing the number to see what happens.</p>
+
+<p>The <code>margin</code> let's you control the spacing between different elements - try changing the number to see what happens.</p>
+<pre>
+p {
+ font-family:  "Verdana";
+ <span class='new'>margin-left:  10pt;
+ margin-right: 10pt;</span> }
+</pre>
+
+<p>Setting the property <code>font-weight</code> to the value <code>bold</code> creats a bold font.</p>
+<pre>
+em {
+ font-family:  "Georgia";
+ <span class='new'>font-weight:  bold;</span>
+}
+</pre>
+
+<p>You can also define a border around most HTML elements </p>
+<pre>
+h2 {
+ font-family: "Helvetica";
+ font-size:    16pt;
+ margin:       10pt 60pt 10pt 20pt;
+ padding:      10pt;
+ background-color: lightgreen;
+ <span class='new'>border-style: solid;
+ border-color: green;
+ border-width: 4px;
+ border-radius:8px;</span> }
+&lt;/style&gt;
+</pre>
+</details><!-- }}} -->
+
+<details class="box bgcha"><summary>Challenges</summary><!-- {{{ -->
+<p>Explore other CSS option at <a href= "https://www.w3schools.com/css/default.asp" target="_blank">W3 School: CSS Tutorial</a> and check if you can find something interesting for your page. </p>
+</details><!-- }}} -->
+
+</div><!-- }}} -->
+
+<h2>Task 3: Add pictures and links</h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>Wouldn't the page look even better with some pictures? Can you add some?</p>
+<p>... and wouldn't the page be more useful if it had some links to other pages? Can you add them?</p>
+
+<details class="box bgobj"><summary>Objectives</summary>
+<!-- {{{ -->
+<p>Introduction to</p>
+<ul>
+ <li>Image tags</li>
+ <li>Anchor tags</li>
+</ul>
+</details><!-- }}} -->
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<!-- {{{ -->
+<p>You can use the  <a href= "https://www.w3schools.com/html/html_images.asp" target="_blank" >image tag</a> to add a picture on to your page.</p>
+<ul>
+	<li>Once you found a picture you like on the web, you can copy the URL (that is the "home address" on the web) of, here, the picture you want to include by right-clicking on the picture and then selecting "Copy image address".</li>
+	<li>Then you move the mouse into your editor window into the <code>src=</code> attribute of your <code>&lt;img&gt;</code> tag and right-click again, this time selecting the option "Paste".</li>
+	<li>... or you can download the picture onto you computer by right-clicking on the picture and selecting: "Save image as..." - then save it into the same directory as you HTML file, or in a sub-directorty the directory with the HTML file.</li>
+</ul>
+
+<p>A URL for a picture will look "similar" to this:</p>
+<p>&nbsp; &nbsp; <code>https://codenation.org/wp-content/uploads/2021/07/CNVolunteers1-1-800x447.jpg</code></p>
+
+<p>It will start with <code>https://</code> or <code>http://</code>, then some long string with some slashes (<code>/</code>) and dosts (<code>.</code>), and it will end often with <code>.jpg</code> or <code>.png</code>, but there are also several other picture formats...</p>
+
+<p>If you saved the file into a sub-directory called <code>images</code> of the directory with the HTML file, then the URL would just be:</p>
+<p>&nbsp; &nbsp; <code>./images/CNVolunteers1-1-800x447.jpg</code></p>
+
+<p>You can use the  <a href= "https://www.w3schools.com/html/html_links.asp" target="_blank" >anchor tag</a> to add a link on to your page.</p>
+
+<ul>
+	<li>To get the URL for a web page you can copy the string from the address bar of your browser, say with Ctrl-C.</li>
+	<li>Then you move the mouse into your editor window into the <code>href=</code> attribute of your <code>&lt;a&gt;</code>and paste the URL with, say Ctrl-V.</li></li>
+</ul>
+
+<p>A URL for a web page will look "similar" to this:</p>
+<p>&nbsp; &nbsp; <code>https://codenation.org</code></p>
+
+</details><!-- }}} -->
+
+<p class="box bgsol"><a href= "HomePage_step3.html" target="_blank" class="bgsol">Solution Proposal</a></p>
+
+<details class="box bghig"><summary>Highlights of added code</summary>
+<!-- {{{ -->
+<h4>Images</h4>
+<pre>
+&lt;p&gt;Hello! My Name is &lt;em&gt;Pikachu&lt;/em&gt;, and I like to play video games.&lt;/p&gt;
+<span class='new'>&lt;img src="https://upload.wikimedia.org/wikipedia/en/a/a6/Pok%C3%A9mon_Pikachu_art.png"&gt;</span>
+&lt;p&gt;My best friend is Ash Ketchum.&lt;/p&gt;
+<span class='new'>&lt;img src="https://upload.wikimedia.org/wikipedia/en/9/92/Pok%C3%A9mon_episode_1_screenshot.png"&gt;</span>
+</span></pre>
+
+<h4>Links</h4>
+<pre>
+&lt;ol&gt;
+ &lt;li&gt;<span class='new'>&&lt;a href="https://en.wikipedia.org/wiki/Pok%C3%A9mon_Yellow"&gt;
+  Pokemon Yellow&lt;/a&gt;</span>&lt;/li&gt;
+ &lt;li&gt;<span class='new'>&&lt;a href="https://en.wikipedia.org/wiki/Pok%C3%A9mon_Sun_and_Moon"&gt; 
+  Pokemon Sun and Moon&lt;/a&gt;</span>&lt;/li&gt;
+ &lt;li&gt;<span class='new'>&&lt;a href="https://en.wikipedia.org/wiki/Pok%C3%A9mon_Legends:_Arceus"&gt; 
+  Pokemon Legends: Arceus&lt;/a&gt;</span>&lt;/li&gt;
+&lt;/ol&gt;</pre>
+
+<h4>Resizing and fine-tuning the placements of all images</h4>
+<pre>&lt;style&gt;
+<span class='new'>img {
+ width: 200px;
+ margin-left:  40pt;
+}</span>
+&lt;/style&gt;</pre>
+</details><!-- }}} -->
+
+<details class="box bgcha"><summary>Challenges</summary><!-- {{{ -->
+<p>Explore  </p>
+</details><!-- }}} -->
+
+</div><!-- }}} -->
+
+<h2>Task 4: Page layout: columns</h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>The page is getting long, but there is lots of space on the left... can you make better use of that?</p>
+
+<p>Maybe you can make the three sections (the favorite game, things to know, learn more) side by side...</p>
+
+<details class="box bgobj"><summary>Objectives</summary>
+<!-- {{{ -->
+<ul>
+ <li>Controlling the page layout with <code>&lt;div&gt;...&lt;/div&gt;</code> and the CSS flex-box property.</li>
+ <li>Targeted CSS element control: the <code>class="..."</code> attribute and the <code>id="..."</code> attribute in HTML and how to use them in CSS.</li>
+</ul>
+</details><!-- }}} -->
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<!-- {{{ -->
+<p>Use the <code>&lt;div&gt;</code> tag to enclose, first each of the sections that you want to see in a side-by-side columnar format, and secondly enclose all these section together in abother <code>&lt;div&gt;</code> tag. Give each tag a descriptive <code>id=</code> or <code>class=</code>.</p>
+<p>In the CSS <code>&lt;style&gt;</code> section add to the CSS definition of the outer <code>&lt;div&gt;</code> the <code>display</code> property with the value <code>flex</code>, as well as the <code>justify-content</code> property with the value <code>space-around</code>.</p>
+<p>Then style each of the section <code>&lt;style&gt;</code> as you like.</p>
+
+<p>For more information see W3Schools:</p>
+<ul>
+	<li><a href= "https://www.w3schools.com/html/html_blocks.asp" target="_blank">HTML Block and Inline Elements (<code>&lt;div&gt;</code>)</a></li>
+	<li><a href= "https://www.w3schools.com/html/html_classes.asp" target="_blank">HTML class Attribute</a></li>
+	<li><a href= "https://www.w3schools.com/html/html_id.asp" target="_blank">HTML id Attribute</a></li>
+	<li><a href= "https://www.w3schools.com/css/css_selectors.asp">CSS Selectors </a></li>
+	<li><a href= "https://www.w3schools.com/cssref/css3_pr_justify-content.asp" target="_blank">CSS justify-content Property</a></li>
+	<li><a href= "https://www.w3schools.com/css/default.asp" target="_blank">W3 School: CSS Tutorial</a></li>
+</ul>
+
+</details><!-- }}} -->
+
+<p class="box bgsol"><a href= "HomePage_step4.html" target="_blank" class="bgsol">Solution Proposal</a></p>
+
+<details class="box bghig"><summary>Highlights of added code</summary>
+<!-- {{{ -->
+<p>Enclose each of the three sections with <code>&lt;div&gt;</code> tags, and then all three with another <code>&lt;div&gt;</code> tag.</p>
+<p>The outer <code>&lt;div&gt;</code> tag gets the <code>class</code> attribute <code>"columns"</code> (plural), and each of the three inner <code>&lt;div&gt;</code> tags get class attribute <code>"column"</code> (singular) and other <code>id</code> unique attribute, such as <code>"col1"</code> </p>
+<pre>
+<span class='new'>&lt;div class="columns"&gt;
+ &lt;div class="column" id="col1"&gt;</span>
+  &lt;p&gt;My favorite games are:&lt;/p&gt;
+  &lt;ol&gt;
+  &lt;li&gt;&lt;a href="https://en.wikipedia.org/wiki/Pok%C3%A9mon_Yellow"&gt;Pokemon Yellow&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://en.wikipedia.org/wiki/Pok%C3%A9mon_Sun_and_Moon"&gt; Pokemon Sun and Moon&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://en.wikipedia.org/wiki/Pok%C3%A9mon_Legends:_Arceus"&gt; Pokemon Legends: Arceus&lt;/a&gt;&lt;/li&gt;
+  &lt;/ol&gt;
+ <span class='new'>&lt;/div&gt;
+
+ &lt;div class="column" id="col2"&gt;</span>
+  &lt;p&gt;Did you know:&lt;/p&gt;
+  &lt;ul&gt;
+   &lt;li&gt;Atsuko Nishida drew me first&lt;/li&gt;
+   &lt;li&gt;I look a bit like a squirrel&lt;/li&gt;
+   &lt;li&gt;I am electric&lt;/li&gt;
+   &lt;li&gt;I can evolve into a Raichu&lt;/li&gt;
+  &lt;/ul&gt;
+ <span class='new'>&lt;/div&gt;
+
+ &lt;div class="column" id="col3"&gt;</span>
+  &lt;p&gt;Do you want to know more? Check out my
+  &lt;a href= "https://en.wikipedia.org/wiki/Pikachu#Appearances"&gt;Wikipedia page&lt;/a&gt;.
+  &lt;/p&gt;
+ <span class='new'>&lt;/div&gt;
+&lt;/div&gt;</span>
+</pre>
+
+<p>in the CSS <code>&lt;style&gt;</code> section the CSS definition for the <code>columns</code> class is (remember for classes the CSS definition starts with a dot!):</p>
+<pre>
+<span class='new'>.columns {
+ display:      flex;
+ justify-content: space-around; }
+</pre>
+
+<p>Now you can define the style all three three columns have in common:</p>
+<pre>
+ <span class='new'>.column {
+ width:        30%;
+ border-style: dashed;
+ border-width: 4px;
+ border-radius:8px; }
+</pre>
+
+<p>Use the hash mark <code>#</code> to define the CSS properties per ID. Use this to define the style properties that are different between the three columns:</p>
+<pre>
+<span class='new'>#col1 {
+ background-color: aquamarine;
+ border-color: cadetblue; }
+
+#col2 {
+ background-color: lightblue;
+ border-color: blue; }
+ 
+#col3 {
+ background-color: lightpink;
+ border-color: firebrick; }
+</pre>
+</details><!-- }}} -->
+
+<details class="box bgcha"><summary>Challenges</summary><!-- {{{ -->
+<p>Explore the effect of different values for the <code>justify-content</code> property.</p>
+<p>Fine the style of the columns that is so you.</p>
+</details><!-- }}} -->
+
+</div><!-- }}} -->
+
+<h2>Task 5: Add Likes counter</h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>Let's see what the visitors of you page think on it... Can you add a "like"  buttons and keep track of how many visitors clicked then?</p>
+
+<p><b>Note:</b> In this simple version of your page the lines counter will reset when you reload the page. In a "real" web-page when you click the "like" button that information is sent to a remote computer, called a server, which keeps track of it, but that is for much later in a fellowship program - stay tuned.</p>
+
+<details class="box bgobj"><summary>Objectives</summary>
+<!-- {{{ -->
+<ul>
+ <li>First exposure to JavaScript!</li>
+ <li>Embedded scripts</li>
+ <li>Global variables, local variables</li>
+ <li>Basic function</li>
+ <li>Reading the value of an element</li>
+ <li>Writing HTML into an element</li>
+</ul>
+</details><!-- }}} -->
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<!-- {{{ -->
+<ul>
+ <li>Add a "Like" button the the end of the page. (Here is list of <a href= "https://www.w3schools.com/html/html_emojis.asp" target="_blank">emoji</a> character codes.)</li>
+ <li>Give it an <code>onclick</code> event handle that calls a function, say <code>newLike()</code>.</li>
+ <li>Create an HTML tag that you can write the number of likes to and give it an unique id (say <code>"likes"</code>).</li>
+ <li>Create a <code>&lt;script&gt;</code> section in which you define a variable that stores the number of likes (say <code>numberOfLikes</code>) as a global variable (that is outside of any function definition).</li>
+ <li>Then write the <code>newLike()</code> function, which increases the value of <code>numberOfLikes</code> whenever you click on the button, i.e., call the <code>newLike()</code> function.</li>
+ <li>The use the <code>document.getElementById("likes").innerHTML</code> method to write back the current number of likes.</li>
+</ul>
+
+<p>Resources at W3Schools:</p>
+<ul>
+ <li><a href= "https://www.w3schools.com/js/js_intro.asp" target="_blank">JavaScript Introduction</li>
+ <li><a href= "https://www.w3schools.com/js/js_whereto.asp" target="_blank">
+ JavaScript Where To</a></li>
+ <li><a href= "https://www.w3schools.com/js/js_statements.asp" target="_blank">
+ JavaScript Statements</a></li>
+ <li><a href= "https://www.w3schools.com/js/js_variables.asp" target="_blank">
+ JavaScript Variables</a></li>
+ <li><a href= "https://www.w3schools.com/js/js_operators.asp" target="_blank">
+ JavaScript Operators</a></li>
+ <li><a href= "https://www.w3schools.com/js/js_functions.asp" target="_blank">
+ JavaScript Functions</a></li>
+ <li><a href= "https://www.w3schools.com/jsref/met_document_getelementbyid.asp" target="_blank">HTML DOM Document getElementById()</li>
+ <li><a href= "https://www.w3schools.com/jsref/dom_obj_all.asp" target="_blank">HTML DOM Elements</a></li>
+</ul>
+</details><!-- }}} -->
+
+<p class="box bgsol"><a href= "HomePage_step5.html" target="_blank" class="bgsol">Solution Proposal</a></p>
+
+<details class="box bghig"><summary>Highlights of added code</summary>
+<!-- {{{ -->
+<pre>
+<span class='new'>&lt;h3&gt;What do you think?&lt;/h3&gt;
+
+&lt;p&gt;Do you like the page?
+&lt;button id="like" onclick="newLike()"&gt;&amp;#128536;&lt;/button&gt;&lt;/p&gt;
+
+&lt;p&gt;Number of likes: &lt;span id="likes"&gt;0&lt;/span&gt;&lt;/p&gt;
+
+&lt;script&gt;
+let numberOfLikes = 0;
+function newLike() {
+ numberOfLikes = numberOfLikes + 1;
+ document.getElementById("likes").innerHTML = numberOfLikes;
+}
+&lt;/script&gt;</span></pre>
+</details><!-- }}} -->
+
+<details class="box bgcha"><summary>Challenges</summary><!-- {{{ -->
+<p>Well, that was pretty challenging as it is, right?</p>
+</details><!-- }}} -->
+
+</div><!-- }}} -->
+
+<h2>Task 6: Add a comment section</h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>Ok, Likes are pretty good, but what if a visitor wants to give you more feedback? Can you add a section to leave comments?</p>
+
+<p><b>Note:</b> In this simple version of your page the lines counter will reset when you reload the page. In a "real" web-page when you click the "Submit Comment" button that information is sent to a remote computer, called a server, which keeps track of it, but that is for much later in a fellowship program - stay tuned.</p>
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<!-- {{{ -->
+<ul>
+ <li>Add an <code>&lt;input&gt;</code> tag to the end of the page for visitors to type in a comment.</li>
+ <li>Add a "Submit" button with an <code>onclick</code> event handle that calls a function, say <code>getComment()</code>.</li>
+ <li>Create an HTML tag that you can write the number of likes to and give it an unique id (say <code>"comments"</code>).</li>
+ <li>Create a <code>&lt;script&gt;</code> section in which you define a variable that stores the all comments (say <code>comStr</code>) as a global variable (that is outside of any function definition).</li>
+ <li>Then write the <code>getComment()</code> function, which concatinates the current string of comments with any new ones whenever you click on the button, i.e., call the <code>getComment()</code> function.</li>
+ <li>You may want to add paragraph or line break tags to separte the different comments.</li>
+ <li>The use the <code>document.getElementById("comments").innerHTML</code> method to write back the current string of comments.</li>
+</ul>
+
+<p>Resources at W3Schools: (same for the previous task.)</p>
+
+</details><!-- }}} -->
+
+<p class="box bgsol"><a href= "HomePage.html" target="_blank" class="bgsol">Solution Proposal</a></p>
+
+<details class="box bghig"><summary>Highlights of added code</summary>
+<!-- {{{ -->
+<pre>
+<span class='new'>&lt;h3&gt;Leave a Comment&lt;/h3&gt;
+&lt;input id="enterComment" placeholder="Enter a comment here"&gt; 
+&lt;button id="postComment" onclick="getComment()"&gt;Submit&lt;/button&gt;
+
+&lt;h4&gt;List of comments&lt;/h4&gt;
+&lt;div id="comments"&gt;Be the first to leave a comment!&lt;/div&gt;
+
+&lt;script&gt;
+let comStr = "";
+function getComment() {
+ let newCom = document.getElementById("enterComment").value;
+ comStr = comStr + "&lt;p&gt;"+ newCom +"&lt;/p&gt;";
+ alert(comStr);
+ document.getElementById("comments").innerHTML = comStr;
+}
+&lt;/script&gt;</span>
+</pre>
+</ul>
+</details><!-- }}} -->
+
+<details class="box bgcha"><summary>Challenges</summary><!-- {{{ -->
+<p>You could create another input field for visitors to enter their name, so you know which comment is from whom.</p>
+</details><!-- }}} -->
+</div><!-- }}} -->
+
+<p>Congratulations! You completed the "Home Page" JuStGo kit!</p>
+
+
+<h1>Challenges</h1>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>In this JuStGo kit you found many HTML and CSS elements that you need to build a good looking home page for yourself - and you also have links to W3School pages that show you more things you can do.</p>
+
+<p>Now go explore some more - and create a page that is as unique as you are!</p>
+
+<p>If you want to the visitor to interact with the page, you learned how to do that also. ... we'll use this feature a lot in the other JuStGo kits!</p>
+</div><!-- }}} -->
+
+</body></html>

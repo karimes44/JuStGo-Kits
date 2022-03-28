@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <title>Home Page/5</title>
+<style>
+body {
+ margin-left:  20pt; }
+
+h1 {
+ font-family:  cursive;
+ font-size:    20pt;
+ color:        blue;
+ background-color: pink;
+ padding:      20pt; }
+
+p {
+ font-family:  "Verdana";
+ margin-left:  10pt;
+ margin-right: 10pt; }
+
+em {
+ font-family:  "Georgia";
+ font-style:   italic;
+ font-weight:  bold; }
+
+h2 {
+ font-family:  "Helvetica";
+ font-size:    16pt;
+ margin:       10pt 60pt 10pt 20pt;
+ padding:      10pt;
+ background-color: lightgreen;
+ border-style: solid;
+ border-color: green;
+ border-width: 4px;
+ border-radius:8px; }
+
+img {
+ width:        200px;
+ margin-left:  40pt; }
+
+.columns {
+ display:      flex;
+ justify-content: space-around; }
+
+.column {
+ width:        30%;
+ border-style: dashed;
+ border-width: 4px;
+ border-radius:8px; }
+
+#col1 {
+ background-color: aquamarine;
+ border-color: cadetblue; }
+
+#col2 {
+ background-color: lightblue;
+ border-color: blue; }
+ 
+#col3 {
+ background-color: lightpink;
+ border-color: firebrick; }
+ 
+#comments {
+ width:        60%;
+ border-style: dashed;
+ border-width: 4px;
+ border-radius:8px;
+}
+</style>
+</head>
+<body>
+<h1>Pikachu's Home Page</h1>
+
+<p>Hello! My Name is <em>Pikachu</em>, and I like to play video games.</p>
+<img src="https://upload.wikimedia.org/wikipedia/en/a/a6/Pok%C3%A9mon_Pikachu_art.png">
+<p>My best friend is Ash Ketchum.</p>
+<img src="./images/Pokemon_episode_1_screenshot.png">
+<h2>Things to know about me:</h2>
+
+<div class="columns">
+<div class="column" id="col1">
+<p>My favorite games are:</p>
+<ol>
+	<li><a href="https://en.wikipedia.org/wiki/Pok%C3%A9mon_Yellow">Pokemon Yellow</a></li>
+	<li><a href="https://en.wikipedia.org/wiki/Pok%C3%A9mon_Sun_and_Moon"> Pokemon Sun and Moon</a></li>
+	<li><a href="https://en.wikipedia.org/wiki/Pok%C3%A9mon_Legends:_Arceus"> Pokemon Legends: Arceus</a></li>
+</ol>
+</div>
+
+<div class="column" id="col2">
+<p>Did you know:</p>
+<ul>
+	<li>Atsuko Nishida drew me first</li>
+	<li>I look a bit like a squirrel</li>
+	<li>I am electric</li>
+	<li>I can evolve into a Raichu</li>
+</ul>
+</div>
+
+<div class="column" id="col3">
+<p>Do you want to know more? Check out my
+<a href= "https://en.wikipedia.org/wiki/Pikachu#Appearances">Wikipedia page</a>.
+</p>
+</div>
+</div>
+<h3>What do you think?</h3>
+
+<p>Do you like the page?
+<button id="like" onclick="newLike()">&#128536;</button></p>
+
+<p>Number of likes: <span id="likes">0</span></p>
+
+<script>
+let NumberOfLikes = 0;
+function newLike() {
+ NumberOfLikes = NumberOfLikes + 1;
+ document.getElementById("likes").innerHTML = NumberOfLikes;
+}
+</script>
+
+</body>
+<!-- _______________________________________________________________ -->
+</html>
+

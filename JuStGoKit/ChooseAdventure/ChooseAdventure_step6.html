@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <title>Adventure/6</title>
+ <style>
+body {
+ margin-left: 150px;
+}
+.image1 {
+ height: 400px;
+}
+.image2 {
+ height: 200px;
+}
+div {
+ width:       800px;
+ margin:       40pt;
+ padding:      20pt;
+ background-color: beige;
+ border-style: solid;
+ border-color: black;
+ border-width: 4px;
+ border-radius:8px;}
+ 
+.hidden {
+ background-color: gray;
+ /* display: none; */
+}
+.shown { }
+
+.rotate {
+ animation-name: rotating;
+ animation-duration: 2s;
+ animation-iteration-count: 3;
+}
+
+@keyframes rotating {
+ 10% {transform: rotate( 36deg); width: 360px;}
+ 20% {transform: rotate( 72deg); width: 320px;}
+ 30% {transform: rotate(108deg); width: 280px;}
+ 40% {transform: rotate(144deg); width: 240px;}
+ 50% {transform: rotate(180deg); width: 200px;}
+ 60% {transform: rotate(216deg); width: 160px;}
+ 70% {transform: rotate(252deg); width: 120px;}
+ 80% {transform: rotate(288deg); width:  80px;}
+ 90% {transform: rotate(324deg); width:  40px;}
+100% {transform: rotate(360deg); width:  20px;}
+}
+
+.grow {
+ height: 400px;
+ animation-name: growing;
+ animation-duration: 4s;
+}
+
+@keyframes growing {
+  0% {height:   0px;}
+ 10% {height:  20px;}
+ 20% {height:  40px;}
+ 30% {height:  80px;}
+ 40% {height: 120px;}
+ 50% {height: 160px;}
+ 60% {height: 200px;}
+ 70% {height: 240px;}
+ 80% {height: 280px;}
+ 90% {height: 320px;}
+100% {height: 400px;}
+}
+ </style>
+</head>
+<body>
+<h1>Alice in Wonderland</h1>
+<h2>Choose you own Adventure</h2>
+
+<!-- _______________________________________________________________ -->
+<div id="Frame1" class="shown">
+<p>Alice was sleeping in the wood when she she noticed something weird...</p>
+<button onclick="enterDream()">Click here to enter in her dream</button>
+<button onclick="mindBusiness()">Click here to mind your own business</button>
+<br><br>
+<img src="./images/sleeping.jpg" alt="Alice sleeping" class="image1">
+</div>
+<script>
+function enterDream(){
+ document.getElementById("Frame1").setAttribute("class","hidden");
+ document.getElementById("Frame2").setAttribute("class","shown");
+}
+function mindBusiness(){
+ document.getElementById("Frame1").innerHTML = "<p>(sign) ... to bad you are such a busy bee... please do come back when you have more time!</p><h2>The End</h2>";
+}
+</script>
+
+<!-- _______________________________________________________________ -->
+<div id="Frame2" class="hidden">
+<p>There was the strangest rabbit running along calling out <q>Oh Jee, I am late, I am late...</q></p>
+<button onclick="backToSleep2()">Click here to go back to sleep</button>
+<br><br>
+<img src="./images/Rabbit.jpg" alt="The Rabbit is late" class="image1" ondblclick="followRabbit()">
+<p>[<b>Double Click</b> to follow the rabbit]</p>
+</div>
+
+<script>
+function followRabbit(){
+ document.getElementById("Frame2").setAttribute("class","hidden");
+ document.getElementById("Frame3").setAttribute("class","shown");
+}
+function backToSleep2(){
+ document.getElementById("Frame2").setAttribute("class","hidden");
+ document.getElementById("Frame1").setAttribute("class","shown");
+}
+</script>
+
+<!-- _______________________________________________________________ -->
+<div id="Frame3" class="hidden">
+<p><q>Where did it go?</q> wondered Alice. <q>It must be in that hole...</q></p>
+<select id="YoN" onchange="readYoN()">
+ <option value="answerIsSA">Select Answer</option>
+ <option value="answerIsDC">Don't no ...</option>
+ <option value="answerIsYes">Yes</option>
+ <option value="answerIsNo">No</option>
+</select>
+<br><br>
+<img src="./images/Hole.jpg" alt="Alice and the rabbit hole" class="image1">
+</div>
+<script>
+function readYoN(){
+ let answer = document.getElementById("YoN").value;
+ if (answer === "answerIsYes") {
+  document.getElementById("Frame3").setAttribute("class","hidden");
+  document.getElementById("Frame4").setAttribute("class","shown");
+  document.getElementById("falling").setAttribute("class","rotate");
+ } else if (answer === "answerIsNo") {
+  document.getElementById("Frame3").setAttribute("class","hidden");
+  document.getElementById("Frame1").setAttribute("class","shown");
+ } else if (answer === "answerIsDC") {
+  alert("Make up your mind, please...");
+ }
+}
+</script>
+
+<!-- _______________________________________________________________ -->
+<div id="Frame4" class="hidden">
+<p><q>Waahhh...</q>  Alice thought this fall will never end.</p>
+<button onclick="stopFalling()">Click here to stop the fall</button>
+<button onclick="doItAgain()">Wow - this was fun. Let's do it again!</button>
+<br><br>
+<img src="./images/DownTheHole.jpg" alt="Down The Hole" class="image1" id="falling">
+</div>
+<script>
+function stopFalling(){
+ document.getElementById("Frame4").setAttribute("class","hidden");
+ document.getElementById("Frame5").setAttribute("class","shown");
+}
+function doItAgain(){
+ document.getElementById("Frame4").setAttribute("class","hidden");
+ document.getElementById("Frame3").setAttribute("class","shown");
+}
+</script>
+
+<!-- _______________________________________________________________ -->
+<div id="Frame5" class="hidden">
+<p><q>What?</q> cried Alice <q>I am stuck at the bottom of this hole and I am too big to fit through the only door out...</q>. What should Alice do?</p>
+<p><input placeholder="Drink or Eat?" id="DoE"><button onclick="readDoE()">Submit</button></p>
+<img src="./images/Door.jpg" alt="Door" class="image1"><br>
+<img src="./images/DrinkMe.jpg" alt="Drink Me" class="image2">
+<img src="./images/EatMe.jpg" alt="Eat Me" class="image2">
+</div>
+<script>
+function readDoE() {
+ let answer = document.getElementById("DoE").value;
+ //alert(">"+answer+"<")
+ if ( answer === "Drink" ) {
+  document.getElementById("Frame5").setAttribute("class","hidden");
+  document.getElementById("Frame6").setAttribute("class","shown");
+ } else if ( answer === "Eat" ) {
+  document.getElementById("Frame5").setAttribute("class","hidden");
+  document.getElementById("Frame8").setAttribute("class","shown");
+ } else {
+  alert("I did not get that... Drink or Eat?");
+ }
+}
+</script>
+
+<!-- _______________________________________________________________ -->
+<div id="Frame6" class="hidden">
+<p><q>Oh no - I am getting bigger and bigger, I'll never be able to tie my shoes and I'll never get through that door.</q> cried Alice. What should Alice do?</p>
+<br><br>
+<img src="./images/TallAlice.jpg" alt="TallAlice">
+</div>
+
+<!-- _______________________________________________________________ -->
+<div id="Frame7" class="hidden">
+<p><q>What have I done?</q> Alice had cried for so long that she did not notice that she had starting shrinking again - but too late, now she is stuck in the puddle of her own tears.</p>
+<br><br>
+<img src="./images/SeaOfTears.jpg" alt="Sea Of Tears" class="image1">
+</div>
+
+<!-- _______________________________________________________________ -->
+<div id="Frame8" class="hidden">
+<p>Alice realized that by nibbling on the cookies a bit on the left and a bit on the right she could control her size just right to fit through the door. She found herself in a beautiful garden, but did not know where to go... Whom should she ask?</p>
+<img src="./images/Catapillar.jpg" alt="Catapillar" class="image2">
+<img src="./images/CheshireCat1.jpg" alt="CheshireCat1" class="image2">
+</div>
+
+<!-- _______________________________________________________________ -->
+<div id="Frame9" class="hidden">
+<p>... and Alice did, and is drinking tea with her new friends ever since.</p>
+<br><br>
+<img src="./images/TeaParty.jpg" alt="Tea Party" class="image1">
+<h2>The End</h2>
+</body>
+<!-- _______________________________________________________________ -->
+</html>

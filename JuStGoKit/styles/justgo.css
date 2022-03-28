@@ -82,6 +82,11 @@ a.bghig { color: navy; }
  border-color: gray;
 }
 
+.bgobj  {
+	/* CoNa orange */
+	color: black;
+	background-color: #ffaa7b;}
+	
 .bgtip  {
 	/* CoNa Light Blue */
 	color: black;
@@ -94,6 +99,11 @@ a.bghig { color: navy; }
 	/* CoNa Deep Blue */
 	color: white;
 	background-color: #0080ff; }
+.bgcha {
+	/* CoNa Deep Blue */
+	color: black;
+	background-color: #e4a4ee; }
+	
 .gray  { color: gray; }
 .small { font-size: 8pt;}
 .new   { 

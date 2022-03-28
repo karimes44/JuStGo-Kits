@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <meta charset="utf-8"/>
+ <title>JuStGo Kit: Choose Adventure</title>
+ <link rel="stylesheet" type="text/css" href="../styles/justgo.css">
+</head>
+
+<!-- _______________________________________________________________ -->
+<body>
+<h1>JuStGo Kit: Choose you own Adventure</h1>
+
+<h2>Introduction</h2>
+<!-- _______________________________________________________________ -->
+<h3>Working with the JuStGo Kit</h3>
+
+<div class="txt"><!-- {{{ -->
+<p>In this JuStGo kit you will build a <q>Choose your own Adventure</q> story. The kit will lead you step-by-step through each task that needs to be completed to build the entire interactive story.</p>
+
+<p>The JuStGo kit introduces you to several different JavaScript event handler in the context of a working example. You can then use them in your own projects, if you wish.</p>
+
+<p>Each section is formulated as a task to solve. You can find explanations, tips, and resources that help you complete each task. At the end of each section a solution example is given. You can decide for yourself if you want to take over some of the provided example code or stay with your solution.</p>
+<p><b>Note:</b> To see the HTML code, open the solution proposal in your text editor, such as <a href= "https://chrome.google.com/webstore/detail/caret/fljalecfjciodhpcledpamjachpmelml?hl=en" target="_blank"> Chrome Caret</a>, or right-click anywhere on the solution proposal page and select <em>View Page Source</em>.</p>
+
+<p>The provided solution example solves the task with very little code so that you can clearly see what is done and how. As a consequence, it may look a bit plain. Let this inspire you to spice it up!</p>
+
+<p>Go wild - make it yours! </p>
+</div><!-- }}} -->
+
+<h2>Task 0: Create the HTML placeholder with placeholder frames</h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>Create an HTML placeholder page that...</p>
+	<ul>
+	 <li>defines the page document type to be HTML5,</li>
+	 <li>has a header section with a <code>title</code> tag,</li>
+	 <li>has a style section, and</li>
+	 <li>has a body section.</li>
+	</ul>
+	
+<p>When you step through your story, you will make the current page or <q>frame</q> of your story visible, while you will hide all others. Therefore, add to template frames to the HTML page - you can use <code>&lt;div&gt;</code> tags for that.</p>
+
+<details class="box bgobj"><summary>Objectives</summary>
+<!-- {{{ -->
+<p>This task uses only content that was already introduced in the <q>Home Page</q> JuStGo kit.</p>
+</details><!-- }}} -->
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<!-- {{{ -->
+
+<p>You will need to selectively make one <code>&lt;div&gt;</code> frame visible while keep all other hidden. You can do that by assign the first frame to a <code>"shown"</code> class, and all others one to a <code>"hidden"</code> class. You will also need to give each frame it's own <code>id</code> attribute.</p>
+
+<p>In CSS section, style the <code>&lt;div&gt;</code> the way you like them, and define the class <code>.hidden</code></p>
+
+<p><b>Extra tip</b>: It is easier to work with your story board if all frames are visible <em>while you work on the code</em>. Instead of actually hiding them you could just give the hidden frames a special background color, so you know that these frames are meant to be hidden in the current stage of your story.</p>
+<p>Once you are comfortable with you code, you just add <code>display: none;</code> to the <code>.hidden</code> CSS definition.</p>
+
+<p>You can find a good introduction to HTML at <a href= "https://www.w3schools.com/html/html_intro.asp" target="_blank" class="bgtip">W3Schools: HTML Introduction</a>.</p>
+
+<p>You can find a good introduction to CSS at <a href= "https://www.w3schools.com/css/default.asp" target="_blank" class="bgtip">W3 School: CSS Tutorial</a>.
+
+<p>... or jump right to the details you need here at W3Schools:</p>
+<ul>
+	<li><a href= "https://www.w3schools.com/html/html_blocks.asp" target="_blank">HTML Block and Inline Elements (<code>&lt;div&gt;</code>)</a></li>
+	<li><a href= "https://www.w3schools.com/html/html_classes.asp" target="_blank">HTML class Attribute</a></li>
+	<li><a href= "https://www.w3schools.com/html/html_id.asp" target="_blank">HTML id Attribute</a></li>
+	<li><a href= "https://www.w3schools.com/css/css_selectors.asp">CSS Selectors </a></li>
+</ul>
+</details>
+<!-- }}} -->
+
+<p class="box bgsol"><a href= "ChooseAdventure_step0.html" target="_blank" class="bgsol">Solution Proposal</a></p>
+
+<details class="box bghig"><summary>Highlights of added code</summary>
+<!-- {{{ -->
+<p>Most of the HTML code is the same as for the <q>Home Page</q> project. We will highlight here only the new parts.</p>
+
+<p>Two <code>&lt;div&gt;</code> with unique ids. One with a class called <code>"shown"</code> and one with a class called <code>"hidden"</code>. You can duplicate the second one as needed for the different frames of your storry board.</p>
+<pre><span class='new'>&lt;!-- _______________________________________________________________ --&gt;
+&lt;div id="Frame1" class="shown"&gt;
+&lt;p&gt;Story text for frame 1 here&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;!-- _______________________________________________________________ --&gt;
+&lt;div id="Frame2" class="hidden"&gt;
+&lt;p&gt;Story text for frame 2 here&lt;/p&gt;
+&lt;/div&gt;</span></pre>
+
+<p>The <code>&lt;style&gt;</code> section contains general definitions on how to style the <code>&lt;div&gt;</code> sections, and how to size images. You have seen that already in the <q>Home Page</q> project. </p>
+<pre> &lt;style&gt;
+body {
+ margin-left: 150px;
+}
+.image1 {
+ height: 400px;
+}
+.image2 {
+ height: 200px;
+}
+div {
+ width:       800px;
+ margin:       40pt;
+ padding:      20pt;
+ background-color: beige;
+ border-style: solid;
+ border-color: black;
+ border-width: 4px;
+ border-radius:8px;}
+
+<span class='new'>.hidden {
+ background-color: gray;
+ /* display: none; */
+}
+.shown { }</span>
+ &lt;/style&gt;</pre>
+
+<p>New are the last two class definitions. For the <code>.hidden</code> class you will need to set the property <code>display</code> to the value <code>none</code> to actulaly hide the frames of our story board that are not currently in view, but for now you can just mark these frames as <q>hidden</q> by setting the background color to gray.</p>
+</details><!-- }}} -->
+
+</div><!-- }}} -->
+
+<h2>Task 1: The story board</h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>Create all the frames of your story, but don't worry about the transitions from one frame to the next.</p>
+
+<details class="box bgobj"><summary>Objectives</summary>
+<!-- {{{ -->
+<p>Creating and designing a story board</p>
+</details><!-- }}} -->
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<!-- {{{ -->
+<p>For each frame, write a text and look for a graphic. You can either download images from the Internet or use the URL directly.</p>
+
+<p>This task will require only HTML and CSS skills that you already used in the <q>Home Page</q> project.</p>
+
+<p>This example <q>Choose you own Adventure</q> will use loosely follow the beginning of the <q>Alice in Wonderland</q> story.</p>
+</ul></details><!-- }}} -->
+
+<p class="box bgsol"><a href= "ChooseAdventure_step1.html" target="_blank" class="bgsol">Solution Proposal</a></p>
+
+<details class="box bghig"><summary>Highlights of added code</summary>
+<!-- {{{ -->
+<p>For each frame just one line of text and a picture is added:</p>
+<pre>&lt;!-- _______________________________________________________________ --&gt;
+&lt;div id="Frame1" class="shown"&gt;
+<span class='new'>&lt;p&gt;Alice was sleeping in the wood when she she noticed something wierd...&lt;/p&gt;
+&lt;br&gt;&lt;br&gt;
+&lt;img src="./images/sleeping.jpg" alt="Alice sleeping" class="image1"&gt;</span>
+&lt;/div&gt;
+
+&lt;!-- _______________________________________________________________ --&gt;
+&lt;div id="Frame2" class="hidden"&gt;
+<span class='new'>&lt;p&gt;There was the stangest rabbit running along calling out &lt;q&gt;Oh Jee, I am late, I am late...&lt;/q&gt;&lt;/p&gt;
+&lt;br&gt;&lt;br&gt;
+&lt;img src="./images/Rabbit.jpg" alt="The Rabbit is late" class="image1"&gt;</span>
+&lt;/div&gt;
+
+...
+</pre>
+
+<p>... but feel free to take a more creative path.</p>
+
+</details><!-- }}} -->
+
+</div><!-- }}} -->
+
+<h2>Task 2: Trigger an action  via <code>onclick</code></h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>Create buttons to make a choice between advancing to the next frame or not playing the game.</p>
+
+<details class="box bgobj"><summary>Objectives</summary>
+<!-- {{{ -->
+<ul>
+	<li>Working with buttons</li>
+	<li>Working with the <code>onclick</code> event.</li>
+	<li>Defining functions for event handling.</li>
+</ul>
+
+</details><!-- }}} -->
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<!-- {{{ -->
+
+<p>You can find an introduction to Events at <a href= "https://www.w3schools.com/js/js_htmldom_events.asp" target="_blank" class="bgtip">W3 School: JavaScript HTML DOM Events</a>, and a demo of the <code>onclick</code> event and its event handler in this <a href= "https://www.w3schools.com/js/tryit.asp?filename=tryjs_events1">example</a>.</p>
+
+<p>You can use similar code to define your buttons, events, and event handler.</p>
+<p>At least one of your event hander should re-assign the first frame to the <code>hidden</code> the class, and the second to the <code>shown</code> class.</p>
+
+<p>You can use <a href= "https://www.w3schools.com/js/js_htmldom_methods.asp"> JavaScript - HTML DOM Methods</a> to connect the JavaScript with the HTML.
+In particular, the method <code>.innerHTML</code> lets you read and write text from JavaScript to an HTML element. The method <code>.setAttribute</code> allows you to re-assign an html element to a different class.</p>
+</details><!-- }}} -->
+
+<p class="box bgsol"><a href= "ChooseAdventure_step2.html" target="_blank" class="bgsol">Solution Proposal</a></p>
+
+<details class="box bghig"><summary>Highlights of added code</summary>
+<!-- {{{ -->
+<p>Two buttons are introduced. Each button is given the <code>onclick</code> attribute with a value that is the name of a function.</p>
+<p>Then you need to define these functions.</p>
+<p>The <code>enterDream()"</code> function just moves you along to the next frame by swapping the classes. (Remember: For easier debugging, at this stage just the background color is changed.)</p>
+<p>The <code>mindBusiness()"</code> function replaced the content of the entire frame with a <q>Good bye</q> message.</p>
+<pre>
+&lt;!-- _______________________________________________________________ --&gt;
+&lt;div id="Frame1" class="shown"&gt;
+&lt;p&gt;Alice was sleeping in the wood when she she noticed something weird...&lt;/p&gt;
+<span class='new'>
+&lt;button onclick="enterDream()"&gt;Click here to enter in her dream&lt;/button&gt;
+&lt;button onclick="mindBusiness()"&gt;Click here to mind your own business&lt;/button&gt;</span>
+&lt;br&gt;&lt;br&gt;
+&lt;img src="./images/sleeping.jpg" alt="Alice sleeping" class="image1"&gt;
+&lt;/div&gt;
+<span class='new'>
+&lt;script&gt;
+function enterDream(){
+ document.getElementById("Frame1").setAttribute("class","hidden");
+ document.getElementById("Frame2").setAttribute("class","shown");
+}
+function mindBusiness(){
+ document.getElementById("Frame1").innerHTML = "&lt;p&gt;(sign) ... 
+    to bad you are such a busy bee... please do come back when you have more time!&lt;/p&gt;
+    &lt;h2&gt;The End&lt;/h2&gt;";
+}
+&lt;/script&gt;</span>
+</pre>
+
+<p>The JavaScript function <code>document.getElementById("Frame1")</code> lets you access an HTML element (also called DOM) by its id - here <code>"Frame1"</code>. Remember that an id has to be unique, so you can be sure that this function will return only one element.</p>
+
+<p>Then you can use the methods <code>.setAttribute("class","hidden")</code> to change an attribute of the HTML element here the class attribute is re-set to <code>"hidden"</code>.</p>
+
+<p>With the <code>.innerHTML</code> method you can read the content of an HTML element if use it on the left side of an variable assignment statement, or you can replace the content of that HTML element if you use it on the right side of an assignment statement, which is what is done here.</p>
+
+<p><b>Note</b>: The JavaScript used in this project <code>&lt;script&gt;</code> could be placed anywhere in the code, e.g., all the JavaScript could be placed in the beginning into a single section - and that is how it is usually done to keep the code all together and make it even possible to place it in a separate file. When using this approach you have to take care that the HTML is fully loaded first before the part of the JavaScript code is executed (in later JuStGo kit you will come across that).</p>
+
+<p>For this project it may be more convenient to place the JavaScript code for each frame right next to the frame.</p>
+</details><!-- }}} -->
+
+</div><!-- }}} -->
+
+<h2>Task 3: Trigger an action  via <code>ondblclick</code></h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>For the next transition, try to make it that you need to the double click the image to get to the next frame.</p>
+
+<details class="box bgobj"><summary>Objectives</summary>
+<!-- {{{ -->
+<ul>
+	<li>Working with the <code>ondblclick</code> event.</li>
+	<li>Assigning event to images.</li>
+</ul>
+</details><!-- }}} -->
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<!-- {{{ -->
+
+<p>You can add event attributes to any HTML element, also to the <code>&lt;img&gt;</code> tag.</p>
+
+<p>You write the code for the double-click event <code>ondblclick</code> in the same way as for the single-click event  <code>onclick</code></p>
+</details><!-- }}} -->
+
+<p class="box bgsol"><a href= "ChooseAdventure_step3.html" target="_blank" class="bgsol">Solution Proposal</a></p>
+
+<details class="box bghig"><summary>Highlights of added code</summary>
+<!-- {{{ -->
+
+<p>Compared to the previous transition, only the placement of the event atrribute into the image tag is new, and yes that the double-click event is used.</p>
+<pre>
+&lt;div id="Frame2" class="hidden"&gt;
+&lt;p&gt;There was the strangest rabbit running along calling out &lt;q&gt;Oh Jee, I am late, I am late...&lt;/q&gt;&lt;/p&gt;
+&lt;button onclick="backToSleep2()"&gt;Click here to go back to sleep&lt;/button&gt;
+&lt;br&gt;&lt;br&gt;
+&lt;img src="./images/Rabbit.jpg" alt="The Rabbit is late" class="image1" <span class='new'>ondblclick="followRabbit()"</span>&gt;
+&lt;p&gt;[&lt;b&gt;Double Click&lt;/b&gt; to follow the rabbit]&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+function followRabbit(){
+ document.getElementById("Frame2").setAttribute("class","hidden");
+ document.getElementById("Frame3").setAttribute("class","shown");
+}
+function backToSleep2(){
+ document.getElementById("Frame2").setAttribute("class","hidden");
+ document.getElementById("Frame1").setAttribute("class","shown");
+}
+&lt;/script&gt;
+</pre>
+</details><!-- }}} -->
+</div><!-- }}} -->
+
+<h2>Task 4: Trigger an action  via <code>onchange</code> and <code>&lt;select&gt;</code></h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>For the next transition, how about selecting from a pull-down menu?</p>
+
+<details class="box bgobj"><summary>Objectives</summary>
+<ul>
+	<li>Working with the <code>onchange</code> event.</li>
+	<li>Using the <code>&lt;select&gt;</code> field.</li>
+	<li>Using conditionals.</li>
+</ul>
+</details>
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<!-- {{{ -->
+
+<p>You can define  pull-down menu with the HTML <a href= "https://www.w3schools.com/tags/tag_select.asp">&lt;select&gt;</a> tag.</p>
+
+<p>You can find an example of how to use the &lt;select&gt; with the <code>onchange</code> event attribute <a href= "https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_onchange" target="_blank">here</a>.</p>
+
+<p>To write the event handler for your pull-down menu you will need conditional statements. Check out: <a href= "https://www.w3schools.com/js/js_if_else.asp">JavaScript if else and else if</a>.
+
+</details><!-- }}} -->
+
+<p class="box bgsol"><a href= "ChooseAdventure_step4.html" target="_blank" class="bgsol">Solution Proposal</a></p>
+
+<details class="box bghig"><summary>Highlights of added code</summary>
+<!-- {{{ -->
+<p>To define a drop-down menu you embed in the <code>&lt;select&gt;</code> tag the different option (with the <code>&lt;option&gt;</code> tag) that you want to provide. The content of the <code>&lt;option&gt;</code> tag is what is displayed on the page, but the value of the <code>value</code> atrribute is what you can retrieve from your JavaScript code.
+<pre>
+&lt;div id="Frame3" class="hidden"&gt;
+&lt;p&gt;&lt;q&gt;Where did it go?&lt;/q&gt; wondered Alice. &lt;q&gt;It must be in that hole...&lt;/q&gt;&lt;/p&gt;
+<span class="new">&lt;select id="YoN" onchange="readYoN()"&gt;
+ &lt;option value="answerIsDC"&gt;Select Answer&lt;/option&gt;
+ &lt;option value="answerIsDC"&gt;Don't no ...&lt;/option&gt;
+ &lt;option value="answerIsYes"&gt;Yes&lt;/option&gt;
+ &lt;option value="answerIsNo"&gt;No&lt;/option&gt;
+&lt;/select&gt;</span>
+&lt;br&gt;&lt;br&gt;
+&lt;img src="./images/Hole.jpg" alt="Alice and the rabbit hole" class="image1"&gt;
+&lt;/div&gt;
+</pre>
+
+<p>You can retrieve what you have selected in the pull-down menu with the <code>.value</code> method. Note that this will give you the value of the <code>value</code> attribute of the <code>&lt;option&gt;</code>and not the content of it!</p>
+
+<p>Then you can use a conditional block to decide how to handle the event.</p>
+<pre>
+&lt;script&gt;
+<span class="new">function readYoN(){
+ let answer = document.getElementById("YoN").value;
+ if (answer === "answerIsYes") {
+  document.getElementById("Frame3").setAttribute("class","hidden");
+  document.getElementById("Frame4").setAttribute("class","shown");
+ } else if (answer === "answerIsNo") {
+  document.getElementById("Frame3").setAttribute("class","hidden");
+  document.getElementById("Frame1").setAttribute("class","shown");
+ } else if (answer === "answerIsDC") {
+  alert("Make up your mind, please...");
+ }
+}</span>
+&lt;/script&gt;
+</pre>
+<p><b>Note:</b> The event is only triggered with you actually change the option in the pull-down. So if you come back to the frame without reloading the entire page, then your last selection may still be shown. Then you have to select something else first before you can re-select what you had before - a bit of a  nuisance...</p>
+
+</details><!-- }}} -->
+
+</div><!-- }}} -->
+
+<h2>Task 5: Trigger an action  animation</h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>For this frame let's use the <code>onclick</code> transition and focus on something else.</p>
+
+<p>Can you animate the transitions so that the image rotates and shrinks?</p>
+
+<details class="box bgobj"><summary>Objectives</summary>
+<!-- {{{ -->
+<ul>
+ <li>CSS animations</li>
+ <li>The CSS <code>transform</code> property</li>
+</ul>
+</details><!-- }}} -->
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<!-- {{{ -->
+<p>This link gets you to an overview of <a href= "https://www.w3schools.com/css/css3_animations.asp" target="_blank">CSS Animations</a>, and this one to an <a href= "https://www.w3schools.com/css/tryit.asp?filename=trycss3_animation_count" target="_blank">example </a> that showcases the approaches you will need for this task.</p>
+
+<p>Also, check out the <a href= "https://www.w3schools.com/cssref/css3_pr_transform.asp" target="_blank">CSS transform Property</a> - it may come in handy.</p>
+</details><!-- }}} -->
+
+<p class="box bgsol"><a href= "ChooseAdventure_step5.html" target="_blank" class="bgsol">Solution Proposal</a></p>
+
+<details class="box bghig"><summary>Highlights of added code</summary>
+<!-- {{{ -->
+<p>For the animation create a new CSS class, say <code>.rotate</code> and define the <code>animation-name</code>, how long a single animation should last (<code>animation-duration</code>), and how often it should repeat (<code>animation-iteration-count</code>):</p>
+<pre>
+&lt;style&gt;
+...
+<span class='new'>.rotate {
+ animation-name: rotating;
+ animation-duration: 2s;
+ animation-iteration-count: 3;
+}</span>
+...
+</pre>
+
+<p>Then use the <code>@keyframes</code> command to define the animation:</p>
+<pre>
+&lt;style&gt;
+...
+<span class='new'>@keyframes rotating {
+ 10% {transform: rotate( 36deg); width: 360px;}
+ 20% {transform: rotate( 72deg); width: 320px;}
+ 30% {transform: rotate(108deg); width: 280px;}
+ 40% {transform: rotate(144deg); width: 240px;}
+ 50% {transform: rotate(180deg); width: 200px;}
+ 60% {transform: rotate(216deg); width: 160px;}
+ 70% {transform: rotate(252deg); width: 120px;}
+ 80% {transform: rotate(288deg); width:  80px;}
+ 90% {transform: rotate(324deg); width:  40px;}
+100% {transform: rotate(360deg); width:  20px;}
+}</span>
+&lt;/style&gt;</pre>
+
+<p>The list of percentages define how far into the animation the given CSS properties will be changes. So <code>10%</code> means that after 10% of the 2s duration, that is 0.2s the first set of CSS property changes will be applied.</p>
+
+<p>So here after each additional 10% you rotate the picture by an additional 36&deg; angle, so that when the first animation look completes, it the picture turned around once. At the same time you keep reducing the size.</p>
+
+<p>Now you have to apply this animation to an HTML element, here an image. There is a bit of a problem with when the animation is triggered. You don't want to start it when the page is loading, because at that time the image is hidden.</p>
+
+<p>You can just assign the <code>rotate</code> class to the image just when you make it shown:</p>
+<pre>
+&lt;script&gt;
+function readYoN(){
+ ...
+ if (answer === "answerIsYes") {
+  document.getElementById("Frame3").setAttribute("class","hidden");
+  document.getElementById("Frame4").setAttribute("class","shown");
+  <span class="new">document.getElementById("falling").setAttribute("class","rotate");</span>
+ } else if (answer === "answerIsNo") {
+  ...
+ }
+}
+&lt;/script&gt;
+
+&lt;!-- _______________________________________________________________ --&gt;
+&lt;div id="Frame4" class="hidden"&gt;
+...
+&lt;img src="./images/DownTheHole.jpg" alt="Down The Hole" class="image1" <span class="new">id="falling"</span>&gt;
+&lt;/div&gt;
+</pre>
+<p>For that you need to give this element a id so you can refer to it.</p>
+
+<p>Then just add two buttons with <code>onclick</code> events that let you move to the next frame or go back:</p>
+<pre>
+&lt;div id="Frame4" class="hidden"&gt;
+&lt;p&gt;&lt;q&gt;Waahhh...&lt;/q&gt;  Alice thought this fall will never end.&lt;/p&gt;
+&lt;br&gt;&lt;br&gt;
+<span class="new">
+&lt;button onclick="stopFalling()"&gt;Click here to stop the fall&lt;/button&gt;
+&lt;button onclick="doItAgain()"&gt;Wow - this was fun. Let's do it again!&lt;/button&gt;</span>
+&lt;br&gt;&lt;br&gt;
+&lt;img src="./images/DownTheHole.jpg" alt="Down The Hole" class="image1" id="falling"&gt;
+&lt;/div&gt;
+<span class="new">&lt;script&gt;
+function stopFalling(){
+ document.getElementById("Frame4").setAttribute("class","hidden");
+ document.getElementById("Frame5").setAttribute("class","shown");
+}
+function doItAgain(){
+ document.getElementById("Frame4").setAttribute("class","hidden");
+ document.getElementById("Frame3").setAttribute("class","shown");
+}
+&lt;/script&gt;</span>
+</pre>
+</details><!-- }}} -->
+</div><!-- }}} -->
+
+<h2>Task 6: Trigger an action  triggered by a text entry</h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>Create a text entry field and trigger the transition based on the entered text.</p>
+
+<details class="box bgobj"><summary>Objectives</summary>
+<!-- {{{ -->
+<ul>
+ <li>The <code>&lt;input&gt;</code> tag</li>
+</ul>
+</details><!-- }}} -->
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<!-- {{{ -->
+<p>You can find information about the <code>&lt;input&gt;</code> tag at <a href= "https://www.w3schools.com/html/html_form_input_types.asp" target="_blank">HTML Input Types</a>, but uses this tag in the context of forms, that is more then you need here. Just think of it as an input field you can write text in, and then you read the text from this field after pressing a, say, <q>Submit</q> button.</p>
+</details><!-- }}} -->
+
+<p class="box bgsol"><a href= "ChooseAdventure_step6.html" target="_blank" class="bgsol">Solution Proposal</a></p>
+
+<details class="box bghig"><summary>Highlights of added code</summary>
+<!-- {{{ -->
+<p>You can add the <code>placeholder</code> property to the <code>&lt;input&gt;</code>. The value of it will be shown as hint on the page about what is expected. Remember to set the <code>id</code> attribute, so you can retrieve what was entered.</p>
+
+<p>Then add a button as you have done before that calls a function that will read what was enter in the <code>&lt;input&gt;</code> field.</p>
+<pre>
+&lt;div id="Frame5" class="hidden"&gt;
+&lt;p&gt;&lt;q&gt;What?&lt;/q&gt; cried Alice &lt;q&gt;I am stuck at the bottom of this hole and I am too big 
+to fit through the only door out...&lt;/q&gt;. What should Alice do?&lt;/p&gt;
+<span class="new">&lt;p&gt;&lt;input placeholder="Drink or Eat?" id="DoE"&gt;
+&lt;button onclick="readDoE()"&gt;Submit&lt;/button&gt;&lt;/p&gt;</span>
+&lt;img src="./images/Door.jpg" alt="Door" class="image1"&gt;&lt;br&gt;
+&lt;img src="./images/DrinkMe.jpg" alt="Drink Me" class="image2"&gt;
+&lt;img src="./images/EatMe.jpg" alt="Eat Me" class="image2"&gt;
+&lt;/div&gt;
+</pre>
+
+<p>You can then just use the same techniques as in Task 4 to create the event handler:</p>
+<pre>
+&lt;script&gt;
+<span class="new">function readDoE() {
+ let answer = document.getElementById("DoE").value;
+ //alert("&gt;"+answer+"&lt;")
+  if ( answer === "Drink" ) {
+   document.getElementById("Frame5").setAttribute("class","hidden");
+   document.getElementById("Frame6").setAttribute("class","shown");
+  } else if ( answer === "Eat" ) {
+   document.getElementById("Frame5").setAttribute("class","hidden");
+   document.getElementById("Frame8").setAttribute("class","shown");
+  } else {
+   alert("I did not get that... Drink or Eat?");
+  }
+}</span>
+&lt;/script&gt;
+</pre>
+</details><!-- }}} -->
+</div><!-- }}} -->
+
+<h2>Task 7: Another transition animation</h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>Transition animation was fun, right? Let's do it again.</p>
+
+<p>Can you animate the transitions so that the image grows?</p>
+
+<details class="box bgobj"><summary>Objectives</summary>
+<!-- {{{ -->
+<p>Same as for Task 5.</p>
+</details>
+<!-- }}} -->
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<!-- {{{ -->
+<p>Same as for Task 5.</p>
+</details><!-- }}} -->
+
+<p class="box bgsol"><a href= "ChooseAdventure_step7.html" target="_blank" class="bgsol">Solution Proposal</a></p>
+
+<details class="box bghig"><summary>Highlights of added code</summary>
+<!-- {{{ -->
+<p>For the animation create a new CSS class, say <code>.grow</code> and define the <code>animation-name</code>, how long a single animation should last (<code>animation-duration</code>) (no repeats this time):</p>
+<pre>
+&lt;style&gt;
+...
+<span class='new'>.grow {
+ height: 400px;
+ animation-name: growing;
+ animation-duration: 4s;
+}</span>
+...
+</pre>
+
+<p>Then use the <code>@keyframes</code> command to define the animation:</p>
+<pre>
+&lt;style&gt;
+...
+<span class='new'>@keyframes growing {
+  0% {height:   0px;}
+ 10% {height:  20px;}
+ 20% {height:  40px;}
+ 30% {height:  80px;}
+ 40% {height: 120px;}
+ 50% {height: 160px;}
+ 60% {height: 200px;}
+ 70% {height: 240px;}
+ 80% {height: 280px;}
+ 90% {height: 320px;}
+100% {height: 400px;}
+}</span>
+&lt;/style&gt;</pre>
+
+<p>Again, you can just assign the <code>grow</code> class to the image just when you make it shown:</p>
+<pre>
+&lt;script&gt;
+function readDoE() {
+ ...
+ if ( answer === "Drink" ) {
+  document.getElementById("Frame5").setAttribute("class","hidden");
+  document.getElementById("Frame6").setAttribute("class","shown");
+  <span class="new">document.getElementById("taller").setAttribute("class","grow");</span>
+  } else if ( answer === "Eat" ) {
+   ...
+  }
+}
+&lt;/script&gt;
+&lt;!-- _______________________________________________________________ --&gt;
+&lt;div id="Frame6" class="hidden"&gt;
+...
+&lt;img src="./images/TallAlice.jpg" alt="TallAlice" <span class="new">id="taller"&gt;</span>
+&lt;/div&gt;
+</pre>
+
+<p>Then just add two buttons with <code>onclick</code> events that let you move to the next frame or go back:</p>
+<pre>
+&lt;div id="Frame6" class="hidden"&gt;
+&lt;p&gt;&lt;q&gt;Oh no - I am getting bigger and bigger, I'll never be able to tie my shoes and I'll never get through that door.&lt;/q&gt; cried Alice. What should Alice do?&lt;/p&gt;
+<span class="new">&lt;button onclick="cry()"&gt;Cry&lt;/button&gt;
+&lt;button onclick="tryAgain()"&gt;Try Again...&lt;/button&gt;</span>
+&lt;br&gt;&lt;br&gt;
+&lt;img src="./images/TallAlice.jpg" alt="TallAlice" id="taller"&gt;
+&lt;/div&gt;
+&lt;script&gt;
+<span class="new">function cry(){
+ document.getElementById("Frame6").setAttribute("class","hidden");
+ document.getElementById("Frame7").setAttribute("class","shown");
+}
+function tryAgain(){
+ document.getElementById("Frame6").setAttribute("class","hidden");
+ document.getElementById("Frame5").setAttribute("class","shown");
+}</span>
+&lt;/script&gt;
+</pre>
+</details><!-- }}} -->
+</div><!-- }}} -->
+
+<h2>Task 8: <code>onmouseover</code> and <code>onmouseout</code></h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>The Cheshire Cat is a strange creature, when you address her, she vanishes, and when turn away she comes back.</p>
+
+<p>Can you program that?</p>
+
+<details class="box bgobj"><summary>Objectives</summary>
+<!-- {{{ -->
+<ul>
+ <li>The <code>onmouseover</code> event</li>
+ <li>The <code>onmouseout</code> event</li>
+ <li>The <code>&lt;span&gt;</code> tag</li>
+ <li>Using <code>this</code></li>
+</ul>
+</details><!-- }}} -->
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<!-- {{{ -->
+
+<p>The <code>onmouseover</code> event lets you trigger an event once the mouse pointer entered the HTML object, and the <code>onmouseout</code> event is trggerend the the pointer leaves the HTML object again.</p>
+
+<p>Here is an <a href= "hhttps://www.w3schools.com/js/tryit.asp?filename=tryjs_events_mouseover" target="_blank">example</a> of using the <code>onmouseover</code> and <code>onmouseout</code> events.</p>
+
+<p>Also check out this: <a href= "https://www.w3schools.com/js/js_this.asp">The JavaScript this Keyword</a></p>.
+</details><!-- }}} -->
+
+<p class="box bgsol"><a href= "ChooseAdventure_step6.html" target="_blank" class="bgsol">Solution Proposal</a></p>
+
+<details class="box bghig"><summary>Highlights of added code</summary>
+<!-- {{{ -->
+
+<p>For the first image just the good old <code>onclick</code> event is use, nothing new here...</p>
+<pre>
+&lt;div id="Frame8" class="hidden"&gt;
+...
+&lt;img src="./images/Catapillar.jpg" alt="Catapillar" class="image2" onclick="goToParty()"&gt;
+...
+</pre>
+
+<p>But a lot is going on with the second one:</p>
+<pre>
+...
+<span class="new">&lt;span id="vanishingCat"&gt;
+&lt;img src="./images/CheshireCat1.jpg" alt="CheshireCat" class="image2"
+onmouseover="dim(this)" onmouseout="comeback(this)" onclick="vanish()"&gt;&lt;/span&gt;</span>
+&lt;/div&gt;
+</pre>
+
+<p>First a <code>&lt;span&gt;</code> tag is wrapped around the image - you'll see below why that is needed. A <code>&lt;span&gt;</code> is another <q>neutral</q> tag just like <code>&lt;div&gt;</code>, but you can use it within in a line.</p>
+
+<p>Wow, now we have three event handles, our old friend <code>onclick</code>, and our two new friends <code>onmouseover</code> and <code>onmouseout</code>.</p>
+
+<p>But what is <code>this</code>?</p>
+
+<p>Just like the word <q>this</q> lets you refer to an object without calling it by name, the JavaScript keyword <code>this</code> allows an object to refer to itself. Here the <code>this</code> argument inside the function call <code>dim(this)</code> acts as the <q>address</q> of <code>&lt;img&gt;</code> tag, so that you can use to change the <code>src</code> attribute of it (here you swap out the image):</p>
+<pre>
+&lt;script&gt;
+<span class="new">function dim(obj) {
+ obj.setAttribute("src", "./images/CheshireCat2.jpg");
+}
+function comeback(obj) {
+ obj.setAttribute("src", "./images/CheshireCat1.jpg");
+}
+
+function vanish() {
+ document.getElementById("vanishingCat").innerHTML= 
+    "&lt;q&gt;You can't get anything from that cat - how rude...&lt;/q&gt; thought Alice."
+} </span>
+
+function goToParty() {
+ alert('"Well, I would go the never ending tea party" said the catapillar')
+ document.getElementById("Frame8").setAttribute("class","hidden");
+ document.getElementById("Frame9").setAttribute("class","shown");
+}
+&lt;/script&gt;
+</pre>
+<p>You could have used an <code>id</code> tag as earlier, but <code>this</code> is way cooler, right?</p>
+
+<p>When you finally click on the picture the vanishes completely, so you need to remove the entire <code>&lt;img&gt;</code> tag. An easy way of doing that is to replace the HTML content of the parent tag. The <code>&lt;span&gt;</code> tag serves as this parent tag.</p>
+
+
+</details><!-- }}} -->
+</div><!-- }}} -->
+
+<h2>Task 9: Trigger an action by pressing a key</h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>Now you made it to he end of this story. Can you generate a list of useful links if a certain key is pressed, and restart the game on another key?</p>
+
+<details class="box bgobj"><summary>Objectives</summary>
+<!-- {{{ -->
+<ul>
+	<li>HTML DOM Element Event Listener</li>
+	<li>The <code>onkeydown</code> Event</li>
+	<li>the KeyboardEvent <code>key</code> Property</li>
+</ul>
+</details><!-- }}} -->
+
+<details class="box bgtip"><summary>Tips and Resources</summary>
+<!-- {{{ -->
+<p>A keyboard event may not be associated with any particular tag. It just belongs to the entire document, and indeed you can add an event listener to the document.</p>
+
+<p>See:</p>
+<ul>
+	<li><a href= "https://www.w3schools.com/jsref/met_element_addeventlistener.asp"  target="_blank">HTML DOM Element addEventListener()</a></li>
+	<li><a href= "https://www.w3schools.com/jsref/obj_window.asp"   target="_blank">onkeydown Event</a></li>
+	<li><a href= "https://www.w3schools.com/jsref/event_key_key.asp"  target="_blank">KeyboardEvent key Property</a></li>
+</ul>
+
+</ul></details><!-- }}} -->
+
+<p class="box bgsol"><a href= "ChooseAdventure_step9.html" target="_blank" class="bgsol">Solution Proposal</a></p>
+
+<details class="box bghig"><summary>Highlights of added code</summary>
+<!-- {{{ -->
+<p>Previously you have added an event to a tag by giving the tag an event attribute, such as <code>onclick</code>, but you can also an an event listener from JavaScript withe the <code>addEventListener</code> method. Here, the event listener is added to the entire document:</p>
+<pre>
+&lt;script&gt;
+<span class="new">document.addEventListener('keydown', function (keyPressed) {
+...
+})</span>
+&lt;/script&gt;
+</pre>
+
+<p>The event listener checks of a key has been pressed, and if so executes a function. Here, instead of calling a named function, the function is defined right there</p>
+<pre>
+document.addEventListener('keydown', function (keyPressed) {
+<span class="new"> let k = keyPressed.key;
+ // alert('Pressed Key&gt;'+k+'&lt;');
+ if (k === "w") {
+  html  = '&lt;h2&gt;Thanks for playing&lt;/h2&gt;'
+  html += '&lt;p&gt;To learn more about Alice in Wonderland, "
+  html += 'check out her &lt;a href='
+  html += '"https://en.wikipedia.org/wiki/Alice%27s_Adventures_in_Wonderland"&gt;'
+  html += 'Wikipedia Page&lt;/a&gt;&lt;/p&gt;'
+  html += '&lt;p&gt;... and here is a picture of the real Alice:&lt;/p&gt;'
+  html += '&lt;img src= "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Dressed_in_Her_Best_Outfit.jpg/330px-Dressed_in_Her_Best_Outfit.jpg"&gt;'
+  document.getElementById("Frame9").innerHTML= html;
+ }
+ if (k === "r") {
+  html  = '&lt;h2&gt;Thanks for playing&lt;/h2&gt;\n'
+  html += 'To start over click &lt;a href= "ChooseAdventure.html"&gt;here&lt;/a&gt;.'
+  document.getElementById("Frame9").innerHTML= html;
+ }</span>
+})
+</pre>
+
+<p>Here <code>keyPressed</code> is actually the event handle, and the method <code>.key</code> returns the key that was pressed.</p>
+
+<p>If the key was <code>"w"</code> then a long string is build-up which contains links to Wikipedia and other formatted text. The string, which now contains HTML is then used to replace the entire content of the <code>Frame9</code> <code>&lt;div&gt;</code> element.</p>
+<p>If the key was <code>"r"</code> a similar things happen, just with different text... any other key is ignored.</p>
+
+<p>In order to activate this event listener only when <code>Frame9</code> is actice, it is a good idea to place the code into the <code>goToParty()</code> function definition.</p>
+</details><!-- }}} -->
+</div><!-- }}} -->
+
+<h2>Task 10: Enjoy the Adventure</h2>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>All that is left to do is to enable the <code>display: none;</code> like in the CSS definition of the <code>.hidden</code> class and your Adventure is reday!</p>
+
+
+<p class="box bgsol"><a href= "ChooseAdventure.html" target="_blank" class="bgsol">Solution Proposal</a></p>
+</div><!-- }}} -->
+
+<p>Congratulations! You completed the "Choose your own Adventure" JuStGo kit!</p>
+
+<h1>Challenges</h1>
+<!-- _______________________________________________________________ -->
+<div class="txt"><!-- {{{ -->
+<p>In this JuStGo kit you saw many different examples for event triggers and handlers. Some are quite easy to use, other are more challenging. Just pick the ones you like and feel comfortable with an use them in your projects!</p>
+
+<p>Also this kit focused on showcasing these event triggers and handlers and neglected other aspects, such as strong story telling, and creative design. You can do much better, right?</p>
+</div><!-- }}} -->
+
+</body></html>
